@@ -117,7 +117,6 @@ parts:
       - libopencv-core2.4v5
       - libopenal1
       - libogg0
-      - libnuma1
       - libmp3lame0
       - libmodplug1
       - libjack-jackd2-0
@@ -152,3 +151,8 @@ parts:
       - libdb5.3
       - libluajit-5.1-2
       - libpython3.5
+      - on amd64:
+        - libnuma1
+      - else:
+        - on i386:
+          - libnuma1

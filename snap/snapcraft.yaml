@@ -151,6 +151,9 @@ parts:
       - libdb5.3
       - libluajit-5.1-2
       - libpython3.5
-      - on amd64: libnuma1
-      - on i386: libnuma1
-      - on arm64: libnuma1
+      - on amd64: 
+        - libnuma1
+      - on i386: 
+        - libnuma1
+      - on arm64: 
+        - libnuma1

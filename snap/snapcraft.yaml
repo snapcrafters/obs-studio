@@ -34,7 +34,11 @@ parts:
     plugin: cmake 
     after: [desktop-qt5]
     configflags: ["-DUNIX_STRUCTURE=0", "-DCMAKE_INSTALL_PREFIX=/usr"]
-    source: https://github.com/obsproject/obs-studio.git
+    source: 
+      - on amd64: https://github.com/obsproject/obs-studio.git
+      - on i386: fail
+      - on armhf: fail
+      - on arm64: fail
     override-build: |
       last_committed_tag="$(git -C ../src tag | sort -V | tail -n 1)"
       last_released_tag="$(snap info obs-studio | awk '$1 == "beta:" { print $2 }')"

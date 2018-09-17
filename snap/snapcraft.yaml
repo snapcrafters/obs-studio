@@ -1,11 +1,10 @@
 name: obs-studio
-version: "latest"
-version-script: git -C parts/obs/src describe --tags
 summary: OBS - Free and open source software for live streaming and screen recording
 description: |
   OBS Studio is software designed for capturing, compositing, encoding, recording, 
   and streaming video content, efficiently.
   It's distributed under the GNU General Public License v2 - see the accompanying COPYING file for more details.
+adopt-info: obs
 
 grade: stable
 confinement: strict
@@ -38,7 +37,8 @@ parts:
       - on amd64: https://github.com/obsproject/obs-studio.git
       - on armhf: fail
       - on arm64: fail
-    override-build: |
+    override-pull: |
+      snapcraftctl pull
       last_committed_tag="$(git -C ../src tag | sort -V | tail -n 1)"
       last_released_tag="$(snap info obs-studio | awk '$1 == "beta:" { print $2 }')"
       # If the latest tag from the upstream project has not been released to
@@ -49,7 +49,7 @@ parts:
         cd ../src
         git checkout "${last_committed_tag}"
       fi
-      snapcraftctl build
+      snapcraftctl set-version "$(git describe --tags)"
     build-packages:
       - libx11-dev           # From the docs
       - libgl1-mesa-dev 

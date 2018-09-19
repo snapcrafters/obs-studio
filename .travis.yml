@@ -24,4 +24,4 @@ after_success:
 after_failure:
   - sudo journalctl -u snapd
   - sudo snap install http
-- /snap/bin/http https://api.snapcraft.io/v2/snaps/info/core architecture==amd64 Snap-Device-Series:16
+  - /snap/bin/http https://api.snapcraft.io/v2/snaps/info/core architecture==amd64 Snap-Device-Series:16

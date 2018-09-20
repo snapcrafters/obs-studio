@@ -35,6 +35,7 @@ parts:
     configflags: ["-DUNIX_STRUCTURE=0", "-DCMAKE_INSTALL_PREFIX=/usr"]
     source: 
       - on amd64: https://github.com/obsproject/obs-studio.git
+      - on i386: https://github.com/obsproject/obs-studio.git
       - on armhf: fail
       - on arm64: fail
     override-pull: |

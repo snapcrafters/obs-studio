@@ -9,6 +9,10 @@ adopt-info: obs
 grade: stable
 confinement: strict
 
+architectures:
+  - build-on: amd64
+  - build-on: i386
+  
 apps:
   obs-studio:
     command: desktop-launch $SNAP/launcher
@@ -33,11 +37,7 @@ parts:
     plugin: cmake 
     after: [desktop-qt5]
     configflags: ["-DUNIX_STRUCTURE=0", "-DCMAKE_INSTALL_PREFIX=/usr"]
-    source: 
-      - on amd64: https://github.com/obsproject/obs-studio.git
-      - on i386: https://github.com/obsproject/obs-studio.git
-      - on armhf: fail
-      - on arm64: fail
+    source: https://github.com/obsproject/obs-studio.git
     override-pull: |
       snapcraftctl pull
       last_committed_tag="$(git -C ../src tag | sort -V | tail -n 1)"

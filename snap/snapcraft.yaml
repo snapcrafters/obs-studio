@@ -37,6 +37,7 @@ parts:
     plugin: cmake 
     after: [desktop-qt5]
     configflags: ["-DUNIX_STRUCTURE=0", "-DCMAKE_INSTALL_PREFIX=/usr"]
+    source: https://github.com/obsproject/obs-studio.git
     override-pull: |
       snapcraftctl pull
       last_committed_tag="$(git -C ../src tag | sort -V | tail -n 1)"

@@ -10,13 +10,13 @@ install:
   - sudo apt update
   - sudo apt install -y snapd
   - sudo snap install lxd --channel 3.0/stable
-  - sudo snap install snapcraft --candidate --classic
+  - sudo snap install snapcraft --channel beta/lxd --classic
   - sudo /snap/bin/lxd waitready
   - sudo /snap/bin/lxd init --auto
   - mkdir -p "$TRAVIS_BUILD_DIR/snaps-cache"
 script:
   - export PATH=/snap/bin:$PATH
-  - sudo snapcraft cleanbuild
+  - sudo snapcraft --use-lxd
   - sudo cp *.snap "$(echo "$TRAVIS_REPO_SLUG" | sed -e 's|.*/\(.*\)|\1|')-pr$TRAVIS_PULL_REQUEST.snap"
 after_success:
   - sudo snap install transfer

@@ -7,21 +7,21 @@ env:
     - LANG: C.UTF-8
 
 install:
-  - sudo apt update
-  - sudo apt install -y snapd
-  - sudo snap install lxd --channel 3.0/stable
-  - sudo snap install snapcraft --channel beta/lxd --classic
-  - sudo /snap/bin/lxd waitready
-  - sudo /snap/bin/lxd init --auto
+  - apt update
+  - apt install -y snapd
+  - snap install lxd --channel 3.0/stable
+  - snap install snapcraft --channel beta/lxd --classic
+  - /snap/bin/lxd waitready
+  - /snap/bin/lxd init --auto
   - mkdir -p "$TRAVIS_BUILD_DIR/snaps-cache"
 script:
   - export PATH=/snap/bin:$PATH
-  - sudo snapcraft --use-lxd
-  - sudo cp *.snap "$(echo "$TRAVIS_REPO_SLUG" | sed -e 's|.*/\(.*\)|\1|')-pr$TRAVIS_PULL_REQUEST.snap"
+  - snapcraft --use-lxd
+  - cp *.snap "$(echo "$TRAVIS_REPO_SLUG" | sed -e 's|.*/\(.*\)|\1|')-pr$TRAVIS_PULL_REQUEST.snap"
 after_success:
-  - sudo snap install transfer
-  - timeout 180 sudo /snap/bin/transfer "$(echo "$TRAVIS_REPO_SLUG" | sed -e 's|.*/\(.*\)|\1|')-pr$TRAVIS_PULL_REQUEST.snap"
+  - snap install transfer
+  - timeout 180 /snap/bin/transfer "$(echo "$TRAVIS_REPO_SLUG" | sed -e 's|.*/\(.*\)|\1|')-pr$TRAVIS_PULL_REQUEST.snap"
 after_failure:
-  - sudo journalctl -u snapd
-  - sudo snap install http
+  - journalctl -u snapd
+  - snap install http
   - /snap/bin/http https://api.snapcraft.io/v2/snaps/info/core architecture==amd64 Snap-Device-Series:16

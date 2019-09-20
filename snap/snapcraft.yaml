@@ -252,6 +252,9 @@ parts:
       - libdb5.3
       - libluajit-5.1-2
       - libpython3.7
+      - libwayland-client0
+      - libwayland-cursor0
+      - libwayland-egl1      
       - on amd64: 
         - libnuma1
       - on i386: 

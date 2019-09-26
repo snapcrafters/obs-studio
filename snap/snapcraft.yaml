@@ -101,6 +101,7 @@ apps:
       - camera
       - home
       - removable-media
+      - wayland
 
 parts:
   desktop-qt5:

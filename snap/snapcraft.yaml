@@ -43,6 +43,8 @@ apps:
       - opengl
       - optical-drive
       - pulseaudio
+      - audio-playback
+      - audio-record
       - removable-media
       - wayland
       - x11
@@ -59,6 +61,8 @@ apps:
       - opengl
       - optical-drive
       - pulseaudio
+      - audio-playback
+      - audio-record
       - removable-media
       - wayland
       - x11
@@ -75,6 +79,8 @@ apps:
       - opengl
       - optical-drive
       - pulseaudio
+      - audio-playback
+      - audio-record
       - removable-media
       - wayland
       - x11
@@ -96,6 +102,8 @@ apps:
       - desktop-legacy
       - opengl
       - pulseaudio
+      - audio-playback
+      - audio-record
       - x11
       - unity7
       - camera

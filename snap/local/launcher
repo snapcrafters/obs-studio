@@ -40,6 +40,27 @@ fi
 
 echo $PATH
 
+REALHOME=`getent passwd $UID | cut -d ':' -f 6`
+if [ -d "$XDG_CONFIG_HOME/obs-studio" ]; then
+  if [ -e "$REALHOME/.config/obs-studio" ]; then
+    echo "Cannot migrate your configuration files to $REALHOME/config/obs-studio."
+    echo "Your OBS configuration is stored in $XDG_CONFIG_HOME/obs-studio"
+    echo "Please migrate and merge these files with $REALHOME/config/obs-studio,"
+    echo "and then delete $XDG_CONFIG_HOME/obs-studio..."
+  else
+    echo "Migrating OBS configuration files from $XDG_CONFIG_HOME/obs-studio"
+    echo "to $REALHOME/.config/obs-studio..."
+    mv "$XDG_CONFIG_HOME/obs-studio" "$REALHOME/.config/obs-studio"
+    ln -s "$REALHOME/.config/obs-studio" "$XDG_CONFIG_HOME/obs-studio"
+    echo "DONE. You may now find your configuration in $REALHOME/.config/obs-studio."
+  fi
+else
+  if [ ! -e "$XDG_CONFIG_HOME/obs-studio" ]; then
+    ln -s "$REALHOME/.config/obs-studio" "$XDG_CONFIG_HOME/obs-studio"
+  fi
+  echo "Your OBS configuration files are stored in $REALHOME/.config/obs-studio."
+fi
+
 cd $SNAP/usr/bin/$OBS
 
 exec ./obs "$@"

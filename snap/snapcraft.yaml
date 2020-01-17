@@ -15,10 +15,10 @@ architectures:
   - build-on: i386
   
 # We should migrate to using the official folder for obs-studio config  
-#plugs:
-#  obs-config-dir:
-#    interface: personal-files
-#    write: [$HOME/.config/obs-studio]
+plugs:
+  obs-config-dir:
+    interface: personal-files
+    write: [$HOME/.config/obs-studio]
 
 apps:
   ffmpeg:
@@ -79,7 +79,8 @@ apps:
       - wayland
       - x11
   obs-studio:
-    command: desktop-launch $SNAP/bin/launcher
+    command-chain: [bin/desktop-launch]
+    command: bin/launcher
     environment:
       # Tell libGL where to find the drivers
       LIBGL_DRIVERS_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
@@ -90,6 +91,7 @@ apps:
       # Ref.: https://bugs.launchpad.net/snappy/+bug/1588192
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa-egl:$LIBGL_DRIVERS_PATH:/var/lib/snapd/lib/gl
     plugs:
+      - obs-config-dir
       - network
       - network-bind
       - desktop

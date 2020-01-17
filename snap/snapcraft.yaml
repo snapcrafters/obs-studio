@@ -122,9 +122,11 @@ parts:
         - gnome-themes-standard
         - shared-mime-info
         - libqt5gui5
+        - libgtk2.0-0
         - libgdk-pixbuf2.0-0
         - libqt5svg5
         - locales-all
+        - qtwayland5
         - xdg-user-dirs
   obs:
     plugin: cmake 

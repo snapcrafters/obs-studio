@@ -172,6 +172,7 @@ parts:
       - libavdevice-dev
       - libfdk-aac-dev
       - libspeexdsp-dev      # cmake complains if missing
+      - libmbedtls-dev
     stage-packages:
       - libvlc5
       - libslang2
@@ -255,7 +256,12 @@ parts:
       - libpython3.7
       - libwayland-client0
       - libwayland-cursor0
-      - libwayland-egl1      
+      - libwayland-egl1
+      - libmbedcrypto1
+      - libmbedtls10
+      - libmbedx509-0
+      - libqt5xml5
+      - freeglut3
       - on amd64: 
         - libnuma1
       - on i386: 

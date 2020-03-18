@@ -110,6 +110,7 @@ apps:
       - home
       - removable-media
       - wayland
+      - jack1
 
 parts:
   desktop-qt5:
@@ -175,7 +176,6 @@ parts:
       - libx264-dev
       - libxcb-xinerama0-dev
       - libxcb-shm0-dev
-      - libjack-jackd2-dev
       - libcurl4-openssl-dev
       - libavcodec-dev       # if not building ffmpeg
       - libavfilter-dev
@@ -183,6 +183,7 @@ parts:
       - libfdk-aac-dev
       - libspeexdsp-dev      # cmake complains if missing
       - libmbedtls-dev
+      - libjack-dev
     stage-packages:
       - libvlc5
       - libslang2
@@ -232,7 +233,6 @@ parts:
       - libogg0
       - libmp3lame0
       - libmodplug1
-      - libjack-jackd2-0
       - libiec61883-0
       - libgsm1
       - libgomp1
@@ -272,6 +272,7 @@ parts:
       - libmbedx509-0
       - libqt5xml5
       - freeglut3
+      - jackd1
       - on amd64: 
         - libnuma1
       - on i386: 

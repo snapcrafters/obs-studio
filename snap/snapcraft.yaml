@@ -86,6 +86,8 @@ apps:
       - x11
   obs-studio:
     command: desktop-launch $SNAP/bin/launcher
+    command-chain:
+      - sem-open-preload-launch
     environment:
       # Tell libGL where to find the drivers
       LIBGL_DRIVERS_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
@@ -96,6 +98,7 @@ apps:
       # Ref.: https://bugs.launchpad.net/snappy/+bug/1588192
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa-egl:$LIBGL_DRIVERS_PATH:/var/lib/snapd/lib/gl
     plugs:
+      - browser-support
       - network
       - network-bind
       - desktop
@@ -113,6 +116,9 @@ apps:
       - jack1
 
 parts:
+  sem-open-preload:
+    source: https://github.com/sergiusens/sem-open-preload.git
+    plugin: make
   desktop-qt5:
       build-packages:
         - qtbase5-dev
@@ -140,10 +146,11 @@ parts:
   obs:
     plugin: cmake 
     after: [desktop-qt5]
-    configflags: ["-DUNIX_STRUCTURE=0", "-DCMAKE_INSTALL_PREFIX=/usr"]
+    configflags: ["-DUNIX_STRUCTURE=0", "-DCMAKE_INSTALL_PREFIX=/usr", "-DBUILD_BROWSER=ON", "-DCEF_ROOT_DIR=$SNAPCRAFT_PART_INSTALL/cef_binary_3770_linux64"]
     source: https://github.com/obsproject/obs-studio.git
     override-pull: |
       snapcraftctl pull
+      set -x
       last_committed_tag="$(git -C ../src tag | grep -v rc| sort -V | tail -n 1)"
       last_released_tag="$(snap info obs-studio | awk '$1 == "beta:" { print $2 }')"
       # If the latest tag from the upstream project has not been released to
@@ -154,8 +161,12 @@ parts:
         cd ../src
         git checkout "${last_committed_tag}"
       fi
+      wget --quiet https://cdn-fastly.obsproject.com/downloads/cef_binary_3770_linux64.tar.bz2 -O $SNAPCRAFT_PART_INSTALL/cef.tar.bz2
+      tar jxvf $SNAPCRAFT_PART_INSTALL/cef.tar.bz2 -C $SNAPCRAFT_PART_INSTALL/
+      rm $SNAPCRAFT_PART_INSTALL/cef.tar.bz2
       snapcraftctl set-version "$(git describe --tags)"
     build-packages:
+      - bzip2
       - libx11-dev           # From the docs
       - libgl1-mesa-dev 
       - libvlc-dev
@@ -184,7 +195,14 @@ parts:
       - libspeexdsp-dev      # cmake complains if missing
       - libmbedtls-dev
       - libjack-dev
+      - libnss3
+      - libnspr4
     stage-packages:
+      - libatk-bridge2.0-0
+      - libatspi2.0-0
+      - libxtst6
+      - libnss3
+      - libnspr4
       - libvlc5
       - libslang2
       - libxcomposite1
@@ -281,7 +299,7 @@ parts:
         - libnuma1
   nv-codec-headers:
     plugin: make
-    source: https://github.com/FFmpeg/nv-codec-headers/releases/download/n9.0.18.1/nv-codec-headers-9.0.18.1.tar.gz
+    source: https://github.com/FFmpeg/nv-codec-headers/releases/download/n9.1.23.1/nv-codec-headers-9.1.23.1.tar.gz
     override-build: |
       make install PREFIX=/usr
     build-packages:
@@ -297,7 +315,8 @@ parts:
       - --disable-static
     prime:
       - usr/lib
-      - -usr/lib/pkgconfig
+      - usr/lib/pkgconfig
+      - usr/include
 
   ffmpeg:
     plugin: autotools
@@ -450,8 +469,8 @@ parts:
     prime:
       - usr/bin
       - usr/lib
-      - -usr/lib/pkgconfig
-      - -usr/include
+      - usr/lib/pkgconfig
+      - usr/include
       - -usr/share/doc
       - -usr/share/man
 

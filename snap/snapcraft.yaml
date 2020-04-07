@@ -151,6 +151,12 @@ parts:
     override-pull: |
       snapcraftctl pull
       set -x
+      ARCHITECTURE=$(dpkg --print-architecture)
+      if [ "${ARCHITECTURE}" = "amd64" ]; then
+        SUFFIX="linux64"
+      elif [ "${ARCHITECTURE}" = "i386" ]; then
+        SUFFIX="linux32"
+      fi
       last_committed_tag="$(git -C ../src tag | grep -v rc| sort -V | tail -n 1)"
       last_released_tag="$(snap info obs-studio | awk '$1 == "beta:" { print $2 }')"
       # If the latest tag from the upstream project has not been released to
@@ -161,7 +167,7 @@ parts:
         cd ../src
         git checkout "${last_committed_tag}"
       fi
-      wget --quiet https://cdn-fastly.obsproject.com/downloads/cef_binary_3770_linux64.tar.bz2 -O $SNAPCRAFT_PART_INSTALL/cef.tar.bz2
+      wget --quiet https://cdn-fastly.obsproject.com/downloads/cef_binary_3770_$SUFFIX.tar.bz2 -O $SNAPCRAFT_PART_INSTALL/cef.tar.bz2
       tar jxvf $SNAPCRAFT_PART_INSTALL/cef.tar.bz2 -C $SNAPCRAFT_PART_INSTALL/
       rm $SNAPCRAFT_PART_INSTALL/cef.tar.bz2
       snapcraftctl set-version "$(git describe --tags)"

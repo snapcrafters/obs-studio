@@ -167,6 +167,7 @@ parts:
       snapcraftctl set-version "$(git describe --tags)"
     build-packages:
       - bzip2
+      - wget
       - libx11-dev           # From the docs
       - libgl1-mesa-dev 
       - libvlc-dev

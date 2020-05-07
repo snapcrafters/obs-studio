@@ -409,6 +409,20 @@ parts:
       - libnss3
       - libnspr4
       - libxtst6
+  obs-websocket:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/Palakis/obs-websocket.git
+    source-tag: '4.7.0'
+    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr"]
+    override-prime: |
+      if echo __SIZEOF_POINTER__ | cpp -E - - | grep '^8$' >/dev/null; then
+        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/obs-plugins/obs-websocket.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/64bit/
+      else
+        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/obs-plugins/obs-websocket.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/32bit/
+      fi
+      mkdir -p ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-websocket/locale
+      mv -v ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/obs-websocket/locale/*.ini ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-websocket/locale/
   launcher:
     after:  [ obs ]
     plugin: dump

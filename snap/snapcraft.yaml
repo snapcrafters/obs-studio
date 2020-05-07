@@ -252,7 +252,8 @@ parts:
         - libnuma1
   nv-codec-headers:
     plugin: make
-    source: https://github.com/FFmpeg/nv-codec-headers/releases/download/n9.1.23.1/nv-codec-headers-9.1.23.1.tar.gz
+    source: https://github.com/FFmpeg/nv-codec-headers.git
+    source-tag: 'n9.1.23.1'
     override-build: |
       make install PREFIX=/usr
     build-packages:

@@ -5,8 +5,13 @@ if [ "${SNAP_ARCH}" == "amd64" ]; then
   OBS="64bit"
 elif [ "${SNAP_ARCH}" == "armhf" ]; then
   ARCH="arm-linux-gnueabihf"
+  OBS="32bit"
 elif [ "${SNAP_ARCH}" == "arm64" ]; then
   ARCH="aarch64-linux-gnu"
+  OBS="64bit"
+elif [ "${SNAP_ARCH}" == "ppc64el" ]; then
+  ARCH="powerpc64le-linux-gnu"
+  OBS="64bit"
 else
   ARCH="${SNAP_ARCH}-linux-gnu"
   OBS="32bit"

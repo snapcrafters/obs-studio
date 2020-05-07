@@ -259,20 +259,8 @@ parts:
     build-packages:
       - pkg-config
 
-  fdk-aac:
-    plugin: autotools
-    source: https://github.com/mstorsjo/fdk-aac/archive/v2.0.0.tar.gz
-    build-packages:
-      - g++
-    configflags:
-      - --prefix=/usr
-      - --disable-static
-    prime:
-      - usr/lib
-      - usr/lib/pkgconfig
-      - usr/include
-
   ffmpeg:
+    after: [ nv-codec-headers ]
     plugin: autotools
     source: https://github.com/FFmpeg/FFmpeg.git
     build-environment: 
@@ -297,6 +285,7 @@ parts:
       - libass-dev
       - libbz2-dev
       - libdrm-dev
+      - libfdk-aac-dev
       - libgnutls28-dev
       - liblzma-dev
       - libmp3lame-dev
@@ -335,6 +324,7 @@ parts:
       - i965-va-driver
       - libass9
       - libdrm2
+      - libfdk-aac1
       - libgnutls30
       - libmp3lame0
       - libopenal1
@@ -417,9 +407,6 @@ parts:
       - --enable-vdpau
       - --enable-version3
       - --enable-xlib
-    after:
-      - nv-codec-headers
-      - fdk-aac
     prime:
       - usr/bin
       - usr/lib

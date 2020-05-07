@@ -30,9 +30,6 @@ elif [[ $VENDOR == *"X.Org"* ]]; then
   export VDPAU_DRIVER_PATH="/usr/lib/${ARCH}/vdpau/"
 fi
 
-# Pulseaudio export
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SNAP/usr/lib/$ARCH/pulseaudio
-
 # Make PulseAudio socket available inside the snap-specific $XDG_RUNTIME_DIR
 if [ -n "$XDG_RUNTIME_DIR" ]; then
     pulsenative="pulse/native"

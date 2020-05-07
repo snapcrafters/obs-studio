@@ -32,6 +32,5 @@ else
   export VDPAU_DRIVER_PATH="/usr/lib/${ARCH}/vdpau/"
 fi
 
-cd $SNAP/usr/bin/$OBS
-
-exec ./obs "$@"
+cd "${SNAP}/usr/bin/${OBS}"
+exec ./obs "${@}"

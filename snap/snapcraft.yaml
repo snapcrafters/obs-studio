@@ -263,25 +263,9 @@ parts:
     after: [ nv-codec-headers ]
     plugin: autotools
     source: https://github.com/FFmpeg/FFmpeg.git
-    build-environment: 
-      - PATH: "/usr/lib/ccache:$PATH"
-    override-pull: |
-      snapcraftctl pull
-      last_committed_tag="$(git tag -l | grep -v v | sort -rV | head -n1)"
-      last_committed_tag_ver="$(echo ${last_committed_tag} | sed 's/n//')"
-      last_released_tag="$(snap info ffmpeg | awk '$1 == "beta:" { print $2 }')"
-      # If the latest tag from the upstream project has not been released to
-      # beta, build that tag instead of master.
-      if [ "${last_committed_tag_ver}" != "${last_released_tag}" ]; then
-        git fetch
-        git checkout "${last_committed_tag}"
-      fi
-      snapcraftctl set-version "$last_committed_tag_ver"
-    override-build: |
-       snapcraftctl build
-       ccache -s
+    source-tag: 'n4.2.2'
+    source-depth: 1
     build-packages:
-      - ccache
       - libass-dev
       - libbz2-dev
       - libdrm-dev

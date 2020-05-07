@@ -13,8 +13,8 @@ confinement: strict
 architectures:
   - build-on: amd64
   - build-on: i386
-  
-# We should migrate to using the official folder for obs-studio config  
+
+# We should migrate to using the official folder for obs-studio config
 #plugs:
 #  obs-config-dir:
 #    interface: personal-files

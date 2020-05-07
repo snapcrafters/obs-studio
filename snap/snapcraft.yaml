@@ -42,6 +42,7 @@ apps:
     environment:
       # Tell libGL where to find the drivers
       LIBGL_DRIVERS_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
+      LIBVA_DRIVERS_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
       # Mesa Libs for OpenGL support
       # Workaround in snapd for proprietary nVidia drivers mounts the drivers in
       # /var/lib/snapd/lib/gl that needs to be in LD_LIBRARY_PATH

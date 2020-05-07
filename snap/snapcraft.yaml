@@ -13,77 +13,28 @@ confinement: strict
 architectures:
   - build-on: amd64
   - build-on: i386
-  
-# We should migrate to using the official folder for obs-studio config  
+
+# We should migrate to using the official folder for obs-studio config
 #plugs:
 #  obs-config-dir:
 #    interface: personal-files
 #    write: [$HOME/.config/obs-studio]
 
+plugs:
+  gtk-3-themes:
+    interface: content
+    target: $SNAP/data-dir/themes
+    default-provider: gtk-common-themes
+  icon-themes:
+    interface: content
+    target: $SNAP/data-dir/icons
+    default-provider: gtk-common-themes
+  sound-themes:
+    interface: content
+    target: $SNAP/data-dir/sounds
+    default-provider: gtk-common-themes
+
 apps:
-  ffmpeg:
-    command: bin/ffmpeg
-    environment:
-      # Tell libGL where to find the drivers
-      LIBGL_DRIVERS_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
-      # Mesa Libs for OpenGL support
-      # Workaround in snapd for proprietary nVidia drivers mounts the drivers in
-      # /var/lib/snapd/lib/gl that needs to be in LD_LIBRARY_PATH
-      # Without that OpenGL using apps do not work with the nVidia drivers.
-      # Ref.: https://bugs.launchpad.net/snappy/+bug/1588192
-      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa-egl:$LIBGL_DRIVERS_PATH:/var/lib/snapd/lib/gl
-    plugs:
-      - alsa
-      - camera
-      - desktop
-      - hardware-observe
-      - home
-      - network-bind
-      - network
-      - opengl
-      - optical-drive
-      - pulseaudio
-      - audio-playback
-      - audio-record
-      - removable-media
-      - wayland
-      - x11
-  ffprobe:
-    command: bin/ffprobe
-    plugs:
-      - alsa
-      - camera
-      - desktop
-      - hardware-observe
-      - home
-      - network-bind
-      - network
-      - opengl
-      - optical-drive
-      - pulseaudio
-      - audio-playback
-      - audio-record
-      - removable-media
-      - wayland
-      - x11
-  ffplay:
-    command: bin/ffplay
-    plugs:
-      - alsa
-      - camera
-      - desktop
-      - hardware-observe
-      - home
-      - network-bind
-      - network
-      - opengl
-      - optical-drive
-      - pulseaudio
-      - audio-playback
-      - audio-record
-      - removable-media
-      - wayland
-      - x11
   obs-studio:
     command: desktop-launch $SNAP/bin/launcher
     command-chain:
@@ -91,12 +42,13 @@ apps:
     environment:
       # Tell libGL where to find the drivers
       LIBGL_DRIVERS_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
+      LIBVA_DRIVERS_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
       # Mesa Libs for OpenGL support
       # Workaround in snapd for proprietary nVidia drivers mounts the drivers in
       # /var/lib/snapd/lib/gl that needs to be in LD_LIBRARY_PATH
       # Without that OpenGL using apps do not work with the nVidia drivers.
       # Ref.: https://bugs.launchpad.net/snappy/+bug/1588192
-      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa-egl:$LIBGL_DRIVERS_PATH:/var/lib/snapd/lib/gl
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa-egl:$LIBGL_DRIVERS_PATH:/var/lib/snapd/lib/gl:$SNAP_USER_DATA/.config/obs-studio/plugins
     plugs:
       - browser-support
       - network
@@ -119,237 +71,43 @@ parts:
   sem-open-preload:
     source: https://github.com/sergiusens/sem-open-preload.git
     plugin: make
+
   desktop-qt5:
-      build-packages:
-        - qtbase5-dev
-        - dpkg-dev
-      make-parameters:
-        - FLAVOR=qt5
-      plugin: make
-      source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
-      source-subdir: qt
-      stage-packages:
-        - libxkbcommon0
-        - ttf-ubuntu-font-family
-        - dmz-cursor-theme
-        - light-themes
-        - adwaita-icon-theme
-        - gnome-themes-standard
-        - shared-mime-info
-        - libqt5gui5
-        - libgtk2.0-0
-        - libgdk-pixbuf2.0-0
-        - libqt5svg5
-        - locales-all
-        - qtwayland5
-        - xdg-user-dirs
-  obs:
-    plugin: cmake 
-    after: [desktop-qt5]
-    configflags: ["-DUNIX_STRUCTURE=0", "-DCMAKE_INSTALL_PREFIX=/usr", "-DBUILD_BROWSER=ON", "-DCEF_ROOT_DIR=$SNAPCRAFT_PART_INSTALL/cef_binary_3770_linux64"]
-    source: https://github.com/obsproject/obs-studio.git
-    override-pull: |
-      snapcraftctl pull
-      set -x
-      ARCHITECTURE=$(dpkg --print-architecture)
-      if [ "${ARCHITECTURE}" = "amd64" ]; then
-        SUFFIX="linux64"
-      elif [ "${ARCHITECTURE}" = "i386" ]; then
-        SUFFIX="linux32"
-      fi
-      last_committed_tag="$(git -C ../src tag | grep -v rc| sort -V | tail -n 1)"
-      last_released_tag="$(snap info obs-studio | awk '$1 == "beta:" { print $2 }')"
-      # If the latest tag from the upstream project has not been released to
-      # beta, build that tag instead of master.
-      if [ "${last_committed_tag}" != "${last_released_tag}" ]; then
-        git fetch
-        git checkout "${last_committed_tag}"
-        cd ../src
-        git checkout "${last_committed_tag}"
-      fi
-      wget --quiet https://cdn-fastly.obsproject.com/downloads/cef_binary_3770_$SUFFIX.tar.bz2 -O $SNAPCRAFT_PART_INSTALL/cef.tar.bz2
-      tar jxvf $SNAPCRAFT_PART_INSTALL/cef.tar.bz2 -C $SNAPCRAFT_PART_INSTALL/
-      rm $SNAPCRAFT_PART_INSTALL/cef.tar.bz2
-      snapcraftctl set-version "$(git describe --tags)"
     build-packages:
-      - bzip2
-      - wget
-      - libx11-dev           # From the docs
-      - libgl1-mesa-dev 
-      - libvlc-dev
-      - libpulse-dev
-      - libxcomposite-dev
-      - libxinerama-dev
-      - libv4l-dev
-      - libudev-dev
-      - libfreetype6-dev
-      - libfontconfig-dev
-      - libluajit-5.1-dev
-      - python3-dev
-      - swig
-      - pkg-config
       - qtbase5-dev
-      - libqt5x11extras5-dev
-      - libqt5svg5-dev
-      - libx264-dev
-      - libxcb-xinerama0-dev
-      - libxcb-shm0-dev
-      - libcurl4-openssl-dev
-      - libavcodec-dev       # if not building ffmpeg
-      - libavfilter-dev
-      - libavdevice-dev
-      - libfdk-aac-dev
-      - libspeexdsp-dev      # cmake complains if missing
-      - libmbedtls-dev
-      - libjack-dev
-      - libnss3
-      - libnspr4
+      - dpkg-dev
+    make-parameters:
+      - FLAVOR=qt5
+    plugin: make
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: qt
     stage-packages:
-      - libatk-bridge2.0-0
-      - libatspi2.0-0
-      - libxtst6
-      - libnss3
-      - libnspr4
-      - libvlc5
-      - libslang2
-      - libxcomposite1
-      - libpython3.6
-      - libzvbi0
-      - libzmq5
-      - libxvidcore4
-      - libxv1
-      - libxcb-xinerama0
-      - libx265-146
-      - libx264-152
-      - libwebp6
-      - libwavpack1
-      #- libvpx3
-      - libvorbisenc2
-      - libvorbis0a
-      - libva2
-      - libv4lconvert0
-      - libv4l-0
-      - libtwolame0
-      - libtheora0
-      - libtbb2
-      #- libswscale-ffmpeg3
-      #- libswresample-ffmpeg1
-      - libssh-gcrypt-4
-      - libspeexdsp1
-      - libspeex1
-      - libsoxr0
-      - libsodium23
-      - libsndfile1
-      - libsnappy1v5
-      - libshine3
-      - libsdl1.2debian
-      #- libschroedinger-1.0-0
-      - librtmp1
-      - libraw1394-11
-      - libqt5x11extras5
-      - libpulse0
-      #- libpostproc-ffmpeg53
-      - liborc-0.4-0
-      - libopus0
-      #- libopenjpeg5
-      - libopencv-imgproc3.2
-      - libopencv-core3.2
-      - libopenal1
-      - libogg0
-      - libmp3lame0
-      - libmodplug1
-      - libiec61883-0
-      - libgsm1
-      - libgomp1
-      - libgme0
-      - libglu1-mesa
-      - libfribidi0
-      - libflite1
-      - libflac8
-      #- libfdk-aac0
-      - libdc1394-22
-      - libcurl4
-      - libcrystalhd3
-      #- libcdio-paranoia1
-      - libcdio-cdda2
-      - libcdio17
-      - libcaca0
-      - libbs2b0
-      - libbluray2
-      #- libavutil-ffmpeg54
-      #- libavresample-ffmpeg2
-      #- libavformat-ffmpeg56
-      #- libavfilter-ffmpeg5
-      #- libavdevice-ffmpeg56
-      #- libavcodec-ffmpeg-extra56
-      - libavc1394-0
-      - libasyncns0
-      - libass9
-      - libasound2
-      - libdb5.3
-      - libluajit-5.1-2
-      - libpython3.7
-      - libwayland-client0
-      - libwayland-cursor0
-      - libwayland-egl1
-      - libmbedcrypto1
-      - libmbedtls10
-      - libmbedx509-0
-      - libqt5xml5
-      - freeglut3
-      - jackd1
-      - on amd64: 
-        - libnuma1
-      - on i386: 
-        - libnuma1
-      - on arm64: 
-        - libnuma1
+      - libqt5gui5
+      - libqt5svg5
+      - qtwayland5
+      - shared-mime-info
+      - xdg-user-dirs
+
   nv-codec-headers:
     plugin: make
-    source: https://github.com/FFmpeg/nv-codec-headers/releases/download/n9.1.23.1/nv-codec-headers-9.1.23.1.tar.gz
+    source: https://github.com/FFmpeg/nv-codec-headers.git
+    source-tag: 'n9.1.23.1'
     override-build: |
       make install PREFIX=/usr
     build-packages:
       - pkg-config
 
-  fdk-aac:
-    plugin: autotools
-    source: https://github.com/mstorsjo/fdk-aac/archive/v2.0.0.tar.gz
-    build-packages:
-      - g++
-    configflags:
-      - --prefix=/usr
-      - --disable-static
-    prime:
-      - usr/lib
-      - usr/lib/pkgconfig
-      - usr/include
-
   ffmpeg:
+    after: [ nv-codec-headers ]
     plugin: autotools
     source: https://github.com/FFmpeg/FFmpeg.git
-    build-environment: 
-      - PATH: "/usr/lib/ccache:$PATH"
-    override-pull: |
-      snapcraftctl pull
-      last_committed_tag="$(git tag -l | grep -v v | sort -rV | head -n1)"
-      last_committed_tag_ver="$(echo ${last_committed_tag} | sed 's/n//')"
-      last_released_tag="$(snap info ffmpeg | awk '$1 == "beta:" { print $2 }')"
-      # If the latest tag from the upstream project has not been released to
-      # beta, build that tag instead of master.
-      if [ "${last_committed_tag_ver}" != "${last_released_tag}" ]; then
-        git fetch
-        git checkout "${last_committed_tag}"
-      fi
-      snapcraftctl set-version "$last_committed_tag_ver"
-    override-build: |
-       snapcraftctl build
-       ccache -s
+    source-tag: 'n4.2.2'
+    source-depth: 1
     build-packages:
-      - ccache
       - libass-dev
       - libbz2-dev
       - libdrm-dev
+      - libfdk-aac-dev
       - libgnutls28-dev
       - liblzma-dev
       - libmp3lame-dev
@@ -370,7 +128,6 @@ parts:
       - libvorbis-dev
       - libvpx-dev
       - libx264-dev
-      - libx265-dev
       - libxcb-shape0-dev
       - libxcb-shm0-dev
       - libxcb-xfixes0-dev
@@ -385,9 +142,9 @@ parts:
       - on i386:
         - libcrystalhd-dev
     stage-packages:
-      - i965-va-driver
       - libass9
       - libdrm2
+      - libfdk-aac1
       - libgnutls30
       - libmp3lame0
       - libopenal1
@@ -409,7 +166,6 @@ parts:
       - libvorbisenc2
       - libvpx5
       - libx264-152
-      - libx265-146
       - libx11-6
       - libxau6
       - libxcb-shape0
@@ -424,13 +180,16 @@ parts:
       - mesa-vdpau-drivers
       - ocl-icd-libopencl1
       - on amd64:
+        - i965-va-driver
         - libcrystalhd3
       - on i386:
+        - i965-va-driver
         - libcrystalhd3
     configflags:
       - --prefix=/usr
       - --disable-debug
       - --disable-doc
+      - --disable-libx265
       - --disable-static
       - --enable-avisynth
       - --enable-cuda
@@ -456,7 +215,6 @@ parts:
       - --enable-libvorbis
       - --enable-libvpx
       - --enable-libx264
-      - --enable-libx265
       - --enable-libxcb
       - --enable-libxvid
       - --enable-nonfree
@@ -470,9 +228,6 @@ parts:
       - --enable-vdpau
       - --enable-version3
       - --enable-xlib
-    after:
-      - nv-codec-headers
-      - fdk-aac
     prime:
       - usr/bin
       - usr/lib
@@ -481,17 +236,229 @@ parts:
       - -usr/share/doc
       - -usr/share/man
 
-  ffmpeg-wrapper:
+  libuiohook:
+    plugin: autotools
+    source: https://github.com/kwhat/libuiohook.git
+    source-tag: '1.0.3'
+  
+  netlib:
+    plugin: cmake
+    source: https://github.com/univrsal/netlib.git
+    source-tag: 'v0.2'
+    override-build: |
+      cmake -DCMAKE_INSTALL_PREFIX=/usr ${SNAPCRAFT_PART_SRC}
+      make
+    organize:
+      libnetlib.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libnetlib.so
+      netlib_client: usr/bin/netlib_client
+      netlib_server: usr/bin/netlib_server
+
+  obs:
+    plugin: cmake
+    after: 
+      - desktop-qt5
+      - ffmpeg
+      # Required for input-overlay
+      - libuiohook
+      - netlib
+    configflags: ["-DUNIX_STRUCTURE=0", "-DDISABLE_UPDATE_MODULE=TRUE", "-DCMAKE_INSTALL_PREFIX=/usr", "-DBUILD_BROWSER=ON", "-DCEF_ROOT_DIR=$SNAPCRAFT_PART_SRC/cef_binary"]
+    source: https://github.com/obsproject/obs-studio.git
+    override-pull: |
+      snapcraftctl pull
+      set -x
+
+      # Checkout that latest stable version
+      last_committed_tag="$(git -C ../src tag | grep -v rc| sort -V | tail -n 1)"
+      last_released_tag="$(snap info obs-studio | awk '$1 == "beta:" { print $2 }')"
+      # If the latest tag from the upstream project has not been released to
+      # beta, build that tag instead of master.
+      if [ "${last_committed_tag}" != "${last_released_tag}" ]; then
+        git fetch
+        git checkout "${last_committed_tag}"
+        cd ../src
+        git checkout "${last_committed_tag}"
+      fi
+      snapcraftctl set-version "$(git describe --tags)"
+
+      # Get the cef_binary
+      ARCHITECTURE=$(dpkg --print-architecture)
+      if [ "${ARCHITECTURE}" = "amd64" ]; then
+        SUFFIX="linux64"
+      elif [ "${ARCHITECTURE}" = "i386" ]; then
+        SUFFIX="linux32"
+      else
+        SUFFIX=""
+      fi
+      if [ -n "${SUFFIX}" ]; then
+        wget --quiet "https://cdn-fastly.obsproject.com/downloads/cef_binary_3770_${SUFFIX}.tar.bz2" -O $SNAPCRAFT_PART_SRC/cef.tar.bz2
+        mkdir -p ${SNAPCRAFT_PART_SRC}/cef_binary
+        tar jxvf ${SNAPCRAFT_PART_SRC}/cef.tar.bz2 -C ${SNAPCRAFT_PART_SRC}/cef_binary --strip-components=1
+        rm ${SNAPCRAFT_PART_SRC}/cef.tar.bz2
+      fi
+
+      # Get the SceneSwitcher plugin - https://github.com/WarmUpTill/SceneSwitcher
+      cd ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/
+      git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git
+      echo "add_subdirectory(SceneSwitcher)" >> CMakeLists.txt
+      cd SceneSwitcher
+      git checkout 1.5
+
+      # FTBFS
+      #cd ${SNAPCRAFT_PART_SRC}/plugins/
+      #git clone --recursive https://github.com/univrsal/input-overlay.git
+      #echo "add_subdirectory(input-overlay)" >> CMakeLists.txt
+      #cd input-overlay
+      #git checkout v4.8
+      #sed -i '1s/^/cmake_minimum_required(VERSION 3.5)\n/' CMakeLists.txt
+
+    override-build: |
+      # obs-frontend-api.h is required for plugins to build  
+      cp -v ${SNAPCRAFT_PART_SRC}/UI/obs-frontend-api/obs-frontend-api.h ${SNAPCRAFT_STAGE}/usr/include/  
+      snapcraftctl build
+      
+    organize:
+      usr/bin/*bit/*.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/
+      usr/bin/*bit/lib*.0: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/
+    build-packages:
+      # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
+      - bzip2
+      - wget
+      - build-essential
+      - libmbedtls-dev
+      - libasound2-dev
+      #- libavcodec-dev       # comes via the FFmpeg part
+      #- libavdevice-dev      # comes via the FFmpeg part
+      #- libavfilter-dev      # comes via the FFmpeg part
+      #- libavformat-dev      # comes via the FFmpeg part
+      #- libavutil-dev        # comes via the FFmpeg part
+      - libcurl4-openssl-dev
+      - libfdk-aac-dev
+      - libfontconfig-dev
+      - libfreetype6-dev
+      - libgl1-mesa-dev
+      - libjack-dev           # not libjack-jackd2-dev as upstream suggests
+      - libjansson-dev
+      - libluajit-5.1-dev
+      - libpulse-dev
+      - libqt5x11extras5-dev
+      - libspeexdsp-dev
+      #- libswresample-dev    # comes via the FFmpeg part
+      #- libswscale-dev       # comes via the FFmpeg part
+      - libudev-dev
+      - libv4l-dev
+      - libvlc-dev
+      - libx11-dev
+      - libx264-dev
+      - libxcb-xinput-dev
+      - libxcb-shm0-dev
+      - libxcb-xinerama0-dev
+      - libxcomposite-dev
+      - libxinerama-dev
+      - pkg-config
+      - python3-dev
+      - qtbase5-dev
+      - libqt5svg5-dev
+      - swig
+      - libxcb-randr0-dev
+      - libxcb-xfixes0-dev
+      - libx11-xcb-dev
+      - libxcb1-dev
+      # Required by cef_binary_3770
+      - libnss3-dev
+      - libnspr4-dev
+      - libxtst-dev
+    stage-packages:
+      # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
+      - libmbedcrypto1
+      - libmbedtls10
+      - libmbedx509-0
+      - libasound2
+      - libcurl4
+      - libfdk-aac1
+      - libfreetype6
+      - libgl1
+      - libglvnd0
+      - jackd1                # not libjack-jackd2-0 as upstream suggests
+      - libjansson4
+      - libluajit-5.1-2
+      - libpulse0
+      - libqt5x11extras5
+      - libspeexdsp1
+      - libv4l-0
+      - libv4lconvert0
+      - libv4l2rds0
+      - libvlc5
+      - libx11-6
+      - libx264-152
+      - libxcb-shm0
+      - libxcb-xinerama0
+      - libxcomposite1
+      - libxinerama1
+      - libpython3.6
+      - libqt5core5a
+      - libqt5svg5
+      - libqt5xml5
+      - libxcb-xinput0
+      - libxcb-randr0
+      - libxcb-xfixes0
+      - libx11-xcb1
+      - libxcb1
+      # Required by cef_binary_3770
+      - libatk-bridge2.0-0
+      - libatspi2.0-0
+      - libnss3
+      - libnspr4
+      - libxtst6
+  obs-websocket:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/Palakis/obs-websocket.git
+    source-tag: '4.7.0'
+    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr"]
+    override-prime: |
+      if echo __SIZEOF_POINTER__ | cpp -E - - | grep '^8$' >/dev/null; then
+        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/obs-plugins/obs-websocket.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/64bit/
+      else
+        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/obs-plugins/obs-websocket.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/32bit/
+      fi
+      mkdir -p ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-websocket/locale
+      mv -v ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/obs-websocket/locale/*.ini ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-websocket/locale/
+
+  obs-v4l2sink:
+    plugin: cmake
+    after: [ obs ]
+    #source: https://github.com/CatxFish/obs-v4l2sink.git
+    # Using my fork for now as it rolls up various fixes missing from upstream.
+    source: https://github.com/flexiondotorg/obs-v4l2sink.git
+    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr", "-DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET"]
+    override-build: |
+      # The build system for this plugin is slightly broken.
+      # The initial cmake to makes the libs discoverable by `snapcraftctl build`
+      cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIBOBS_LIB=${SNAPCRAFT_STAGE}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET} ${SNAPCRAFT_PART_SRC} 2>/dev/null || true
+      snapcraftctl build
+    override-prime: |
+      if echo __SIZEOF_POINTER__ | cpp -E - - | grep '^8$' >/dev/null; then
+        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/obs-plugins/v4l2sink.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/64bit/
+      else
+        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/obs-plugins/v4l2sink.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/32bit/
+      fi
+      mkdir -p ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/v4l2sink/locale
+      mv -v ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/v4l2sink/locale/*.ini ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/v4l2sink/locale/
+
+  launcher:
+    after:  [ obs ]
     plugin: dump
     source: snap/local/
-    stage-packages:
-      - mesa-utils
-      - vainfo
     organize:
-      'ffplay': bin/
-      'ffmpeg': bin/
-      'ffprobe': bin/
-      'wrapper': bin/
       'launcher': bin/
-    after:
-      - ffmpeg
+
+  cleanup:
+    after: [ launcher ]
+    plugin: nil
+    override-prime: |
+      set -eux
+      for CRUFT in usr/include usr/share/bug usr/share/lintian usr/share/man; do
+        rm -rf ${SNAPCRAFT_PRIME}/${CRUFT}
+      done
+      find ${SNAPCRAFT_PRIME}/usr/share/doc/ -type f -not -name 'copyright' -delete
+      find ${SNAPCRAFT_PRIME}/usr/share -type d -empty -delete

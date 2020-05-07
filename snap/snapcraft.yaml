@@ -304,7 +304,6 @@ parts:
       - on i386:
         - libcrystalhd-dev
     stage-packages:
-      - i965-va-driver
       - libass9
       - libdrm2
       - libfdk-aac1
@@ -343,8 +342,10 @@ parts:
       - mesa-vdpau-drivers
       - ocl-icd-libopencl1
       - on amd64:
+        - i965-va-driver
         - libcrystalhd3
       - on i386:
+        - i965-va-driver
         - libcrystalhd3
     configflags:
       - --prefix=/usr
@@ -376,7 +377,6 @@ parts:
       - --enable-libvorbis
       - --enable-libvpx
       - --enable-libx264
-      - --enable-libx265
       - --enable-libxcb
       - --enable-libxvid
       - --enable-nonfree

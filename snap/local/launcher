@@ -17,19 +17,6 @@ else
   OBS="32bit"
 fi
 
-VENDOR=$(glxinfo | grep "OpenGL vendor")
-
-if [[ $VENDOR == *"Intel"* ]]; then
-  export VDPAU_DRIVER_PATH="${SNAP}/usr/lib/$ARCH/dri"
-  $SNAP/usr/bin/vainfo
-fi
-
-if [[ $VENDOR == *"NVIDIA"* ]]; then
-  export VDPAU_DRIVER_PATH="/var/lib/snapd/lib/gl/vdpau"
-elif [[ $VENDOR == *"X.Org"* ]]; then
-  export VDPAU_DRIVER_PATH="/usr/lib/${ARCH}/vdpau/"
-fi
-
 # Make PulseAudio socket available inside the snap-specific $XDG_RUNTIME_DIR
 if [ -n "$XDG_RUNTIME_DIR" ]; then
     pulsenative="pulse/native"
@@ -39,7 +26,11 @@ if [ -n "$XDG_RUNTIME_DIR" ]; then
     fi
 fi
 
-echo $PATH
+if [ -e "/var/lib/snapd/lib/gl/xorg/nvidia_drv.so" ]; then
+  export VDPAU_DRIVER_PATH="/var/lib/snapd/lib/gl/vdpau"
+else
+  export VDPAU_DRIVER_PATH="/usr/lib/${ARCH}/vdpau/"
+fi
 
 cd $SNAP/usr/bin/$OBS
 

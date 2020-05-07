@@ -411,14 +411,5 @@ parts:
       - libxtst6
     plugin: dump
     source: snap/local/
-    stage-packages:
-      - mesa-utils
-      - vainfo
     organize:
-      'ffplay': bin/
-      'ffmpeg': bin/
-      'ffprobe': bin/
-      'wrapper': bin/
       'launcher': bin/
-    after:
-      - ffmpeg

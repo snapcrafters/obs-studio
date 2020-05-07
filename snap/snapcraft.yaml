@@ -236,12 +236,31 @@ parts:
       - -usr/share/doc
       - -usr/share/man
 
-  ffmpeg-wrapper:
+  libuiohook:
+    plugin: autotools
+    source: https://github.com/kwhat/libuiohook.git
+    source-tag: '1.0.3'
+  
+  netlib:
+    plugin: cmake
+    source: https://github.com/univrsal/netlib.git
+    source-tag: 'v0.2'
+    override-build: |
+      cmake -DCMAKE_INSTALL_PREFIX=/usr ${SNAPCRAFT_PART_SRC}
+      make
+    organize:
+      libnetlib.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libnetlib.so
+      netlib_client: usr/bin/netlib_client
+      netlib_server: usr/bin/netlib_server
+
   obs:
     plugin: cmake
     after: 
       - desktop-qt5
       - ffmpeg
+      # Required for input-overlay
+      - libuiohook
+      - netlib
     configflags: ["-DUNIX_STRUCTURE=0", "-DDISABLE_UPDATE_MODULE=TRUE", "-DCMAKE_INSTALL_PREFIX=/usr", "-DBUILD_BROWSER=ON", "-DCEF_ROOT_DIR=$SNAPCRAFT_PART_SRC/cef_binary"]
     source: https://github.com/obsproject/obs-studio.git
     override-pull: |
@@ -283,6 +302,14 @@ parts:
       echo "add_subdirectory(SceneSwitcher)" >> CMakeLists.txt
       cd SceneSwitcher
       git checkout 1.5
+
+      # FTBFS
+      #cd ${SNAPCRAFT_PART_SRC}/plugins/
+      #git clone --recursive https://github.com/univrsal/input-overlay.git
+      #echo "add_subdirectory(input-overlay)" >> CMakeLists.txt
+      #cd input-overlay
+      #git checkout v4.8
+      #sed -i '1s/^/cmake_minimum_required(VERSION 3.5)\n/' CMakeLists.txt
 
     override-build: |
       # obs-frontend-api.h is required for plugins to build  

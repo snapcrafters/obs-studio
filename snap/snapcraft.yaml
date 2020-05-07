@@ -20,70 +20,21 @@ architectures:
 #    interface: personal-files
 #    write: [$HOME/.config/obs-studio]
 
+plugs:
+  gtk-3-themes:
+    interface: content
+    target: $SNAP/data-dir/themes
+    default-provider: gtk-common-themes
+  icon-themes:
+    interface: content
+    target: $SNAP/data-dir/icons
+    default-provider: gtk-common-themes
+  sound-themes:
+    interface: content
+    target: $SNAP/data-dir/sounds
+    default-provider: gtk-common-themes
+
 apps:
-  ffmpeg:
-    command: bin/ffmpeg
-    environment:
-      # Tell libGL where to find the drivers
-      LIBGL_DRIVERS_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
-      # Mesa Libs for OpenGL support
-      # Workaround in snapd for proprietary nVidia drivers mounts the drivers in
-      # /var/lib/snapd/lib/gl that needs to be in LD_LIBRARY_PATH
-      # Without that OpenGL using apps do not work with the nVidia drivers.
-      # Ref.: https://bugs.launchpad.net/snappy/+bug/1588192
-      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa-egl:$LIBGL_DRIVERS_PATH:/var/lib/snapd/lib/gl
-    plugs:
-      - alsa
-      - camera
-      - desktop
-      - hardware-observe
-      - home
-      - network-bind
-      - network
-      - opengl
-      - optical-drive
-      - pulseaudio
-      - audio-playback
-      - audio-record
-      - removable-media
-      - wayland
-      - x11
-  ffprobe:
-    command: bin/ffprobe
-    plugs:
-      - alsa
-      - camera
-      - desktop
-      - hardware-observe
-      - home
-      - network-bind
-      - network
-      - opengl
-      - optical-drive
-      - pulseaudio
-      - audio-playback
-      - audio-record
-      - removable-media
-      - wayland
-      - x11
-  ffplay:
-    command: bin/ffplay
-    plugs:
-      - alsa
-      - camera
-      - desktop
-      - hardware-observe
-      - home
-      - network-bind
-      - network
-      - opengl
-      - optical-drive
-      - pulseaudio
-      - audio-playback
-      - audio-record
-      - removable-media
-      - wayland
-      - x11
   obs-studio:
     command: desktop-launch $SNAP/bin/launcher
     command-chain:

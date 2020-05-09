@@ -40,3 +40,4 @@ sudo modprobe v4l2loopback video_nr=99 card_label="OBS VitualCam" exclusive_caps
   * **[Freeze Filter](https://github.com/exeldro/obs-freeze-filter)** plugin.
   * **[Replay Source](https://github.com/exeldro/obs-replay-source)** plugin.
   * **[Spectralizer](https://github.com/univrsal/spectralizer)** plugin.
+  * **[Scrab](https://github.com/univrsal/scrab)** plugin.

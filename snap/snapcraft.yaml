@@ -343,6 +343,13 @@ parts:
       echo "add_subdirectory(spectralizer)" >> CMakeLists.txt
       cd spectralizer
       git checkout v1.2
+
+      # Scrab - https://github.com/univrsal/scrab
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/univrsal/scrab.git
+      echo "add_subdirectory(scrab)" >> CMakeLists.txt
+      cd scrab
+      git checkout v1.1
       # FTBFS
       #cd ${SNAPCRAFT_PART_SRC}/plugins/
       #git clone --recursive https://github.com/univrsal/input-overlay.git

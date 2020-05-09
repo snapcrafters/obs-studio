@@ -35,3 +35,4 @@ sudo modprobe v4l2loopback video_nr=99 card_label="OBS VitualCam" exclusive_caps
 ```
   * **[Advanced Scene Switcher](https://github.com/WarmUpTill/SceneSwitcher)** plugin.
   * **[Source Switcher](https://github.com/exeldro/obs-source-switcher)** plugin.
+  * **[Move Transition](https://github.com/exeldro/obs-move-transition)** plugin.

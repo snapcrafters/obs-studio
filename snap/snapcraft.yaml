@@ -308,6 +308,12 @@ parts:
       git clone --recursive https://github.com/exeldro/obs-source-switcher.git source-switcher
       echo "add_subdirectory(source-switcher)" >> CMakeLists.txt
 
+      # Move Transition - https://github.com/exeldro/obs-move-transition
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/exeldro/obs-move-transition.git move-transition
+      echo "add_subdirectory(move-transition)" >> CMakeLists.txt
+      cd move-transition
+      git checkout 1.1.3
       # FTBFS
       #cd ${SNAPCRAFT_PART_SRC}/plugins/
       #git clone --recursive https://github.com/univrsal/input-overlay.git

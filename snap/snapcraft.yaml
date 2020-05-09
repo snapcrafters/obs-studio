@@ -314,6 +314,13 @@ parts:
       echo "add_subdirectory(move-transition)" >> CMakeLists.txt
       cd move-transition
       git checkout 1.1.3
+
+      # Freeze Filter - https://github.com/exeldro/obs-freeze-filter
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/exeldro/obs-freeze-filter.git freeze-filter
+      echo "add_subdirectory(freeze-filter)" >> CMakeLists.txt
+      cd freeze-filter
+      git checkout 0.0.2
       # FTBFS
       #cd ${SNAPCRAFT_PART_SRC}/plugins/
       #git clone --recursive https://github.com/univrsal/input-overlay.git

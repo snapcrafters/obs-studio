@@ -336,6 +336,13 @@ parts:
       echo "add_subdirectory(obs-websocket)" >> CMakeLists.txt
       cd obs-websocket
       git checkout 4.7.0
+
+      # Spectralizer - https://github.com/univrsal/spectralizer
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/univrsal/spectralizer.git
+      echo "add_subdirectory(spectralizer)" >> CMakeLists.txt
+      cd spectralizer
+      git checkout v1.2
       # FTBFS
       #cd ${SNAPCRAFT_PART_SRC}/plugins/
       #git clone --recursive https://github.com/univrsal/input-overlay.git
@@ -403,6 +410,8 @@ parts:
       # Required by obs-websocket
       - libasio-dev
       - libwebsocketpp-dev
+      # Required by Spectralizer
+      - libfftw3-dev
     stage-packages:
       # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
       - libmbedcrypto1
@@ -445,6 +454,8 @@ parts:
       - libnss3
       - libnspr4
       - libxtst6
+      # Required by Spectralizer
+      - libfftw3-3
 
   obs-v4l2sink:
     plugin: cmake

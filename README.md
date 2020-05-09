@@ -37,3 +37,4 @@ sudo modprobe v4l2loopback video_nr=99 card_label="OBS VitualCam" exclusive_caps
   * **[Source Switcher](https://github.com/exeldro/obs-source-switcher)** plugin.
   * **[Move Transition](https://github.com/exeldro/obs-move-transition)** plugin.
   * **[Freeze Filter](https://github.com/exeldro/obs-freeze-filter)** plugin.
+  * **[Replay Source](https://github.com/exeldro/obs-replay-source)** plugin.

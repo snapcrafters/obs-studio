@@ -321,6 +321,14 @@ parts:
       echo "add_subdirectory(freeze-filter)" >> CMakeLists.txt
       cd freeze-filter
       git checkout 0.0.2
+
+      # Replay Source - https://github.com/exeldro/obs-replay-source
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/exeldro/obs-replay-source.git replay-source
+      echo "add_subdirectory(replay-source)" >> CMakeLists.txt
+      cd replay-source
+      git checkout 1.5.4
+      sed -i 's/install_obs_plugin_with_data(replay-source data)/install_obs_plugin(replay-source)/' CMakeLists.txt
       # FTBFS
       #cd ${SNAPCRAFT_PART_SRC}/plugins/
       #git clone --recursive https://github.com/univrsal/input-overlay.git

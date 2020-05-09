@@ -296,14 +296,14 @@ parts:
         rm ${SNAPCRAFT_PART_SRC}/cef.tar.bz2
       fi
 
-      # Get the SceneSwitcher plugin - https://github.com/WarmUpTill/SceneSwitcher
+      # SceneSwitcher - https://github.com/WarmUpTill/SceneSwitcher
       cd ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/
       git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git
       echo "add_subdirectory(SceneSwitcher)" >> CMakeLists.txt
       cd SceneSwitcher
       git checkout 1.5
 
-      # Get the Source Switcher plugin - https://github.com/exeldro/obs-source-switcher
+      # Source Switcher - https://github.com/exeldro/obs-source-switcher
       cd ${SNAPCRAFT_PART_SRC}/plugins/
       git clone --recursive https://github.com/exeldro/obs-source-switcher.git source-switcher
       echo "add_subdirectory(source-switcher)" >> CMakeLists.txt

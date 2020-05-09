@@ -329,6 +329,13 @@ parts:
       cd replay-source
       git checkout 1.5.4
       sed -i 's/install_obs_plugin_with_data(replay-source data)/install_obs_plugin(replay-source)/' CMakeLists.txt
+
+      # Websocket - https://github.com/Palakis/obs-websocket
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/Palakis/obs-websocket.git
+      echo "add_subdirectory(obs-websocket)" >> CMakeLists.txt
+      cd obs-websocket
+      git checkout 4.7.0
       # FTBFS
       #cd ${SNAPCRAFT_PART_SRC}/plugins/
       #git clone --recursive https://github.com/univrsal/input-overlay.git
@@ -393,6 +400,9 @@ parts:
       - libnss3-dev
       - libnspr4-dev
       - libxtst-dev
+      # Required by obs-websocket
+      - libasio-dev
+      - libwebsocketpp-dev
     stage-packages:
       # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
       - libmbedcrypto1
@@ -435,20 +445,6 @@ parts:
       - libnss3
       - libnspr4
       - libxtst6
-  obs-websocket:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/Palakis/obs-websocket.git
-    source-tag: '4.7.0'
-    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr"]
-    override-prime: |
-      if echo __SIZEOF_POINTER__ | cpp -E - - | grep '^8$' >/dev/null; then
-        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/obs-plugins/obs-websocket.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/64bit/
-      else
-        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/obs-plugins/obs-websocket.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/32bit/
-      fi
-      mkdir -p ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-websocket/locale
-      mv -v ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/obs-websocket/locale/*.ini ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-websocket/locale/
 
   obs-v4l2sink:
     plugin: cmake

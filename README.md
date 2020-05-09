@@ -30,3 +30,4 @@ The snap of OBS studio comes pre-loaded with some additions features and plugins
   * OBS **[Websockets](https://github.com/Palakis/obs-websocket)** plugin; compatible with [StreamControl](https://play.google.com/store/apps/details?id=dev.t4ils.obs_remote&hl=en) and other remote controls.
   * OBS **[V4L2Sink](https://github.com/CatxFish/obs-v4l2sink)** plugin; to create virtual webcams.
   * OBS **[Advanced Scene Switcher](https://github.com/WarmUpTill/SceneSwitcher)** plugin.
+  * OBS **[Source Switcher](https://github.com/exeldro/obs-source-switcher)** plugin.

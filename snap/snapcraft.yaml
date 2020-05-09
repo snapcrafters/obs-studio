@@ -303,6 +303,11 @@ parts:
       cd SceneSwitcher
       git checkout 1.5
 
+      # Get the Source Switcher plugin - https://github.com/exeldro/obs-source-switcher
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/exeldro/obs-source-switcher.git source-switcher
+      echo "add_subdirectory(source-switcher)" >> CMakeLists.txt
+
       # FTBFS
       #cd ${SNAPCRAFT_PART_SRC}/plugins/
       #git clone --recursive https://github.com/univrsal/input-overlay.git

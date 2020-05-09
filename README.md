@@ -29,6 +29,7 @@ The snap of OBS studio comes pre-loaded with some additions features and plugins
   * FFmpeg supports **nvenc and VA-API accelerated video encoding**.
   * **[Browser](https://github.com/obsproject/obs-browser)** plugin; add web sources to your stream.
   * **[Websockets](https://github.com/Palakis/obs-websocket)** plugin; compatible with [StreamControl](https://play.google.com/store/apps/details?id=dev.t4ils.obs_remote&hl=en) and other remote controls.
+  * **[V4L2Sink](https://github.com/CatxFish/obs-v4l2sink)** plugin; to [create virtual webcams](https://github.com/umlaeute/v4l2loopback#run).
 ```
 sudo apt install v4l2loopback-utils v4l2loopback-dkms
 sudo modprobe v4l2loopback video_nr=99 card_label="OBS VitualCam" exclusive_caps=1

@@ -340,15 +340,22 @@ parts:
 
       # FTBFS
       #cd ${SNAPCRAFT_PART_SRC}/plugins/
-      #git clone --recursive https://github.com/univrsal/input-overlay.git
-      #echo "add_subdirectory(input-overlay)" >> CMakeLists.txt
-      #cd input-overlay
-      #git checkout v4.8
-      #sed -i '1s/^/cmake_minimum_required(VERSION 3.5)\n/' CMakeLists.txt
+      #git clone --recursive https://github.com/kkartaltepe/obs-text-pango.git
+      #echo "add_subdirectory(obs-text-pango)" >> CMakeLists.txt
+      #cd obs-text-pango
+      #git checkout v1.0
+
+      # Input Overlay - https://github.com/univrsal/input-overlay
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/univrsal/input-overlay.git --branch v4.8
+      echo "add_subdirectory(input-overlay)" >> CMakeLists.txt
 
     override-build: |
       # obs-frontend-api.h is required for plugins to build  
       cp -v ${SNAPCRAFT_PART_SRC}/UI/obs-frontend-api/obs-frontend-api.h ${SNAPCRAFT_STAGE}/usr/include/  
+      # ObsPluginHelpers.cmake
+      mkdir -p ${SNAPCRAFT_STAGE}/usr/cmake/external
+      cp -v ${SNAPCRAFT_PART_SRC}/cmake/external/ObsPluginHelpers.cmake ${SNAPCRAFT_STAGE}/usr/cmake/external/ObsPluginHelpers.cmake
       snapcraftctl build
       
     organize:
@@ -451,6 +458,8 @@ parts:
       - libxtst6
       # Required by Spectralizer
       - libfftw3-3
+      # Required by Input Overlay
+      - libxt6
 
   obs-v4l2sink:
     plugin: cmake

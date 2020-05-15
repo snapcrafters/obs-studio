@@ -473,6 +473,26 @@ parts:
       mkdir -p ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/v4l2sink/locale
       mv -v ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/v4l2sink/locale/*.ini ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/v4l2sink/locale/
 
+  obs-transition-matrix:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/admshao/obs-transition-matrix.git
+    source-tag: 'v1.0'
+    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr", "-DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET"]
+    override-build: |
+      # The build system for this plugin is slightly broken.
+      # The initial cmake to makes the libs discoverable by `snapcraftctl build`
+      cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIBOBS_LIB=${SNAPCRAFT_STAGE}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET} ${SNAPCRAFT_PART_SRC} 2>/dev/null || true
+      snapcraftctl build
+    override-prime: |
+      if echo __SIZEOF_POINTER__ | cpp -E - - | grep '^8$' >/dev/null; then
+        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/obs-plugins/obs-transition-matrix.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/64bit/
+      else
+        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/obs-plugins/obs-transition-matrix.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/32bit/
+      fi
+      mkdir -p ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-transition-matrix/locale
+      mv -v ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/obs-transition-matrix/locale/*.ini ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-transition-matrix/locale/
+
   launcher:
     after:  [ obs ]
     plugin: dump

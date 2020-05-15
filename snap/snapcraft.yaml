@@ -298,10 +298,8 @@ parts:
 
       # SceneSwitcher - https://github.com/WarmUpTill/SceneSwitcher
       cd ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/
-      git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git
+      git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git --branch 1.5
       echo "add_subdirectory(SceneSwitcher)" >> CMakeLists.txt
-      cd SceneSwitcher
-      git checkout 1.5
 
       # Source Switcher - https://github.com/exeldro/obs-source-switcher
       cd ${SNAPCRAFT_PART_SRC}/plugins/
@@ -310,46 +308,36 @@ parts:
 
       # Move Transition - https://github.com/exeldro/obs-move-transition
       cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/exeldro/obs-move-transition.git move-transition
+      git clone --recursive https://github.com/exeldro/obs-move-transition.git move-transition --branch 1.1.3
       echo "add_subdirectory(move-transition)" >> CMakeLists.txt
-      cd move-transition
-      git checkout 1.1.3
 
       # Freeze Filter - https://github.com/exeldro/obs-freeze-filter
       cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/exeldro/obs-freeze-filter.git freeze-filter
+      git clone --recursive https://github.com/exeldro/obs-freeze-filter.git freeze-filter --branch 0.0.2
       echo "add_subdirectory(freeze-filter)" >> CMakeLists.txt
-      cd freeze-filter
-      git checkout 0.0.2
 
       # Replay Source - https://github.com/exeldro/obs-replay-source
       cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/exeldro/obs-replay-source.git replay-source
+      git clone --recursive https://github.com/exeldro/obs-replay-source.git replay-source --branch 1.5.4
       echo "add_subdirectory(replay-source)" >> CMakeLists.txt
       cd replay-source
-      git checkout 1.5.4
       sed -i 's/install_obs_plugin_with_data(replay-source data)/install_obs_plugin(replay-source)/' CMakeLists.txt
 
       # Websocket - https://github.com/Palakis/obs-websocket
       cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/Palakis/obs-websocket.git
+      git clone --recursive https://github.com/Palakis/obs-websocket.git --branch 4.7.0
       echo "add_subdirectory(obs-websocket)" >> CMakeLists.txt
-      cd obs-websocket
-      git checkout 4.7.0
 
       # Spectralizer - https://github.com/univrsal/spectralizer
       cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/univrsal/spectralizer.git
+      git clone --recursive https://github.com/univrsal/spectralizer.git --branch v1.2
       echo "add_subdirectory(spectralizer)" >> CMakeLists.txt
-      cd spectralizer
-      git checkout v1.2
 
       # Scrab - https://github.com/univrsal/scrab
       cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/univrsal/scrab.git
+      git clone --recursive https://github.com/univrsal/scrab.git --branch v1.1
       echo "add_subdirectory(scrab)" >> CMakeLists.txt
-      cd scrab
-      git checkout v1.1
+
       # FTBFS
       #cd ${SNAPCRAFT_PART_SRC}/plugins/
       #git clone --recursive https://github.com/univrsal/input-overlay.git

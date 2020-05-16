@@ -349,6 +349,11 @@ parts:
       #cd obs-text-pango
       #git checkout v1.0
 
+      # StreamFX - https://github.com/Xaymar/obs-StreamFX
+      cd ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/
+      git submodule add https://github.com/Xaymar/obs-StreamFX.git streamfx --branch 0.8.0b3
+      echo "add_subdirectory(streamfx)" >> CMakeLists.txt
+
       # Input Overlay - https://github.com/univrsal/input-overlay
       cd ${SNAPCRAFT_PART_SRC}/plugins/
       git clone --recursive https://github.com/univrsal/input-overlay.git --branch v4.8
@@ -420,6 +425,9 @@ parts:
       - libwebsocketpp-dev
       # Required by Spectralizer
       - libfftw3-dev
+      # Required by StreamFX
+      #- libqt5x11extras5-dev
+      - ninja-build
     stage-packages:
       # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
       - libmbedcrypto1

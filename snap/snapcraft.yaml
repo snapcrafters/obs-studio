@@ -118,6 +118,7 @@ parts:
       - libopencore-amrwb-dev
       - libopus-dev
       - libpulse-dev
+      - librsvg2-dev
       - libsctp-dev
       - libsdl2-dev
       - libspeex-dev
@@ -153,6 +154,7 @@ parts:
       - libopencore-amrwb0
       - libopus0
       - libpulse0
+      - librsvg2-2
       - libsdl2-2.0-0
       - libspeex1
       - libtheora0
@@ -224,6 +226,7 @@ parts:
       - --enable-openal
       - --enable-opencl
       - --enable-runtime-cpudetect
+      - --enable-librsvg
       - --enable-shared
       - --enable-vaapi
       - --enable-vdpau

@@ -366,6 +366,9 @@ parts:
       mkdir -p ${SNAPCRAFT_STAGE}/usr/cmake/external
       cp -v ${SNAPCRAFT_PART_SRC}/cmake/external/ObsPluginHelpers.cmake ${SNAPCRAFT_STAGE}/usr/cmake/external/ObsPluginHelpers.cmake
       snapcraftctl build
+      # Fix some missing theme assets
+      cp ${SNAPCRAFT_PART_SRC}/UI/data/themes/Dark/close.svg ${SNAPCRAFT_PART_INSTALL}/usr/data/obs-studio/themes/Dark/Close.svg
+      cp ${SNAPCRAFT_PART_SRC}/UI/data/themes/Dark/popout.svg ${SNAPCRAFT_PART_INSTALL}/usr/data/obs-studio/themes/Dark/Popout.svg
 
     organize:
       usr/bin/*bit/*.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/

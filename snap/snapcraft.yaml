@@ -193,12 +193,12 @@ parts:
       - --disable-debug
       - --disable-doc
       - --disable-libx265
+      - --disable-programs
       - --disable-static
       - --enable-avisynth
       - --enable-cuda
       - --enable-cuvid
       - --enable-libdrm
-      - --enable-ffplay
       - --enable-gnutls
       - --enable-gpl
       - --enable-libass

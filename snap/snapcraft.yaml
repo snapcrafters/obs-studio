@@ -250,7 +250,7 @@ parts:
     source: https://github.com/univrsal/netlib.git
     source-tag: 'v0.2'
     override-build: |
-      cmake -DCMAKE_INSTALL_PREFIX=/usr ${SNAPCRAFT_PART_SRC}
+      cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_CXX_COMPILER=g++-8 -DCMAKE_C_COMPILER=gcc-8 ${SNAPCRAFT_PART_SRC}
       make
     organize:
       libnetlib.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libnetlib.so
@@ -265,7 +265,7 @@ parts:
       # Required for input-overlay
       - libuiohook
       - netlib
-    configflags: ["-DUNIX_STRUCTURE=0", "-DDISABLE_UPDATE_MODULE=TRUE", "-DCMAKE_INSTALL_PREFIX=/usr", "-DBUILD_BROWSER=ON", "-DCEF_ROOT_DIR=$SNAPCRAFT_PART_SRC/cef_binary"]
+    configflags: ["-DUNIX_STRUCTURE=0", "-DDISABLE_UPDATE_MODULE=TRUE", "-DCMAKE_INSTALL_PREFIX=/usr", "-DBUILD_BROWSER=ON", "-DCEF_ROOT_DIR=$SNAPCRAFT_PART_SRC/cef_binary", "-DCMAKE_CXX_COMPILER=g++-8", "-DCMAKE_C_COMPILER=gcc-8"]
     source: https://github.com/obsproject/obs-studio.git
     override-pull: |
       snapcraftctl pull
@@ -368,6 +368,8 @@ parts:
     build-packages:
       # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
       - bzip2
+      - gcc-8
+      - g++-8
       - wget
       - build-essential
       - libmbedtls-dev
@@ -471,11 +473,11 @@ parts:
     #source: https://github.com/CatxFish/obs-v4l2sink.git
     # Using my fork for now as it rolls up various fixes missing from upstream.
     source: https://github.com/flexiondotorg/obs-v4l2sink.git
-    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr", "-DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET"]
+    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr", "-DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET", "-DCMAKE_CXX_COMPILER=g++-8", "-DCMAKE_C_COMPILER=gcc-8"]
     override-build: |
       # The build system for this plugin is slightly broken.
       # The initial cmake to makes the libs discoverable by `snapcraftctl build`
-      cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIBOBS_LIB=${SNAPCRAFT_STAGE}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET} ${SNAPCRAFT_PART_SRC} 2>/dev/null || true
+      cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIBOBS_LIB=${SNAPCRAFT_STAGE}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET} -DCMAKE_CXX_COMPILER=g++-8 -DCMAKE_C_COMPILER=gcc-8 ${SNAPCRAFT_PART_SRC} 2>/dev/null || true
       snapcraftctl build
     override-prime: |
       if echo __SIZEOF_POINTER__ | cpp -E - - | grep '^8$' >/dev/null; then
@@ -491,7 +493,7 @@ parts:
     after: [ obs ]
     source: https://github.com/admshao/obs-transition-matrix.git
     source-tag: 'v1.0'
-    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr", "-DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET"]
+    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr", "-DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET", "-DCMAKE_CXX_COMPILER=g++-8", "-DCMAKE_C_COMPILER=gcc-8"]
     override-build: |
       # The build system for this plugin is slightly broken.
       # The initial cmake to makes the libs discoverable by `snapcraftctl build`

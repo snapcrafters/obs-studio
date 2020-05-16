@@ -505,11 +505,6 @@ parts:
     source: https://github.com/admshao/obs-transition-matrix.git
     source-tag: 'v1.0'
     configflags: ["-DCMAKE_INSTALL_PREFIX=/usr", "-DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET", "-DCMAKE_CXX_COMPILER=g++-8", "-DCMAKE_C_COMPILER=gcc-8"]
-    override-build: |
-      # The build system for this plugin is slightly broken.
-      # The initial cmake to makes the libs discoverable by `snapcraftctl build`
-      cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIBOBS_LIB=${SNAPCRAFT_STAGE}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET} ${SNAPCRAFT_PART_SRC} 2>/dev/null || true
-      snapcraftctl build
     override-prime: |
       if echo __SIZEOF_POINTER__ | cpp -E - - | grep '^8$' >/dev/null; then
         cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/obs-plugins/obs-transition-matrix.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/64bit/

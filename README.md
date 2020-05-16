@@ -40,6 +40,7 @@ The snap of OBS studio comes pre-loaded with some additions features and plugins
   * **[Scrab](https://github.com/univrsal/scrab)** plugin.
   * **[Input Overlay](https://github.com/univrsal/input-overlay)** plugin.
   * **[StreamFX](https://github.com/Xaymar/obs-StreamFX)** plugin.
+  * **[DVD Screensaver](https://github.com/univrsal/dvds3)** plugin.
 ## V4L2Sink
 
 To make use of the V4L2Sink plugin to create a virtual webcam, install

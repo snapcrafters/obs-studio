@@ -242,6 +242,8 @@ parts:
 
   libuiohook:
     plugin: autotools
+    configflags:
+      - --prefix=/usr
     source: https://github.com/kwhat/libuiohook.git
     source-tag: '1.0.3'
   

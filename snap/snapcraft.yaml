@@ -66,6 +66,7 @@ apps:
       - removable-media
       - wayland
       - jack1
+      - joystick
 
 parts:
   sem-open-preload:
@@ -101,7 +102,7 @@ parts:
     after: [ nv-codec-headers ]
     plugin: autotools
     source: https://github.com/FFmpeg/FFmpeg.git
-    source-tag: 'n4.2.2'
+    source-branch: release/4.2
     source-depth: 1
     build-packages:
       - libass-dev
@@ -117,6 +118,7 @@ parts:
       - libopencore-amrwb-dev
       - libopus-dev
       - libpulse-dev
+      - librsvg2-dev
       - libsctp-dev
       - libsdl2-dev
       - libspeex-dev
@@ -128,6 +130,7 @@ parts:
       - libvorbis-dev
       - libvpx-dev
       - libx264-dev
+      - libx265-dev
       - libxcb-shape0-dev
       - libxcb-shm0-dev
       - libxcb-xfixes0-dev
@@ -152,6 +155,7 @@ parts:
       - libopencore-amrwb0
       - libopus0
       - libpulse0
+      - librsvg2-2
       - libsdl2-2.0-0
       - libspeex1
       - libtheora0
@@ -166,6 +170,7 @@ parts:
       - libvorbisenc2
       - libvpx5
       - libx264-152
+      - libx265-146
       - libx11-6
       - libxau6
       - libxcb-shape0
@@ -189,13 +194,12 @@ parts:
       - --prefix=/usr
       - --disable-debug
       - --disable-doc
-      - --disable-libx265
+      - --disable-programs
       - --disable-static
       - --enable-avisynth
       - --enable-cuda
       - --enable-cuvid
       - --enable-libdrm
-      - --enable-ffplay
       - --enable-gnutls
       - --enable-gpl
       - --enable-libass
@@ -223,6 +227,7 @@ parts:
       - --enable-openal
       - --enable-opencl
       - --enable-runtime-cpudetect
+      - --enable-librsvg
       - --enable-shared
       - --enable-vaapi
       - --enable-vdpau
@@ -238,6 +243,8 @@ parts:
 
   libuiohook:
     plugin: autotools
+    configflags:
+      - --prefix=/usr
     source: https://github.com/kwhat/libuiohook.git
     source-tag: '1.0.3'
   
@@ -246,7 +253,7 @@ parts:
     source: https://github.com/univrsal/netlib.git
     source-tag: 'v0.2'
     override-build: |
-      cmake -DCMAKE_INSTALL_PREFIX=/usr ${SNAPCRAFT_PART_SRC}
+      cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_CXX_COMPILER=g++-8 -DCMAKE_C_COMPILER=gcc-8 ${SNAPCRAFT_PART_SRC}
       make
     organize:
       libnetlib.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libnetlib.so
@@ -261,7 +268,7 @@ parts:
       # Required for input-overlay
       - libuiohook
       - netlib
-    configflags: ["-DUNIX_STRUCTURE=0", "-DDISABLE_UPDATE_MODULE=TRUE", "-DCMAKE_INSTALL_PREFIX=/usr", "-DBUILD_BROWSER=ON", "-DCEF_ROOT_DIR=$SNAPCRAFT_PART_SRC/cef_binary"]
+    configflags: ["-DUNIX_STRUCTURE=0", "-DDISABLE_UPDATE_MODULE=TRUE", "-DCMAKE_INSTALL_PREFIX=/usr", "-DBUILD_BROWSER=ON", "-DCEF_ROOT_DIR=$SNAPCRAFT_PART_SRC/cef_binary", "-DCMAKE_CXX_COMPILER=g++-8", "-DCMAKE_C_COMPILER=gcc-8"]
     source: https://github.com/obsproject/obs-studio.git
     override-pull: |
       snapcraftctl pull
@@ -296,32 +303,77 @@ parts:
         rm ${SNAPCRAFT_PART_SRC}/cef.tar.bz2
       fi
 
-      # Get the SceneSwitcher plugin - https://github.com/WarmUpTill/SceneSwitcher
+      # SceneSwitcher - https://github.com/WarmUpTill/SceneSwitcher
       cd ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/
-      git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git
+      git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git --branch 1.5
       echo "add_subdirectory(SceneSwitcher)" >> CMakeLists.txt
-      cd SceneSwitcher
-      git checkout 1.5
 
-      # FTBFS
-      #cd ${SNAPCRAFT_PART_SRC}/plugins/
-      #git clone --recursive https://github.com/univrsal/input-overlay.git
-      #echo "add_subdirectory(input-overlay)" >> CMakeLists.txt
-      #cd input-overlay
-      #git checkout v4.8
-      #sed -i '1s/^/cmake_minimum_required(VERSION 3.5)\n/' CMakeLists.txt
+      # Source Switcher - https://github.com/exeldro/obs-source-switcher
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/exeldro/obs-source-switcher.git source-switcher
+      echo "add_subdirectory(source-switcher)" >> CMakeLists.txt
+
+      # Move Transition - https://github.com/exeldro/obs-move-transition
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/exeldro/obs-move-transition.git move-transition --branch 1.1.3
+      echo "add_subdirectory(move-transition)" >> CMakeLists.txt
+
+      # Freeze Filter - https://github.com/exeldro/obs-freeze-filter
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/exeldro/obs-freeze-filter.git freeze-filter --branch 0.0.2
+      echo "add_subdirectory(freeze-filter)" >> CMakeLists.txt
+
+      # Replay Source - https://github.com/exeldro/obs-replay-source
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/exeldro/obs-replay-source.git replay-source --branch 1.5.4
+      echo "add_subdirectory(replay-source)" >> CMakeLists.txt
+      cd replay-source
+      sed -i 's/install_obs_plugin_with_data(replay-source data)/install_obs_plugin(replay-source)/' CMakeLists.txt
+
+      # Websocket - https://github.com/Palakis/obs-websocket
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/Palakis/obs-websocket.git --branch 4.7.0
+      echo "add_subdirectory(obs-websocket)" >> CMakeLists.txt
+
+      # Spectralizer - https://github.com/univrsal/spectralizer
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/univrsal/spectralizer.git --branch v1.2
+      echo "add_subdirectory(spectralizer)" >> CMakeLists.txt
+
+      # Scrab - https://github.com/univrsal/scrab
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/univrsal/scrab.git --branch v1.1
+      echo "add_subdirectory(scrab)" >> CMakeLists.txt
+
+      # StreamFX - https://github.com/Xaymar/obs-StreamFX
+      cd ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/
+      git submodule add https://github.com/Xaymar/obs-StreamFX.git streamfx --branch 0.8.0b3
+      echo "add_subdirectory(streamfx)" >> CMakeLists.txt
+
+      # Input Overlay - https://github.com/univrsal/input-overlay
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/univrsal/input-overlay.git --branch v4.8
+      echo "add_subdirectory(input-overlay)" >> CMakeLists.txt
 
     override-build: |
-      # obs-frontend-api.h is required for plugins to build  
-      cp -v ${SNAPCRAFT_PART_SRC}/UI/obs-frontend-api/obs-frontend-api.h ${SNAPCRAFT_STAGE}/usr/include/  
+      # obs-frontend-api.h is required for plugins to build
+      cp -v ${SNAPCRAFT_PART_SRC}/UI/obs-frontend-api/obs-frontend-api.h ${SNAPCRAFT_STAGE}/usr/include/
+      # ObsPluginHelpers.cmake
+      mkdir -p ${SNAPCRAFT_STAGE}/usr/cmake/external
+      cp -v ${SNAPCRAFT_PART_SRC}/cmake/external/ObsPluginHelpers.cmake ${SNAPCRAFT_STAGE}/usr/cmake/external/ObsPluginHelpers.cmake
       snapcraftctl build
-      
+      # Fix some missing theme assets
+      cp ${SNAPCRAFT_PART_SRC}/UI/data/themes/Dark/close.svg ${SNAPCRAFT_PART_INSTALL}/usr/data/obs-studio/themes/Dark/Close.svg
+      cp ${SNAPCRAFT_PART_SRC}/UI/data/themes/Dark/popout.svg ${SNAPCRAFT_PART_INSTALL}/usr/data/obs-studio/themes/Dark/Popout.svg
+
     organize:
       usr/bin/*bit/*.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/
       usr/bin/*bit/lib*.0: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/
     build-packages:
       # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
       - bzip2
+      - gcc-8
+      - g++-8
       - wget
       - build-essential
       - libmbedtls-dev
@@ -367,6 +419,14 @@ parts:
       - libnss3-dev
       - libnspr4-dev
       - libxtst-dev
+      # Required by obs-websocket
+      - libasio-dev
+      - libwebsocketpp-dev
+      # Required by Spectralizer
+      - libfftw3-dev
+      # Required by StreamFX
+      #- libqt5x11extras5-dev
+      - ninja-build
     stage-packages:
       # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
       - libmbedcrypto1
@@ -409,20 +469,10 @@ parts:
       - libnss3
       - libnspr4
       - libxtst6
-  obs-websocket:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/Palakis/obs-websocket.git
-    source-tag: '4.7.0'
-    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr"]
-    override-prime: |
-      if echo __SIZEOF_POINTER__ | cpp -E - - | grep '^8$' >/dev/null; then
-        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/obs-plugins/obs-websocket.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/64bit/
-      else
-        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/obs-plugins/obs-websocket.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/32bit/
-      fi
-      mkdir -p ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-websocket/locale
-      mv -v ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/obs-websocket/locale/*.ini ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-websocket/locale/
+      # Required by Spectralizer
+      - libfftw3-3
+      # Required by Input Overlay
+      - libxt6
 
   obs-v4l2sink:
     plugin: cmake
@@ -430,11 +480,11 @@ parts:
     #source: https://github.com/CatxFish/obs-v4l2sink.git
     # Using my fork for now as it rolls up various fixes missing from upstream.
     source: https://github.com/flexiondotorg/obs-v4l2sink.git
-    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr", "-DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET"]
+    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr", "-DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET", "-DCMAKE_CXX_COMPILER=g++-8", "-DCMAKE_C_COMPILER=gcc-8"]
     override-build: |
       # The build system for this plugin is slightly broken.
       # The initial cmake to makes the libs discoverable by `snapcraftctl build`
-      cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIBOBS_LIB=${SNAPCRAFT_STAGE}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET} ${SNAPCRAFT_PART_SRC} 2>/dev/null || true
+      cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIBOBS_LIB=${SNAPCRAFT_STAGE}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET} -DCMAKE_CXX_COMPILER=g++-8 -DCMAKE_C_COMPILER=gcc-8 ${SNAPCRAFT_PART_SRC} 2>/dev/null || true
       snapcraftctl build
     override-prime: |
       if echo __SIZEOF_POINTER__ | cpp -E - - | grep '^8$' >/dev/null; then
@@ -444,6 +494,53 @@ parts:
       fi
       mkdir -p ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/v4l2sink/locale
       mv -v ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/v4l2sink/locale/*.ini ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/v4l2sink/locale/
+
+  obs-transition-matrix:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/admshao/obs-transition-matrix.git
+    source-tag: 'v1.0'
+    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr", "-DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET", "-DCMAKE_CXX_COMPILER=g++-8", "-DCMAKE_C_COMPILER=gcc-8"]
+    override-prime: |
+      if echo __SIZEOF_POINTER__ | cpp -E - - | grep '^8$' >/dev/null; then
+        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/obs-plugins/obs-transition-matrix.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/64bit/
+      else
+        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/obs-plugins/obs-transition-matrix.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/32bit/
+      fi
+      mkdir -p ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-transition-matrix/locale
+      mv -v ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/obs-transition-matrix/locale/*.ini ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-transition-matrix/locale/
+
+  obs-dvd-screensaver:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/univrsal/dvds3.git
+    source-tag: 'independent-build'
+    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr", "-DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET", "-DCMAKE_CXX_COMPILER=g++-8", "-DCMAKE_C_COMPILER=gcc-8"]
+    override-prime: |
+      if echo __SIZEOF_POINTER__ | cpp -E - - | grep '^8$' >/dev/null; then
+        cp ${SNAPCRAFT_PART_INSTALL}/root/.config/obs-studio/plugins/dvd-screensaver/bin/64bit/dvd-screensaver.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/64bit/
+      else
+        cp ${SNAPCRAFT_PART_INSTALL}/root/.config/obs-studio/plugins/dvd-screensaver/bin/32bit/dvd-screensaver.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/32bit/
+      fi
+      mkdir -p ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/dvd-screensaver/locale
+      mv -v ${SNAPCRAFT_PART_INSTALL}/root/.config/obs-studio/plugins/dvd-screensaver/data/locale/*.ini ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/dvd-screensaver/locale/ || true
+      cp -v ${SNAPCRAFT_PART_SRC}/data/dvd.png ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/dvd-screensaver/
+
+  obs-vintage-filter:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/cg2121/obs-vintage-filter.git
+    source-tag: 'v0.1'
+    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr", "-DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET", "-DCMAKE_CXX_COMPILER=g++-8", "-DCMAKE_C_COMPILER=gcc-8"]
+    override-prime: |
+      if echo __SIZEOF_POINTER__ | cpp -E - - | grep '^8$' >/dev/null; then
+        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/obs-plugins/obs-vintage-filter.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/64bit/
+      else
+        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/obs-plugins/obs-vintage-filter.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/32bit/
+      fi
+      mkdir -p ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-vintage-filter/locale
+      mv -v ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/obs-vintage-filter/*.effect ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-vintage-filter/
+      mv -v ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/obs-vintage-filter/locale/*.ini ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-vintage-filter/locale/
 
   launcher:
     after:  [ obs ]
@@ -461,4 +558,5 @@ parts:
         rm -rf ${SNAPCRAFT_PRIME}/${CRUFT}
       done
       find ${SNAPCRAFT_PRIME}/usr/share/doc/ -type f -not -name 'copyright' -delete
+      rm -v ${SNAPCRAFT_PRIME}/usr/share/doc/*/changelog.Debian.gz
       find ${SNAPCRAFT_PRIME}/usr/share -type d -empty -delete

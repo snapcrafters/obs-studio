@@ -19,6 +19,7 @@
 ## Install
 
     sudo snap install obs-studio
+    snap connect obs-studio:joystick
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/obs-studio)
 
@@ -26,22 +27,22 @@
 
 The snap of OBS studio comes pre-loaded with some additions features and plugins.
 
-  * FFmpeg supports **nvenc and VA-API accelerated video encoding**.
-  * **[Browser](https://github.com/obsproject/obs-browser)** plugin; add web sources to your stream.
-  * **[Websockets](https://github.com/Palakis/obs-websocket)** plugin; compatible with [StreamControl](https://play.google.com/store/apps/details?id=dev.t4ils.obs_remote&hl=en) and other remote controls.
-  * **[V4L2Sink](https://github.com/CatxFish/obs-v4l2sink)** plugin; to [create virtual webcams](https://github.com/umlaeute/v4l2loopback#run).
-  * **[Advanced Scene Switcher](https://github.com/WarmUpTill/SceneSwitcher)** plugin.
-  * **[Source Switcher](https://github.com/exeldro/obs-source-switcher)** plugin.
-  * **[Move Transition](https://github.com/exeldro/obs-move-transition)** plugin.
-  * **[Transition Matrix](https://github.com/admshao/obs-transition-matrix)** plugin.
-  * **[Freeze Filter](https://github.com/exeldro/obs-freeze-filter)** plugin.
-  * **[Replay Source](https://github.com/exeldro/obs-replay-source)** plugin.
-  * **[Spectralizer](https://github.com/univrsal/spectralizer)** plugin.
-  * **[Scrab](https://github.com/univrsal/scrab)** plugin.
-  * **[Input Overlay](https://github.com/univrsal/input-overlay)** plugin.
-  * **[StreamFX](https://github.com/Xaymar/obs-StreamFX)** plugin.
-  * **[DVD Screensaver](https://github.com/univrsal/dvds3)** plugin.
-  * **[Vintage Filter](https://github.com/cg2121/obs-vintage-filter)** plugin.
+  * FFmpeg supports **nvenc (NVIDIA) and VA-API (AMD & Intel) accelerated video encoding**.
+  * **[Advanced Scene Switcher](https://github.com/WarmUpTill/SceneSwitcher)** plugin; an automated scene switcher.
+  * **[Browser](https://github.com/obsproject/obs-browser)** plugin; CEF-based OBS Studio browser plugin.
+  * **[DVD Screensaver](https://github.com/univrsal/dvds3)** plugin; a DVD screen saver source type.
+  * **[Freeze Filter](https://github.com/exeldro/obs-freeze-filter)** plugin; freeze a source using a filter.
+  * **[Input Overlay](https://github.com/univrsal/input-overlay)** plugin; show keyboard, gamepad and mouse input on stream.
+  * **[Move Transition](https://github.com/exeldro/obs-move-transition)** plugin; move source to a new position during scene transition.
+  * **[Replay Source](https://github.com/exeldro/obs-replay-source)** plugin; slow motion replay async sources from memory.
+  * **[Scrab](https://github.com/univrsal/scrab)** plugin; adds a configurable hotkey to quickly select a screen region and add it as an image source to the current scene.
+  * **[Source Switcher](https://github.com/exeldro/obs-source-switcher)** plugin; to switch between a list of sources.
+  * **[Spectralizer](https://github.com/univrsal/spectralizer)** plugin; audio visualization using fftw.
+  * **[StreamFX](https://github.com/Xaymar/obs-StreamFX)** plugin; collection modern effects filters and transitions.
+  * **[Transition Matrix](https://github.com/admshao/obs-transition-matrix)** plugin; customize Any -> One or One -> One scene transitions.
+  * **[V4L2Sink](https://github.com/CatxFish/obs-v4l2sink)** plugin; provides output capabilities to a Video4Linux2 device to create virtual webcams.
+  * **[Vintage Filter](https://github.com/cg2121/obs-vintage-filter)** plugin; black & white or sepia source filter.
+  * **[Websockets](https://github.com/Palakis/obs-websocket)** plugin; remote-control OBS Studio through WebSockets, compatible with [StreamControl](https://play.google.com/store/apps/details?id=dev.t4ils.obs_remote&hl=en).
 
 ## V4L2Sink
 

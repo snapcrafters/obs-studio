@@ -130,6 +130,7 @@ parts:
       - libvorbis-dev
       - libvpx-dev
       - libx264-dev
+      - libx265-dev
       - libxcb-shape0-dev
       - libxcb-shm0-dev
       - libxcb-xfixes0-dev
@@ -169,6 +170,7 @@ parts:
       - libvorbisenc2
       - libvpx5
       - libx264-152
+      - libx265-146
       - libx11-6
       - libxau6
       - libxcb-shape0
@@ -192,7 +194,6 @@ parts:
       - --prefix=/usr
       - --disable-debug
       - --disable-doc
-      - --disable-libx265
       - --disable-programs
       - --disable-static
       - --enable-avisynth

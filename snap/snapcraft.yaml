@@ -102,7 +102,7 @@ parts:
     after: [ nv-codec-headers ]
     plugin: autotools
     source: https://github.com/FFmpeg/FFmpeg.git
-    source-tag: 'n4.2.2'
+    source-branch: release/4.2
     source-depth: 1
     build-packages:
       - libass-dev

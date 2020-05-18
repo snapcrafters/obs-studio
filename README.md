@@ -59,7 +59,7 @@ sudo apt -y install v4l2loopback-dkms v4l2loopback-utils
 echo "options v4l2loopback devices=1 video_nr=99 card_label=VirtualCam exclusive_caps=1" | sudo tee /etc/modprobe.d/v4l2loopback.conf
 echo "v4l2loopback" | sudo tee /etc/modules-load.d/v4l2loopback.conf
 sudo modprobe -r v4l2loopback
-sudo modprobe v4l2loopback
+sudo modprobe v4l2loopback devices=1 video_nr=99 card_label=VirtualCam exclusive_caps=1"
 ```
 
 Then use `/dev/video99` as the path to V4L2 device in *Tools -> V4L2 Video Output*.

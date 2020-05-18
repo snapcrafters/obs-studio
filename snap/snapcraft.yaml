@@ -34,6 +34,20 @@ plugs:
     target: $SNAP/data-dir/sounds
     default-provider: gtk-common-themes
 
+layout:
+  /usr/lib/obs-plugins:
+    bind: $SNAP/usr/lib/obs-plugins
+  /usr/lib/obs-scripting:
+    bind: $SNAP/usr/lib/obs-scripting
+  /usr/local/lib:
+    bind: $SNAP/usr/local/lib
+  /usr/share/alsa:
+    bind: $SNAP/usr/share/alsa
+  /usr/share/obs:
+    bind: $SNAP/usr/share/obs
+  /usr/share/X11:
+    bind: $SNAP/usr/share/X11
+
 apps:
   obs-studio:
     command: desktop-launch $SNAP/bin/launcher
@@ -310,6 +324,7 @@ parts:
       - -DCMAKE_C_COMPILER=gcc-8
       - -DCMAKE_CXX_COMPILER=g++-8
       - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DUNIX_STRUCTURE=1
       - -DDISABLE_UPDATE_MODULE=TRUE
       - -DBUILD_BROWSER=ON
       - -DCEF_ROOT_DIR=$SNAPCRAFT_PART_SRC/cef_binary
@@ -401,18 +416,16 @@ parts:
 
     override-build: |
       # obs-frontend-api.h is required for plugins to build
-      cp -v ${SNAPCRAFT_PART_SRC}/UI/obs-frontend-api/obs-frontend-api.h ${SNAPCRAFT_STAGE}/usr/include/
+      mkdir -p ${SNAPCRAFT_STAGE}/usr/include/obs || true
+      cp -v ${SNAPCRAFT_PART_SRC}/UI/obs-frontend-api/*.h ${SNAPCRAFT_STAGE}/usr/include/obs/
       # ObsPluginHelpers.cmake
-      mkdir -p ${SNAPCRAFT_STAGE}/usr/cmake/external
-      cp -v ${SNAPCRAFT_PART_SRC}/cmake/external/ObsPluginHelpers.cmake ${SNAPCRAFT_STAGE}/usr/cmake/external/ObsPluginHelpers.cmake
+      mkdir -p ${SNAPCRAFT_STAGE}/usr/include/cmake/external || true
+      cp -v ${SNAPCRAFT_PART_SRC}/cmake/external/*.cmake ${SNAPCRAFT_STAGE}/usr/include/cmake/external/
       snapcraftctl build
       # Fix some missing theme assets
-      cp ${SNAPCRAFT_PART_SRC}/UI/data/themes/Dark/close.svg ${SNAPCRAFT_PART_INSTALL}/usr/data/obs-studio/themes/Dark/Close.svg
-      cp ${SNAPCRAFT_PART_SRC}/UI/data/themes/Dark/popout.svg ${SNAPCRAFT_PART_INSTALL}/usr/data/obs-studio/themes/Dark/Popout.svg
+      cp ${SNAPCRAFT_PART_SRC}/UI/data/themes/Dark/close.svg ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-studio/themes/Dark/Close.svg
+      cp ${SNAPCRAFT_PART_SRC}/UI/data/themes/Dark/popout.svg ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-studio/themes/Dark/Popout.svg
 
-    organize:
-      usr/bin/*bit/*.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/
-      usr/bin/*bit/lib*.0: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/
     build-packages:
       # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
       - bzip2

@@ -394,11 +394,6 @@ parts:
       cd replay-source
       sed -i 's/install_obs_plugin_with_data(replay-source data)/install_obs_plugin(replay-source)/' CMakeLists.txt
 
-      # Websocket - https://github.com/Palakis/obs-websocket
-      cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/Palakis/obs-websocket.git --branch 4.7.0
-      echo "add_subdirectory(obs-websocket)" >> CMakeLists.txt
-
       # Spectralizer - https://github.com/univrsal/spectralizer
       cd ${SNAPCRAFT_PART_SRC}/plugins/
       git clone --recursive https://github.com/univrsal/spectralizer.git --branch v1.2
@@ -476,9 +471,6 @@ parts:
       - libnss3-dev
       - libnspr4-dev
       - libxtst-dev
-      # Required by obs-websocket
-      - libasio-dev
-      - libwebsocketpp-dev
       # Required by Spectralizer
       - libfftw3-dev
       # Required by StreamFX
@@ -594,8 +586,21 @@ parts:
         cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/obs-plugins/obs-vintage-filter.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/32bit/
       fi
       mkdir -p ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-vintage-filter/locale
-      mv -v ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/obs-vintage-filter/*.effect ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-vintage-filter/
-      mv -v ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/obs-vintage-filter/locale/*.ini ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-vintage-filter/locale/
+  obs-websocket:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/Palakis/obs-websocket.git
+    source-tag: '4.7.0'
+    configflags:
+      - -DCMAKE_C_COMPILER=gcc-8
+      - -DCMAKE_CXX_COMPILER=g++-8
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
+    build-packages:
+      - libasio-dev
+      - libwebsocketpp-dev
+    prime:
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-websocket.so
 
   launcher:
     after:  [ obs ]

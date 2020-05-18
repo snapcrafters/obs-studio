@@ -621,5 +621,5 @@ parts:
         rm -rf ${SNAPCRAFT_PRIME}/${CRUFT}
       done
       find ${SNAPCRAFT_PRIME}/usr/share/doc/ -type f -not -name 'copyright' -delete
-      rm -v ${SNAPCRAFT_PRIME}/usr/share/doc/*/changelog.Debian.gz
+      rm -v ${SNAPCRAFT_PRIME}/usr/share/doc/*/changelog.Debian.gz || true
       find ${SNAPCRAFT_PRIME}/usr/share -type d -empty -delete

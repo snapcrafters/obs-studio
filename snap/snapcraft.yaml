@@ -362,6 +362,10 @@ parts:
         rm ${SNAPCRAFT_PART_SRC}/cef.tar.bz2
       fi
 
+      ####
+      #  The following plugins are all intended to be built in tree
+      ####
+
       # SceneSwitcher - https://github.com/WarmUpTill/SceneSwitcher
       cd ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/
       git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git --branch 1.5

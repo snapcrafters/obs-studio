@@ -305,6 +305,7 @@ parts:
         -DCMAKE_CXX_COMPILER=g++-8 \
         -DCMAKE_C_COMPILER=gcc-8 \
         -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_BUILD_TYPE=Release \
         ${SNAPCRAFT_PART_SRC}
       make
     organize:
@@ -324,6 +325,7 @@ parts:
       - -DCMAKE_C_COMPILER=gcc-8
       - -DCMAKE_CXX_COMPILER=g++-8
       - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
       - -DUNIX_STRUCTURE=1
       - -DDISABLE_UPDATE_MODULE=TRUE
       - -DBUILD_BROWSER=ON
@@ -595,6 +597,7 @@ parts:
       - -DCMAKE_C_COMPILER=gcc-8
       - -DCMAKE_CXX_COMPILER=g++-8
       - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
       - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
     build-packages:
       - libasio-dev

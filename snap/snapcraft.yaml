@@ -578,14 +578,14 @@ parts:
     after: [ obs ]
     source: https://github.com/cg2121/obs-vintage-filter.git
     source-tag: 'v0.1'
-    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr", "-DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET", "-DCMAKE_CXX_COMPILER=g++-8", "-DCMAKE_C_COMPILER=gcc-8"]
-    override-prime: |
-      if echo __SIZEOF_POINTER__ | cpp -E - - | grep '^8$' >/dev/null; then
-        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/obs-plugins/obs-vintage-filter.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/64bit/
-      else
-        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/obs-plugins/obs-vintage-filter.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/32bit/
-      fi
-      mkdir -p ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-vintage-filter/locale
+    configflags:
+      - -DCMAKE_C_COMPILER=gcc-8
+      - -DCMAKE_CXX_COMPILER=g++-8
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
+      - -DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/
+
   obs-websocket:
     plugin: cmake
     after: [ obs ]

@@ -553,15 +553,13 @@ parts:
     after: [ obs ]
     source: https://github.com/admshao/obs-transition-matrix.git
     source-tag: 'v1.0'
-    configflags: ["-DCMAKE_INSTALL_PREFIX=/usr", "-DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET", "-DCMAKE_CXX_COMPILER=g++-8", "-DCMAKE_C_COMPILER=gcc-8"]
-    override-prime: |
-      if echo __SIZEOF_POINTER__ | cpp -E - - | grep '^8$' >/dev/null; then
-        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/obs-plugins/obs-transition-matrix.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/64bit/
-      else
-        cp ${SNAPCRAFT_PART_INSTALL}/usr/lib/obs-plugins/obs-transition-matrix.so ${SNAPCRAFT_PRIME}/usr/obs-plugins/32bit/
-      fi
-      mkdir -p ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-transition-matrix/locale
-      mv -v ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/obs-transition-matrix/locale/*.ini ${SNAPCRAFT_PRIME}/usr/data/obs-plugins/obs-transition-matrix/locale/
+    configflags:
+      - -DCMAKE_C_COMPILER=gcc-8
+      - -DCMAKE_CXX_COMPILER=g++-8
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
+      - -DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/
 
   obs-dvd-screensaver:
     plugin: cmake

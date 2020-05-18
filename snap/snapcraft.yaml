@@ -632,6 +632,23 @@ parts:
       ln -s "libndi.so.4".*.* "libndi.so.4"
       ln -s "libndi.so.4".*.*  libndi.so
 
+  obs-ndi:
+    plugin: cmake
+    after: 
+      - obs
+      - libndi
+    source: https://github.com/Palakis/obs-ndi.git
+    source-tag: '4.9.1'
+    configflags:
+      - -DCMAKE_C_COMPILER=gcc-8
+      - -DCMAKE_CXX_COMPILER=g++-8
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DUSE_UBUNTU_FIX=true
+      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
+    prime:
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-ndi.so
+
   launcher:
     after:  [ obs ]
     plugin: dump

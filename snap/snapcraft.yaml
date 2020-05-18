@@ -72,14 +72,24 @@ parts:
   sem-open-preload:
     source: https://github.com/sergiusens/sem-open-preload.git
     plugin: make
+    make-parameters:
+      - CC=gcc-8
+      - CXX=g++-8
+    build-packages:
+      - gcc-8
+      - g++-8
 
   desktop-qt5:
     build-packages:
+      - gcc-8
+      - g++-8
       - qtbase5-dev
       - dpkg-dev
-    make-parameters:
-      - FLAVOR=qt5
     plugin: make
+    make-parameters:
+      - CC=gcc-8
+      - CXX=g++-8
+      - FLAVOR=qt5
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
     source-subdir: qt
     stage-packages:
@@ -91,11 +101,15 @@ parts:
 
   nv-codec-headers:
     plugin: make
+    make-parameters:
+      - CC=gcc-8
+      - CXX=g++-8
+      - PREFIX=/usr
     source: https://github.com/FFmpeg/nv-codec-headers.git
     source-tag: 'n9.1.23.1'
-    override-build: |
-      make install PREFIX=/usr
     build-packages:
+      - gcc-8
+      - g++-8
       - pkg-config
 
   ffmpeg:
@@ -105,6 +119,8 @@ parts:
     source-branch: release/4.2
     source-depth: 1
     build-packages:
+      - gcc-8
+      - g++-8
       - libass-dev
       - libbz2-dev
       - libdrm-dev
@@ -191,6 +207,8 @@ parts:
         - i965-va-driver
         - libcrystalhd3
     configflags:
+      - --cc=gcc-8
+      - --cxx=g++-8
       - --prefix=/usr
       - --disable-debug
       - --disable-doc
@@ -244,16 +262,36 @@ parts:
   libuiohook:
     plugin: autotools
     configflags:
+      - CC=gcc-8
+      - CCX=g++-8
       - --prefix=/usr
     source: https://github.com/kwhat/libuiohook.git
     source-tag: '1.0.3'
-  
+    build-packages:
+      - gcc-8
+      - g++-8
+      - libxinerama-dev
+      - libxt-dev
+      - libxtst-dev
+      - pkg-config
+    stage-packages:
+      - libxinerama1
+      - libxt6
+      - libxtst6
+
   netlib:
     plugin: cmake
     source: https://github.com/univrsal/netlib.git
     source-tag: 'v0.2'
+    build-packages:
+      - gcc-8
+      - g++-8
     override-build: |
-      cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_CXX_COMPILER=g++-8 -DCMAKE_C_COMPILER=gcc-8 ${SNAPCRAFT_PART_SRC}
+      cmake \
+        -DCMAKE_CXX_COMPILER=g++-8 \
+        -DCMAKE_C_COMPILER=gcc-8 \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        ${SNAPCRAFT_PART_SRC}
       make
     organize:
       libnetlib.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libnetlib.so
@@ -268,7 +306,13 @@ parts:
       # Required for input-overlay
       - libuiohook
       - netlib
-    configflags: ["-DUNIX_STRUCTURE=0", "-DDISABLE_UPDATE_MODULE=TRUE", "-DCMAKE_INSTALL_PREFIX=/usr", "-DBUILD_BROWSER=ON", "-DCEF_ROOT_DIR=$SNAPCRAFT_PART_SRC/cef_binary", "-DCMAKE_CXX_COMPILER=g++-8", "-DCMAKE_C_COMPILER=gcc-8"]
+    configflags:
+      - -DCMAKE_C_COMPILER=gcc-8
+      - -DCMAKE_CXX_COMPILER=g++-8
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DDISABLE_UPDATE_MODULE=TRUE
+      - -DBUILD_BROWSER=ON
+      - -DCEF_ROOT_DIR=$SNAPCRAFT_PART_SRC/cef_binary
     source: https://github.com/obsproject/obs-studio.git
     override-pull: |
       snapcraftctl pull

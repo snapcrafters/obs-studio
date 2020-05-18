@@ -390,9 +390,8 @@ parts:
       # Replay Source - https://github.com/exeldro/obs-replay-source
       cd ${SNAPCRAFT_PART_SRC}/plugins/
       git clone --recursive https://github.com/exeldro/obs-replay-source.git replay-source --branch 1.5.4
+      sed -i 's/install_obs_plugin_with_data(replay-source data)/install_obs_plugin(replay-source)/' replay-source/CMakeLists.txt
       echo "add_subdirectory(replay-source)" >> CMakeLists.txt
-      cd replay-source
-      sed -i 's/install_obs_plugin_with_data(replay-source data)/install_obs_plugin(replay-source)/' CMakeLists.txt
 
       # Spectralizer - https://github.com/univrsal/spectralizer
       cd ${SNAPCRAFT_PART_SRC}/plugins/

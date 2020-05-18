@@ -474,7 +474,6 @@ parts:
       # Required by Spectralizer
       - libfftw3-dev
       # Required by StreamFX
-      #- libqt5x11extras5-dev
       - ninja-build
     stage-packages:
       # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
@@ -520,8 +519,6 @@ parts:
       - libxtst6
       # Required by Spectralizer
       - libfftw3-3
-      # Required by Input Overlay
-      - libxt6
 
   obs-v4l2sink:
     plugin: cmake

@@ -38,6 +38,7 @@ The snap of OBS studio comes pre-loaded with some additions features and plugins
   * **[Freeze Filter](https://github.com/exeldro/obs-freeze-filter)** plugin; freeze a source using a filter.
   * **[Input Overlay](https://github.com/univrsal/input-overlay)** plugin; show keyboard, gamepad and mouse input on stream.
   * **[Move Transition](https://github.com/exeldro/obs-move-transition)** plugin; move source to a new position during scene transition.
+  * **[NDI](https://github.com/Palakis/obs-ndi)** plugin; Network A/V via NewTek's NDI.
   * **[Replay Source](https://github.com/exeldro/obs-replay-source)** plugin; slow motion replay async sources from memory.
   * **[Scrab](https://github.com/univrsal/scrab)** plugin; adds a configurable hotkey to quickly select a screen region and add it as an image source to the current scene.
   * **[Source Switcher](https://github.com/exeldro/obs-source-switcher)** plugin; to switch between a list of sources.
@@ -58,7 +59,7 @@ sudo apt -y install v4l2loopback-dkms v4l2loopback-utils
 echo "options v4l2loopback devices=1 video_nr=99 card_label=VirtualCam exclusive_caps=1" | sudo tee /etc/modprobe.d/v4l2loopback.conf
 echo "v4l2loopback" | sudo tee /etc/modules-load.d/v4l2loopback.conf
 sudo modprobe -r v4l2loopback
-sudo modprobe v4l2loopback
+sudo modprobe v4l2loopback devices=1 video_nr=99 card_label=VirtualCam exclusive_caps=1"
 ```
 
 Then use `/dev/video99` as the path to V4L2 device in *Tools -> V4L2 Video Output*.

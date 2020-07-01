@@ -34,6 +34,7 @@ The snap of OBS studio comes pre-loaded with some additions features and plugins
   * FFmpeg supports **nvenc (NVIDIA) and VA-API (AMD & Intel) accelerated video encoding**.
   * **[Advanced Scene Switcher](https://github.com/WarmUpTill/SceneSwitcher)** plugin; an automated scene switcher.
   * **[Browser](https://github.com/obsproject/obs-browser)** plugin; CEF-based OBS Studio browser plugin.
+  * **[Directory Watch Media](https://github.com/exeldro/obs-dir-watch-media)** plugin; filter you can add to media source to load the oldest or newest file in a directory.
   * **[DVD Screensaver](https://github.com/univrsal/dvds3)** plugin; a DVD screen saver source type.
   * **[Freeze Filter](https://github.com/exeldro/obs-freeze-filter)** plugin; freeze a source using a filter.
   * **[Input Overlay](https://github.com/univrsal/input-overlay)** plugin; show keyboard, gamepad and mouse input on stream.

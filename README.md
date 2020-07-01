@@ -41,6 +41,7 @@ The snap of OBS studio comes pre-loaded with some additions features and plugins
   * **[Move Transition](https://github.com/exeldro/obs-move-transition)** plugin; move source to a new position during scene transition.
   * **[NDI](https://github.com/Palakis/obs-ndi)** plugin; Network A/V via NewTek's NDI.
   * **[Replay Source](https://github.com/exeldro/obs-replay-source)** plugin; slow motion replay async sources from memory.
+  * **[RGB Levels](https://github.com/petrifiedpenguin/obs-rgb-levels-filter)** plugin; simple filter to adjust RGB levels.
   * **[Scrab](https://github.com/univrsal/scrab)** plugin; adds a configurable hotkey to quickly select a screen region and add it as an image source to the current scene.
   * **[Source Switcher](https://github.com/exeldro/obs-source-switcher)** plugin; to switch between a list of sources.
   * **[Spectralizer](https://github.com/univrsal/spectralizer)** plugin; audio visualization using fftw.

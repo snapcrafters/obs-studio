@@ -375,7 +375,7 @@ parts:
 
       # StreamFX - https://github.com/Xaymar/obs-StreamFX
       cd ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/
-      git submodule add https://github.com/Xaymar/obs-StreamFX.git streamfx --branch 0.8.0b3
+      git submodule add https://github.com/Xaymar/obs-StreamFX.git streamfx --branch 0.8.0
       echo "add_subdirectory(streamfx)" >> CMakeLists.txt
 
       # Source Switcher - https://github.com/exeldro/obs-source-switcher

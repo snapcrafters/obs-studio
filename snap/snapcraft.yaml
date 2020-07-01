@@ -447,7 +447,7 @@ parts:
       #- libavutil-dev        # comes via the FFmpeg part
       - libcurl4-openssl-dev
       - libfdk-aac-dev
-      - libfontconfig-dev
+      - libfontconfig1-dev
       - libfreetype6-dev
       - libgl1-mesa-dev
       - libjack-dev           # not libjack-jackd2-dev as upstream suggests

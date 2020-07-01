@@ -593,6 +593,17 @@ parts:
       - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
       - -DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/
 
+  obs-rgb-levels:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/petrifiedpenguin/obs-rgb-levels-filter.git
+    configflags:
+      - -DCMAKE_C_COMPILER=gcc-8
+      - -DCMAKE_CXX_COMPILER=g++-8
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
+      - -DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/
   obs-websocket:
     plugin: cmake
     after: [ obs ]

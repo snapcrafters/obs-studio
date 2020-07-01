@@ -537,10 +537,10 @@ parts:
         -DCMAKE_CXX_COMPILER=g++-8 \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
-        -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
+        -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/ \
         $SNAPCRAFT_PART_SRC 2>/dev/null || true
       make
-      make install
+      make install DESTDIR=$SNAPCRAFT_PART_INSTALL
 
   obs-transition-matrix:
     plugin: cmake

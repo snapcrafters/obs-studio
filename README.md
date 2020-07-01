@@ -49,6 +49,7 @@ The snap of OBS studio comes pre-loaded with some additions features and plugins
   * **[Transition Matrix](https://github.com/admshao/obs-transition-matrix)** plugin; customize Any -> One or One -> One scene transitions.
   * **[V4L2Sink](https://github.com/CatxFish/obs-v4l2sink)** plugin; provides output capabilities to a Video4Linux2 device to create virtual webcams.
   * **[Vintage Filter](https://github.com/cg2121/obs-vintage-filter)** plugin; black & white or sepia source filter.
+  * **[VNC Source](https://github.com/norihiro/obs-vnc)** plugin; VNC viewer that works as a source.
   * **[Websockets](https://github.com/Palakis/obs-websocket)** plugin; remote-control OBS Studio through WebSockets, compatible with [StreamControl](https://play.google.com/store/apps/details?id=dev.t4ils.obs_remote&hl=en).
 
 ## V4L2Sink

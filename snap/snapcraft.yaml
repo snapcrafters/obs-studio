@@ -390,12 +390,12 @@ parts:
 
       # Freeze Filter - https://github.com/exeldro/obs-freeze-filter
       cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/exeldro/obs-freeze-filter.git freeze-filter --branch 0.0.2
+      git clone --recursive https://github.com/exeldro/obs-freeze-filter.git freeze-filter
       echo "add_subdirectory(freeze-filter)" >> CMakeLists.txt
 
       # Replay Source - https://github.com/exeldro/obs-replay-source
       cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/exeldro/obs-replay-source.git replay-source --branch 1.5.4
+      git clone --recursive https://github.com/exeldro/obs-replay-source.git replay-source
       sed -i 's/install_obs_plugin_with_data(replay-source data)/install_obs_plugin(replay-source)/' replay-source/CMakeLists.txt
       echo "add_subdirectory(replay-source)" >> CMakeLists.txt
 

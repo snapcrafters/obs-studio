@@ -370,12 +370,12 @@ parts:
 
       # SceneSwitcher - https://github.com/WarmUpTill/SceneSwitcher
       cd ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/
-      git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git --branch 1.6.1
+      git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git --branch 1.6.2
       echo "add_subdirectory(SceneSwitcher)" >> CMakeLists.txt
 
       # StreamFX - https://github.com/Xaymar/obs-StreamFX
       cd ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/
-      git submodule add https://github.com/Xaymar/obs-StreamFX.git streamfx --branch 0.8.0
+      git submodule add https://github.com/Xaymar/obs-StreamFX.git streamfx --branch 0.8.3
       echo "add_subdirectory(streamfx)" >> CMakeLists.txt
 
       # Source Switcher - https://github.com/exeldro/obs-source-switcher

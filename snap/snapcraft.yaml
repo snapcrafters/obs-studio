@@ -648,6 +648,25 @@ parts:
     prime:
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-websocket.so
 
+  obs-text-pango:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/kkartaltepe/obs-text-pango.git
+    source-tag: v1.0
+    configflags:
+      - -DCMAKE_C_COMPILER=gcc-8
+      - -DCMAKE_CXX_COMPILER=g++-8
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DOBS_INCLUDE_DIRS=$SNAPCRAFT_STAGE/usr/include/obs/
+    build-packages:
+      - libpango1.0-dev
+    organize:
+      usr/data/obs-plugins/text-pango/locale/*.ini: usr/share/obs/obs-plugins/text-pango/locale/
+      usr/obs-plugins/*bit/libtext-pango.so: usr/lib/obs-plugins/
+    prime:
+      - -usr/data/obs-plugins/text-pango
+
   libndi:
     plugin: nil
     build-packages:

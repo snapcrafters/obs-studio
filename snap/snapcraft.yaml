@@ -385,7 +385,7 @@ parts:
 
       # Move Transition - https://github.com/exeldro/obs-move-transition
       cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/exeldro/obs-move-transition.git move-transition  --branch 1.7.1
+      git clone --recursive https://github.com/exeldro/obs-move-transition.git move-transition
       echo "add_subdirectory(move-transition)" >> CMakeLists.txt
 
       # Freeze Filter - https://github.com/exeldro/obs-freeze-filter

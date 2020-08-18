@@ -1,7 +1,7 @@
 name: obs-studio
 summary: OBS - Free and open source software for live streaming and screen recording
 description: |
-  OBS Studio is software designed for capturing, compositing, encoding, recording, 
+  OBS Studio is software designed for capturing, compositing, encoding, recording,
   and streaming video content, efficiently.
   It's distributed under the GNU General Public License v2 - see the accompanying COPYING file for more details.
 adopt-info: obs
@@ -315,7 +315,7 @@ parts:
 
   obs:
     plugin: cmake
-    after: 
+    after:
       - desktop-qt5
       - ffmpeg
       # Required for input-overlay
@@ -529,7 +529,6 @@ parts:
       - libxtst6
       # Required by Spectralizer
       - libfftw3-3
-
   obs-v4l2sink:
     plugin: cmake
     after: [ obs ]

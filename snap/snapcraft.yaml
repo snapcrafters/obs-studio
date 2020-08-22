@@ -405,6 +405,11 @@ parts:
       git clone --recursive https://github.com/exeldro/obs-dir-watch-media.git dir-watch-media
       echo "add_subdirectory(dir-watch-media)" >> CMakeLists.txt
 
+      # Dynamic Delay - https://github.com/exeldro/obs-dynamic-delay
+      cd ${SNAPCRAFT_PART_SRC}/plugins/
+      git clone --recursive https://github.com/exeldro/obs-dynamic-delay.git dynamic-delay
+      echo "add_subdirectory(dynamic-delay)" >> CMakeLists.txt
+
       # Spectralizer - https://github.com/univrsal/spectralizer
       cd ${SNAPCRAFT_PART_SRC}/plugins/
       git clone --recursive https://github.com/univrsal/spectralizer.git --branch v1.2

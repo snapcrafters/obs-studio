@@ -87,26 +87,27 @@ parts:
   sem-open-preload:
     source: https://github.com/sergiusens/sem-open-preload.git
     plugin: make
-    make-parameters:
-      - CC=gcc-8
-      - CXX=g++-8
+    build-environment:
+      - CC: gcc-8
+      - CCX: g++-8
     build-packages:
       - gcc-8
       - g++-8
 
   desktop-qt5:
+    plugin: make
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: qt
+    make-parameters:
+      - FLAVOR=qt5
+    build-environment:
+      - CC: gcc-8
+      - CCX: g++-8
     build-packages:
       - gcc-8
       - g++-8
       - qtbase5-dev
       - dpkg-dev
-    plugin: make
-    make-parameters:
-      - CC=gcc-8
-      - CXX=g++-8
-      - FLAVOR=qt5
-    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
-    source-subdir: qt
     stage-packages:
       - libqt5gui5
       - libqt5svg5
@@ -116,12 +117,13 @@ parts:
 
   nv-codec-headers:
     plugin: make
-    make-parameters:
-      - CC=gcc-8
-      - CXX=g++-8
-      - PREFIX=/usr
     source: https://github.com/FFmpeg/nv-codec-headers.git
     source-tag: 'n9.1.23.1'
+    make-parameters:
+      - PREFIX=/usr
+    build-environment:
+      - CC: gcc-8
+      - CCX: g++-8
     build-packages:
       - gcc-8
       - g++-8
@@ -133,6 +135,9 @@ parts:
     source: https://github.com/FFmpeg/FFmpeg.git
     source-branch: release/4.2
     source-depth: 1
+    build-environment:
+      - CC: gcc-8
+      - CCX: g++-8
     build-packages:
       - gcc-8
       - g++-8
@@ -222,8 +227,6 @@ parts:
         - i965-va-driver
         - libcrystalhd3
     configflags:
-      - --cc=gcc-8
-      - --cxx=g++-8
       - --prefix=/usr
       - --disable-debug
       - --disable-doc
@@ -276,12 +279,13 @@ parts:
 
   libuiohook:
     plugin: autotools
-    configflags:
-      - CC=gcc-8
-      - CCX=g++-8
-      - --prefix=/usr
     source: https://github.com/kwhat/libuiohook.git
     source-tag: '1.0.3'
+    configflags:
+      - --prefix=/usr
+    build-environment:
+      - CC: gcc-8
+      - CCX: g++-8
     build-packages:
       - gcc-8
       - g++-8

@@ -64,6 +64,7 @@ apps:
       # Ref.: https://bugs.launchpad.net/snappy/+bug/1588192
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa-egl:$LIBGL_DRIVERS_PATH:/var/lib/snapd/lib/gl:$SNAP_USER_DATA/.config/obs-studio/plugins
     plugs:
+      - avahi-control
       - browser-support
       - network
       - network-bind

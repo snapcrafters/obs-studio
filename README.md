@@ -20,6 +20,7 @@
 
     sudo snap install obs-studio
     sudo snap connect obs-studio:audio-record
+    sudo snap connect obs-studio:avahi-control
     sudo snap connect obs-studio:camera
     sudo snap connect obs-studio:jack1
     sudo snap connect obs-studio:joystick
@@ -74,4 +75,12 @@ If you want to use the Input Overlay plugin you will need to connect the Joystic
 
 ```
 snap connect obs-studio:joystick
+```
+
+## NDI
+
+If you want to use the NDI plugin you will need to connect the Avahi Control interface.
+
+```
+snap connect obs-studio:avahi-control
 ```

@@ -530,6 +530,7 @@ parts:
       - libxtst6
       # Required by Spectralizer
       - libfftw3-3
+
   obs-v4l2sink:
     plugin: cmake
     after: [ obs ]
@@ -696,7 +697,7 @@ parts:
 
   obs-ndi:
     plugin: cmake
-    after: 
+    after:
       - obs
       - libndi
     source: https://github.com/Palakis/obs-ndi.git

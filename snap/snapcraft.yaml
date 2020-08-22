@@ -534,7 +534,7 @@ parts:
   obs-v4l2sink:
     plugin: cmake
     after: [ obs ]
-    source: https://github.com/CatxFish/obs-v4l2sink.git
+    source: https://github.com/flexiondotorg/obs-v4l2sink.git
     override-build: |
       set -x
       cd $SNAPCRAFT_PART_SRC

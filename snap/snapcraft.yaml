@@ -717,6 +717,29 @@ parts:
     prime:
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-ndi.so
 
+  obs-gphoto:
+    plugin: cmake
+    after:
+      - obs
+    source: https://github.com/adlerweb/obs-gphoto.git
+    source-branch: 'adlerweb'
+    configflags:
+      - -DCMAKE_C_COMPILER=gcc-8
+      - -DCMAKE_CXX_COMPILER=g++-8
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DSYSTEM_INSTALL=1
+      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
+    build-packages:
+      - libgphoto2-dev
+      - libjpeg-turbo8-dev
+      - libudev-dev
+    stage-packages:
+      - libgphoto2-6
+      - libjpeg-turbo8
+      - libudev1
+    organize:
+      root/stage/usr/lib/obs-plugins/obs-gphoto.so: usr/lib/obs-plugins/
   launcher:
     after:  [ obs ]
     plugin: dump

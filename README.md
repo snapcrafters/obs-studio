@@ -20,6 +20,7 @@
 
     sudo snap install obs-studio
     sudo snap connect obs-studio:audio-record
+    sudo snap connect obs-studio:avahi-control
     sudo snap connect obs-studio:camera
     sudo snap connect obs-studio:jack1
     sudo snap connect obs-studio:joystick
@@ -36,6 +37,7 @@ The snap of OBS studio comes pre-loaded with some additions features and plugins
   * **[Browser](https://github.com/obsproject/obs-browser)** plugin; CEF-based OBS Studio browser plugin.
   * **[Directory Watch Media](https://github.com/exeldro/obs-dir-watch-media)** plugin; filter you can add to media source to load the oldest or newest file in a directory.
   * **[DVD Screensaver](https://github.com/univrsal/dvds3)** plugin; a DVD screen saver source type.
+  * **[Dynamic Delay](https://github.com/exeldro/obs-dynamic-delay)** plugin; filter for dynamic delaying a video source.
   * **[Freeze Filter](https://github.com/exeldro/obs-freeze-filter)** plugin; freeze a source using a filter.
   * **[Input Overlay](https://github.com/univrsal/input-overlay)** plugin; show keyboard, gamepad and mouse input on stream.
   * **[Move Transition](https://github.com/exeldro/obs-move-transition)** plugin; move source to a new position during scene transition.
@@ -46,6 +48,7 @@ The snap of OBS studio comes pre-loaded with some additions features and plugins
   * **[Source Switcher](https://github.com/exeldro/obs-source-switcher)** plugin; to switch between a list of sources.
   * **[Spectralizer](https://github.com/univrsal/spectralizer)** plugin; audio visualization using fftw.
   * **[StreamFX](https://github.com/Xaymar/obs-StreamFX)** plugin; collection modern effects filters and transitions.
+  * **[Text Pango](https://github.com/kkartaltepe/obs-text-pango)** plugin; Provides a text source rendered using Pango with multi-language support, emoji support, vertical rendering and RTL support.
   * **[Transition Matrix](https://github.com/admshao/obs-transition-matrix)** plugin; customize Any -> One or One -> One scene transitions.
   * **[V4L2Sink](https://github.com/CatxFish/obs-v4l2sink)** plugin; provides output capabilities to a Video4Linux2 device to create virtual webcams.
   * **[Vintage Filter](https://github.com/cg2121/obs-vintage-filter)** plugin; black & white or sepia source filter.
@@ -73,4 +76,12 @@ If you want to use the Input Overlay plugin you will need to connect the Joystic
 
 ```
 snap connect obs-studio:joystick
+```
+
+## NDI
+
+If you want to use the NDI plugin you will need to connect the Avahi Control interface.
+
+```
+snap connect obs-studio:avahi-control
 ```

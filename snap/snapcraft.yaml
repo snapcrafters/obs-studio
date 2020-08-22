@@ -332,6 +332,7 @@ parts:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DUNIX_STRUCTURE=1
+      - -DUSE_XDG=ON
       - -DDISABLE_UPDATE_MODULE=TRUE
       - -DBUILD_BROWSER=ON
       - -DCEF_ROOT_DIR=$SNAPCRAFT_PART_SRC/cef_binary

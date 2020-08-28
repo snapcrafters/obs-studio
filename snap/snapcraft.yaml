@@ -706,6 +706,7 @@ parts:
       - libudev1
     organize:
       root/stage/usr/lib/obs-plugins/obs-gphoto.so: usr/lib/obs-plugins/
+
   launcher:
     after:  [ obs ]
     plugin: dump

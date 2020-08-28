@@ -23,7 +23,6 @@
     sudo snap connect obs-studio:avahi-control
     sudo snap connect obs-studio:camera
     sudo snap connect obs-studio:jack1
-    sudo snap connect obs-studio:joystick
     sudo snap connect obs-studio:removable-media
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/obs-studio)
@@ -77,14 +76,6 @@ sudo modprobe v4l2loopback devices=1 video_nr=99 card_label=VirtualCam exclusive
 ```
 
 Then use `/dev/video99` as the path to V4L2 device in *Tools -> V4L2 Video Output*.
-
-## Input Overlay
-
-If you want to use the Input Overlay plugin you will need to connect the Joystick interface.
-
-```
-snap connect obs-studio:joystick
-```
 
 ## NDI
 

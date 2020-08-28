@@ -81,7 +81,6 @@ apps:
       - removable-media
       - wayland
       - jack1
-      - joystick
 
 parts:
   sem-open-preload:

@@ -55,6 +55,14 @@ The snap of OBS studio comes pre-loaded with some additions features and plugins
   * **[VNC Source](https://github.com/norihiro/obs-vnc)** plugin; VNC viewer that works as a source.
   * **[Websockets](https://github.com/Palakis/obs-websocket)** plugin; remote-control OBS Studio through WebSockets, compatible with [StreamControl](https://play.google.com/store/apps/details?id=dev.t4ils.obs_remote&hl=en).
 
+## Removable Storage
+
+To access content on external storage, manually connect to the removable-media plug:-
+
+```
+snap connect obs-studio:removable-media
+```
+
 ## V4L2Sink
 
 To make use of the V4L2Sink plugin to create a virtual webcam, install

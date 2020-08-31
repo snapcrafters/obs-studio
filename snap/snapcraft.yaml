@@ -12,7 +12,6 @@ confinement: strict
 
 architectures:
   - build-on: amd64
-  - build-on: i386
 
 # We should migrate to using the official folder for obs-studio config
 #plugs:
@@ -157,6 +156,7 @@ parts:
       - g++-8
       - libass-dev
       - libbz2-dev
+      - libcrystalhd-dev
       - libdrm-dev
       - libfdk-aac-dev
       - libgnutls28-dev
@@ -190,12 +190,10 @@ parts:
       - opencl-headers
       - pkg-config
       - yasm
-      - on amd64:
-        - libcrystalhd-dev
-      - on i386:
-        - libcrystalhd-dev
     stage-packages:
+      - i965-va-driver
       - libass9
+      - libcrystalhd3
       - libdrm2
       - libfdk-aac1
       - libgnutls30
@@ -234,12 +232,6 @@ parts:
       - mesa-va-drivers
       - mesa-vdpau-drivers
       - ocl-icd-libopencl1
-      - on amd64:
-        - i965-va-driver
-        - libcrystalhd3
-      - on i386:
-        - i965-va-driver
-        - libcrystalhd3
     configflags:
       - --prefix=/usr
       - --disable-debug
@@ -328,8 +320,6 @@ parts:
       ARCHITECTURE=$(dpkg --print-architecture)
       if [ "${ARCHITECTURE}" = "amd64" ]; then
         SUFFIX="linux64"
-      elif [ "${ARCHITECTURE}" = "i386" ]; then
-        SUFFIX="linux32"
       else
         SUFFIX=""
       fi

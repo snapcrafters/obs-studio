@@ -278,6 +278,7 @@ parts:
       - --enable-omx
       - --enable-openal
       - --enable-opencl
+      - --enable-opengl
       - --enable-runtime-cpudetect
       - --enable-sdl2
       - --enable-shared

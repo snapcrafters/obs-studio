@@ -166,6 +166,7 @@ parts:
       - libopenal-dev
       - libopencore-amrnb-dev
       - libopencore-amrwb-dev
+      - libopenjp2-7-dev
       - libopus-dev
       - libpulse-dev
       - librsvg2-dev
@@ -201,6 +202,7 @@ parts:
       - libopenal1
       - libopencore-amrnb0
       - libopencore-amrwb0
+      - libopenjp2-7
       - libopus0
       - libpulse0
       - librsvg2-2
@@ -251,6 +253,7 @@ parts:
       - --enable-libmp3lame
       - --enable-libopencore_amrnb
       - --enable-libopencore_amrwb
+      - --enable-libopenjpeg
       - --enable-libopus
       - --enable-libpulse
       - --enable-sdl2

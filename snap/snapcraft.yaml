@@ -222,9 +222,9 @@ parts:
       - libvorbisenc2
       - libvpx5
       - libwebp6
+      - libx11-6
       - libx264-152
       - libx265-146
-      - libx11-6
       - libxau6
       - libxcb-shape0
       - libxcb-shm0
@@ -260,7 +260,7 @@ parts:
       - --enable-libopenjpeg
       - --enable-libopus
       - --enable-libpulse
-      - --enable-sdl2
+      - --enable-librsvg
       - --enable-libspeex
       - --enable-libtheora
       - --enable-libtwolame
@@ -278,7 +278,7 @@ parts:
       - --enable-openal
       - --enable-opencl
       - --enable-runtime-cpudetect
-      - --enable-librsvg
+      - --enable-sdl2
       - --enable-shared
       - --enable-vaapi
       - --enable-vdpau

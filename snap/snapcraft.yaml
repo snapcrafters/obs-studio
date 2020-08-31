@@ -180,6 +180,7 @@ parts:
       - libvdpau-dev
       - libvorbis-dev
       - libvpx-dev
+      - libwebp-dev
       - libx264-dev
       - libx265-dev
       - libxcb-shape0-dev
@@ -219,6 +220,7 @@ parts:
       - libvorbis0a
       - libvorbisenc2
       - libvpx5
+      - libwebp6
       - libx264-152
       - libx265-146
       - libx11-6
@@ -263,6 +265,7 @@ parts:
       - --enable-libv4l2
       - --enable-libvorbis
       - --enable-libvpx
+      - --enable-libwebp
       - --enable-libx264
       - --enable-libxcb
       - --enable-libxvid

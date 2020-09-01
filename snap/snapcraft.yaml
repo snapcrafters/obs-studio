@@ -12,7 +12,6 @@ confinement: strict
 
 architectures:
   - build-on: amd64
-  - build-on: i386
 
 # We should migrate to using the official folder for obs-studio config
 #plugs:
@@ -157,6 +156,7 @@ parts:
       - g++-8
       - libass-dev
       - libbz2-dev
+      - libcrystalhd-dev
       - libdrm-dev
       - libfdk-aac-dev
       - libgnutls28-dev
@@ -166,6 +166,7 @@ parts:
       - libopenal-dev
       - libopencore-amrnb-dev
       - libopencore-amrwb-dev
+      - libopenjp2-7-dev
       - libopus-dev
       - libpulse-dev
       - librsvg2-dev
@@ -179,23 +180,23 @@ parts:
       - libvdpau-dev
       - libvorbis-dev
       - libvpx-dev
+      - libwebp-dev
       - libx264-dev
       - libx265-dev
       - libxcb-shape0-dev
       - libxcb-shm0-dev
       - libxcb-xfixes0-dev
+      - libxml2-dev
       - libxv-dev
       - libxvidcore-dev
       - ocl-icd-opencl-dev
       - opencl-headers
       - pkg-config
       - yasm
-      - on amd64:
-        - libcrystalhd-dev
-      - on i386:
-        - libcrystalhd-dev
     stage-packages:
+      - i965-va-driver
       - libass9
+      - libcrystalhd3
       - libdrm2
       - libfdk-aac1
       - libgnutls30
@@ -203,6 +204,7 @@ parts:
       - libopenal1
       - libopencore-amrnb0
       - libopencore-amrwb0
+      - libopenjp2-7
       - libopus0
       - libpulse0
       - librsvg2-2
@@ -219,9 +221,11 @@ parts:
       - libvorbis0a
       - libvorbisenc2
       - libvpx5
+      - libwebp6
+      - libwebpmux3
+      - libx11-6
       - libx264-152
       - libx265-146
-      - libx11-6
       - libxau6
       - libxcb-shape0
       - libxcb-shm0
@@ -229,17 +233,12 @@ parts:
       - libxcb1
       - libxdmcp6
       - libxext6
+      - libxml2
       - libxv1
       - libxvidcore4
       - mesa-va-drivers
       - mesa-vdpau-drivers
       - ocl-icd-libopencl1
-      - on amd64:
-        - i965-va-driver
-        - libcrystalhd3
-      - on i386:
-        - i965-va-driver
-        - libcrystalhd3
     configflags:
       - --prefix=/usr
       - --disable-debug
@@ -259,25 +258,30 @@ parts:
       - --enable-libmp3lame
       - --enable-libopencore_amrnb
       - --enable-libopencore_amrwb
+      - --enable-libopenjpeg
       - --enable-libopus
       - --enable-libpulse
-      - --enable-sdl2
+      - --enable-librsvg
       - --enable-libspeex
       - --enable-libtheora
       - --enable-libtwolame
       - --enable-libv4l2
       - --enable-libvorbis
       - --enable-libvpx
+      - --enable-libwebp
       - --enable-libx264
+      - --enable-libx265
       - --enable-libxcb
+      - --enable-libxml2
       - --enable-libxvid
       - --enable-nonfree
       - --enable-nvenc
       - --enable-omx
       - --enable-openal
       - --enable-opencl
+      - --enable-opengl
       - --enable-runtime-cpudetect
-      - --enable-librsvg
+      - --enable-sdl2
       - --enable-shared
       - --enable-vaapi
       - --enable-vdpau
@@ -328,8 +332,6 @@ parts:
       ARCHITECTURE=$(dpkg --print-architecture)
       if [ "${ARCHITECTURE}" = "amd64" ]; then
         SUFFIX="linux64"
-      elif [ "${ARCHITECTURE}" = "i386" ]; then
-        SUFFIX="linux32"
       else
         SUFFIX=""
       fi
@@ -721,6 +723,6 @@ parts:
       for CRUFT in usr/include usr/share/bug usr/share/lintian usr/share/man; do
         rm -rf ${SNAPCRAFT_PRIME}/${CRUFT}
       done
-      find ${SNAPCRAFT_PRIME}/usr/share/doc/ -type f -not -name 'copyright' -delete
+      find ${SNAPCRAFT_PRIME}/usr/share/doc/ -type f -not -name 'copyright' -delete || true
       rm -v ${SNAPCRAFT_PRIME}/usr/share/doc/*/changelog.Debian.gz || true
-      find ${SNAPCRAFT_PRIME}/usr/share -type d -empty -delete
+      find ${SNAPCRAFT_PRIME}/usr/share -type d -empty -delete || true

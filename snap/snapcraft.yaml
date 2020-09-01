@@ -477,7 +477,7 @@ parts:
       - libfontconfig1-dev
       - libfreetype6-dev
       - libgl1-mesa-dev
-      - libjack-dev           # not libjack-jackd2-dev as upstream suggests
+      - libjack-dev           # not libjack-jackd2-dev as upstream suggests; snapd currently supports jack1
       - libjansson-dev
       - libluajit-5.1-dev
       - libpulse-dev
@@ -523,7 +523,7 @@ parts:
       - libfreetype6
       - libgl1
       - libglvnd0
-      - jackd1                # not libjack-jackd2-0 as upstream suggests
+      - jackd1                # not libjack-jackd2-0 as upstream suggests; snapd currently supports jack1
       - libjansson4
       - libluajit-5.1-2
       - libpulse0

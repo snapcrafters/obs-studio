@@ -345,11 +345,47 @@ parts:
       libnetlib.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libnetlib.so
       netlib_client: usr/bin/netlib_client
       netlib_server: usr/bin/netlib_server
+
+  cef:
+    plugin: cmake
+    source: 
+       - on amd64: http://opensource.spotify.com/cefbuilds/cef_binary_76.1.13%2Bgf19c584%2Bchromium-76.0.3809.132_linux64_minimal.tar.bz2
+       - on i386: http://opensource.spotify.com/cefbuilds/cef_binary_76.1.13%2Bgf19c584%2Bchromium-76.0.3809.132_linux32_minimal.tar.bz2
+       - on arm64: http://opensource.spotify.com/cefbuilds/cef_binary_76.1.13%2Bgf19c584%2Bchromium-76.0.3809.132_linuxarm64_minimal.tar.bz2
+       - on armhf: http://opensource.spotify.com/cefbuilds/cef_binary_76.1.13%2Bgf19c584%2Bchromium-76.0.3809.132_linuxarm_minimal.tar.bz2
+    build-packages:
+      - gcc-8
+      - g++-8
+    override-build: |
+      set -x
+      strip ${SNAPCRAFT_PART_SRC}/Release/*.so
+      strip ${SNAPCRAFT_PART_SRC}/Release/swiftshader/*.so
+      strip ${SNAPCRAFT_PART_SRC}/Release/chrome-sandbox
+      cd ${SNAPCRAFT_PART_SRC}
+      cmake \
+        -DCMAKE_C_COMPILER=gcc-8 \
+        -DCMAKE_CXX_COMPILER=g++-8 \
+        -DCMAKE_BUILD_TYPE=Release \
+        ${SNAPCRAFT_PART_SRC}
+      make libcef_dll_wrapper
+
+      # Put the binary assets somewhere where the obs part can access them
+      mkdir -p ${SNAPCRAFT_STAGE}/CEF
+      cp -R ${SNAPCRAFT_PART_SRC}/* ${SNAPCRAFT_STAGE}/CEF
+    stage-packages:
+      # Required by CEF
+      - libatk-bridge2.0-0
+      - libatspi2.0-0
+      - libnss3
+      - libnspr4
+      - libxtst6
+
   obs:
     plugin: cmake
     after:
       - desktop-qt5
       - ffmpeg
+      - cef
     configflags:
       - -DCMAKE_C_COMPILER=gcc-8
       - -DCMAKE_CXX_COMPILER=g++-8
@@ -358,7 +394,9 @@ parts:
       - -DUNIX_STRUCTURE=TRUE
       - -DDISABLE_UPDATE_MODULE=TRUE
       - -DBUILD_BROWSER=TRUE
-      - -DCEF_ROOT_DIR=$SNAPCRAFT_PART_SRC/cef_binary
+      - -DCEF_ROOT_DIR=$SNAPCRAFT_STAGE/CEF
+      - -DBROWSER_PANEL_SUPPORT_ENABLED=TRUE
+      - -DUSE_QT_LOOP=TRUE
     source: https://github.com/obsproject/obs-studio.git
     override-pull: |
       snapcraftctl pull
@@ -376,20 +414,6 @@ parts:
         git checkout "${last_committed_tag}"
       fi
       snapcraftctl set-version "$(git describe --tags)"
-
-      # Get the cef_binary
-      ARCHITECTURE=$(dpkg --print-architecture)
-      if [ "${ARCHITECTURE}" = "amd64" ]; then
-        SUFFIX="linux64"
-      else
-        SUFFIX=""
-      fi
-      if [ -n "${SUFFIX}" ]; then
-        wget --quiet "https://cdn-fastly.obsproject.com/downloads/cef_binary_3770_${SUFFIX}.tar.bz2" -O $SNAPCRAFT_PART_SRC/cef.tar.bz2
-        mkdir -p ${SNAPCRAFT_PART_SRC}/cef_binary
-        tar jxvf ${SNAPCRAFT_PART_SRC}/cef.tar.bz2 -C ${SNAPCRAFT_PART_SRC}/cef_binary --strip-components=1
-        rm ${SNAPCRAFT_PART_SRC}/cef.tar.bz2
-      fi
 
       ####
       #  The following plugins are all intended to be built in tree
@@ -460,7 +484,6 @@ parts:
 
     build-packages:
       # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
-      - bzip2
       - gcc-8
       - g++-8
       - wget
@@ -504,7 +527,7 @@ parts:
       - libxcb-xfixes0-dev
       - libx11-xcb-dev
       - libxcb1-dev
-      # Required by cef_binary_3770
+      # Required by Browser (CEF)
       - libnss3-dev
       - libnspr4-dev
       - libxtst-dev
@@ -548,12 +571,6 @@ parts:
       - libxcb-xfixes0
       - libx11-xcb1
       - libxcb1
-      # Required by cef_binary_3770
-      - libatk-bridge2.0-0
-      - libatspi2.0-0
-      - libnss3
-      - libnspr4
-      - libxtst6
       # Required by Spectralizer
       - libfftw3-3
 
@@ -769,7 +786,7 @@ parts:
     plugin: nil
     override-prime: |
       set -eux
-      for CRUFT in usr/include usr/share/bug usr/share/lintian usr/share/man; do
+      for CRUFT in CEF usr/include usr/share/bug usr/share/lintian usr/share/man; do
         rm -rf ${SNAPCRAFT_PRIME}/${CRUFT}
       done
       find ${SNAPCRAFT_PRIME}/usr/share/doc/ -type f -not -name 'copyright' -delete || true

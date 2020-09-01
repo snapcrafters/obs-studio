@@ -79,7 +79,8 @@ Then use `/dev/video99` as the path to V4L2 device in *Tools -> V4L2 Video Outpu
 
 ## NDI
 
-If you want to use the NDI plugin you will need to connect the Avahi Control interface.
+If you want to use the [NDI](https://github.com/Palakis/obs-ndi) plugin you'll
+need to connect the Avahi Control interface.
 
 ```
 snap connect obs-studio:avahi-control

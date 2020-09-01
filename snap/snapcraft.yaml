@@ -63,25 +63,25 @@ apps:
       # Ref.: https://bugs.launchpad.net/snappy/+bug/1588192
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa-egl:$LIBGL_DRIVERS_PATH:/var/lib/snapd/lib/gl
     plugs:
-      - avahi-control
-      - browser-support
-      - network
-      - network-bind
-      - desktop
-      - desktop-legacy
-      - opengl
-      - pulseaudio
       - audio-playback
       - audio-record
-      - x11
-      - unity7
+      - avahi-control
+      - browser-support
       - camera
+      - desktop
+      - desktop-legacy
       - home
-      - raw-usb
-      - removable-media
-      - wayland
       - jack1
       - joystick
+      - network
+      - network-bind
+      - opengl
+      - pulseaudio
+      - raw-usb
+      - removable-media
+      - unity7
+      - wayland
+      - x11
 
 parts:
   sem-open-preload:

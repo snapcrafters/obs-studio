@@ -80,6 +80,7 @@ apps:
       - removable-media
       - wayland
       - jack1
+      - joystick
 
 parts:
   sem-open-preload:
@@ -302,6 +303,48 @@ parts:
       - -usr/share/doc
       - -usr/share/man
 
+  # Required by Input Overlay if added as a 3rd party plugin
+  libuiohook:
+    plugin: autotools
+    source: https://github.com/kwhat/libuiohook.git
+    source-tag: '1.0.3'
+    configflags:
+      - --prefix=/usr
+    build-environment:
+      - CC: gcc-8
+      - CCX: g++-8
+    build-packages:
+      - gcc-8
+      - g++-8
+      - libxinerama-dev
+      - libxt-dev
+      - libxtst-dev
+      - pkg-config
+    stage-packages:
+      - libxinerama1
+      - libxt6
+      - libxtst6
+
+  # Required by Input Overlay if added as a 3rd party plugin
+  netlib:
+    plugin: cmake
+    source: https://github.com/univrsal/netlib.git
+    source-tag: 'v0.2'
+    build-packages:
+      - gcc-8
+      - g++-8
+    override-build: |
+      cmake \
+        -DCMAKE_CXX_COMPILER=g++-8 \
+        -DCMAKE_C_COMPILER=gcc-8 \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_BUILD_TYPE=Release \
+        ${SNAPCRAFT_PART_SRC}
+      make
+    organize:
+      libnetlib.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libnetlib.so
+      netlib_client: usr/bin/netlib_client
+      netlib_server: usr/bin/netlib_server
   obs:
     plugin: cmake
     after:

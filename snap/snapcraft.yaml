@@ -355,10 +355,9 @@ parts:
       - -DCMAKE_CXX_COMPILER=g++-8
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
-      - -DUNIX_STRUCTURE=1
-      - -DUSE_XDG=ON
+      - -DUNIX_STRUCTURE=TRUE
       - -DDISABLE_UPDATE_MODULE=TRUE
-      - -DBUILD_BROWSER=ON
+      - -DBUILD_BROWSER=TRUE
       - -DCEF_ROOT_DIR=$SNAPCRAFT_PART_SRC/cef_binary
     source: https://github.com/obsproject/obs-studio.git
     override-pull: |

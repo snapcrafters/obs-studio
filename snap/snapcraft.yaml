@@ -222,6 +222,7 @@ parts:
       - libvorbisenc2
       - libvpx5
       - libwebp6
+      - libwebpmux3
       - libx11-6
       - libx264-152
       - libx265-146

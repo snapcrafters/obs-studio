@@ -77,6 +77,7 @@ apps:
       - unity7
       - camera
       - home
+      - raw-usb
       - removable-media
       - wayland
       - jack1

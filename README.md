@@ -84,3 +84,13 @@ If you want to use the NDI plugin you will need to connect the Avahi Control int
 ```
 snap connect obs-studio:avahi-control
 ```
+
+## gPhoto
+
+The [gPhoto](https://github.com/adlerweb/obs-gphoto) plugin is bundled and
+allows DSLR cameras (mostly Canon) to be connected with obs-studio via USB.
+You will need to connect the Raw USB interface.
+
+```
+snap connect obs-studio:raw-usb
+```

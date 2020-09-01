@@ -156,7 +156,6 @@ parts:
       - g++-8
       - libass-dev
       - libbz2-dev
-      - libcrystalhd-dev
       - libdrm-dev
       - libfdk-aac-dev
       - libgnutls28-dev
@@ -193,10 +192,12 @@ parts:
       - opencl-headers
       - pkg-config
       - yasm
+      - on amd64:
+        - libcrystalhd-dev
+      - on i386:
+        - libcrystalhd-dev
     stage-packages:
-      - i965-va-driver
       - libass9
-      - libcrystalhd3
       - libdrm2
       - libfdk-aac1
       - libgnutls30
@@ -239,6 +240,12 @@ parts:
       - mesa-va-drivers
       - mesa-vdpau-drivers
       - ocl-icd-libopencl1
+      - on amd64:
+        - i965-va-driver
+        - libcrystalhd3
+      - on i386:
+        - i965-va-driver
+        - libcrystalhd3
     configflags:
       - --prefix=/usr
       - --disable-debug

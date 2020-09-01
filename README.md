@@ -31,7 +31,7 @@
 
 The snap of OBS studio comes pre-loaded with some additions features and plugins.
 
-  * FFmpeg supports **nvenc (NVIDIA) and VA-API (AMD & Intel) accelerated video encoding**.
+  * FFmpeg 4.3.x supports **nvenc (NVIDIA) and VA-API (AMD & Intel) accelerated video encoding**.
   * **[Advanced Scene Switcher](https://github.com/WarmUpTill/SceneSwitcher)** plugin; an automated scene switcher.
   * **[Browser](https://github.com/obsproject/obs-browser)** plugin; CEF-based OBS Studio browser plugin.
   * **[Directory Watch Media](https://github.com/exeldro/obs-dir-watch-media)** plugin; filter you can add to media source to load the oldest or newest file in a directory.

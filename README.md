@@ -23,6 +23,7 @@
     sudo snap connect obs-studio:avahi-control
     sudo snap connect obs-studio:camera
     sudo snap connect obs-studio:jack1
+    sudo snap connect obs-studio:joystick
     sudo snap connect obs-studio:removable-media
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/obs-studio)
@@ -95,3 +96,52 @@ You will need to connect the Raw USB interface.
 ```
 snap connect obs-studio:raw-usb
 ```
+
+## 3rd Party plugins
+
+You might find that this modified snap of OBS Studio doesn't include a plugin that you use.
+To install pre-compiled plugins, download and extract the plugin and put it in
+`~/snap/obs-studio/current/.config/obs-studio/plugins/`.
+
+For example, this is how the [Input Overlay](https://github.com/univrsal/input-overlay)
+plugin looks when correctly installed:
+
+```
+/home/username/snap/obs-studio/current/.config/obs-studio/plugins/
+└── input-overlay
+    ├── bin
+    │   └── 64bit
+    │       └── input-overlay.so
+    └── data
+        └── locale
+            ├── de-DE.ini
+            ├── en-US.ini
+            └── ru-RU.ini
+```
+
+And this is how the [obs-gstreamer](https://github.com/fzwoch/obs-gstreamer)
+plugin is arranged when correctly installed.
+
+```
+/home/username/snap/obs-studio/current/.config/obs-studio/plugins/
+├── obs-gstreamer
+│   └── bin
+│       └── 64bit
+│           └── obs-gstreamer.so
+```
+
+### Input Overlay
+
+This snap of OBS Studio comes with `libuihook` and `netlib` pre-installed so
+that if you want to use the [Input Overlay](https://github.com/univrsal/input-overlay)
+plugin, you can install the it as outlined above then connect the joystick
+interface as follows.
+
+```
+snap connect obs-studio:joystick
+```
+
+*The Input Overlay plugin is not shipped by default in the OBS Studio snap
+because it introduced excessive CPU utilisation when bundled, although
+works fine as a user installed plugin. So we've made it as easy as possible
+to add it yourself should you need it.*

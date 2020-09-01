@@ -27,6 +27,12 @@ else
   export VDPAU_DRIVER_PATH="/usr/lib/${ARCH}/vdpau/"
 fi
 
+# Make sure the user plugins folder exists.
+if [ ! -d "${SNAP_USER_DATA}/.config/obs-studio/plugins" ]; then
+  echo "Making ${SNAP_USER_DATA}/.config/obs-studio/plugins"
+  mkdir -p "${SNAP_USER_DATA}/.config/obs-studio/plugins"
+fi
+
 # Make sure a default Scene configuration exists, prior to OBS launching.
 # The prevents some plugins segfaulting on first start of a fresh install.
 if [ ! -d "${SNAP_USER_DATA}/.config/obs-studio/basic/scenes" ]; then

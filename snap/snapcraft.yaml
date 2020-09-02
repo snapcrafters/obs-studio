@@ -194,9 +194,8 @@ parts:
       - opencl-headers
       - pkg-config
       - yasm
-      - on amd64:
-        - libcrystalhd-dev
-      - on i386:
+      # Only available for amd64 and i386
+      - try:
         - libcrystalhd-dev
     stage-packages:
       - libass9
@@ -242,10 +241,8 @@ parts:
       - mesa-va-drivers
       - mesa-vdpau-drivers
       - ocl-icd-libopencl1
-      - on amd64:
-        - i965-va-driver
-        - libcrystalhd3
-      - on i386:
+      # Only available for amd64 and i386
+      - try:
         - i965-va-driver
         - libcrystalhd3
     configflags:

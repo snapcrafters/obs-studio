@@ -715,7 +715,6 @@ parts:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DSYSTEM_INSTALL=1
-      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
     build-packages:
       - libgphoto2-dev
       - libjpeg-turbo8-dev

@@ -32,7 +32,7 @@
 
 The snap of OBS studio comes pre-loaded with some additions features and plugins.
 
-  * FFmpeg 4.3.x supports **nvenc (NVIDIA) and VA-API (AMD & Intel) accelerated video encoding**.
+  * Supports **nvenc (NVIDIA) and VA-API (AMD & Intel) accelerated video encoding**.
   * **[Advanced Scene Switcher](https://github.com/WarmUpTill/SceneSwitcher)** plugin; an automated scene switcher.
   * **[Browser](https://github.com/obsproject/obs-browser)** plugin; CEF-based OBS Studio browser plugin.
   * **[Directory Watch Media](https://github.com/exeldro/obs-dir-watch-media)** plugin; filter you can add to media source to load the oldest or newest file in a directory.
@@ -134,7 +134,7 @@ plugin is arranged when correctly installed.
 
 This snap of OBS Studio comes with `libuihook` and `netlib` pre-installed so
 that if you want to use the [Input Overlay](https://github.com/univrsal/input-overlay)
-plugin, you can install the it as outlined above then connect the joystick
+plugin, you can install it as outlined above then connect the joystick
 interface as follows.
 
 ```
@@ -143,5 +143,5 @@ snap connect obs-studio:joystick
 
 *The Input Overlay plugin is not shipped by default in the OBS Studio snap
 because it introduced excessive CPU utilisation when bundled, although
-works fine as a user installed plugin. So we've made it as easy as possible
+works fine as a user-installed plugin. So we've made it as easy as possible
 to add it yourself should you need it.*

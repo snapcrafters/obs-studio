@@ -562,21 +562,15 @@ parts:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/univrsal/dvds3.git
-    source-tag: 'independent-build'
     configflags:
       - -DCMAKE_C_COMPILER=gcc-8
       - -DCMAKE_CXX_COMPILER=g++-8
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
-    override-stage: |
-      snapcraftctl stage
-      mkdir -p ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/dvd-screensaver/ || true
-      cp ${SNAPCRAFT_PART_SRC}/data/dvd.png ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/dvd-screensaver/
-    organize:
-      root/parts/obs-dvd-screensaver/src/build/dvd-screensaver/bin/*bit/dvd-screensaver.so: usr/lib/obs-plugins/
-      root/parts/obs-dvd-screensaver/src/build/dvd-screensaver/data/locale/*.ini: usr/share/obs/obs-plugins/dvd-screensaver/locale/
-    prime:
-      - -root
+      - -DGLOBAL_INSTALLATION=ON
+    override-pull: |
+      snapcraftctl pull
+      sed -i 's|VERSION 3\.17|VERSION 3\.10|' CMakeLists.txt
 
   obs-vintage-filter:
     plugin: cmake

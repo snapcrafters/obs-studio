@@ -49,7 +49,7 @@ layout:
 
 apps:
   obs-studio:
-    command: desktop-launch $SNAP/bin/launcher
+    command: bin/desktop-launch $SNAP/bin/obs-wrapper
     command-chain:
       - sem-open-preload-launch
     environment:
@@ -782,15 +782,15 @@ parts:
       - libgstreamer-plugins-base1.0-0
       - liborc-0.4-0
 
-  launcher:
+  obs-wrapper:
     after:  [ obs ]
     plugin: dump
     source: snap/local/
     organize:
-      'launcher': bin/
+      obs-wrapper: bin/
 
   cleanup:
-    after: [ launcher ]
+    after: [ obs-wrapper ]
     plugin: nil
     override-prime: |
       set -eux

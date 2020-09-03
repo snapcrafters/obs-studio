@@ -315,6 +315,12 @@ parts:
       mkdir -p ${SNAPCRAFT_STAGE}/CEF
       cp -R ${SNAPCRAFT_PART_SRC}/* ${SNAPCRAFT_STAGE}/CEF
 
+  rnnoise:
+    plugin: autotools
+    source: https://github.com/xiph/rnnoise.git
+    configflags:
+      - --prefix=/usr
+
   obs:
     plugin: cmake
     after:

@@ -568,13 +568,13 @@ parts:
       - -DCMAKE_CXX_COMPILER=g++-8
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
-    override-build: |
-      snapcraftctl build
+    override-stage: |
+      snapcraftctl stage
       mkdir -p ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/dvd-screensaver/ || true
-      cp -v ${SNAPCRAFT_PART_SRC}/data/dvd.png ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/dvd-screensaver/
+      cp ${SNAPCRAFT_PART_SRC}/data/dvd.png ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-plugins/dvd-screensaver/
     organize:
-      root/.config/obs-studio/plugins/dvd-screensaver/bin/*bit/dvd-screensaver.so: usr/lib/obs-plugins/
-      root/.config/obs-studio/plugins/dvd-screensaver/data/locale/*.ini: usr/share/obs/obs-plugins/dvd-screensaver/locale/
+      root/parts/obs-dvd-screensaver/src/build/dvd-screensaver/bin/*bit/dvd-screensaver.so: usr/lib/obs-plugins/
+      root/parts/obs-dvd-screensaver/src/build/dvd-screensaver/data/locale/*.ini: usr/share/obs/obs-plugins/dvd-screensaver/locale/
     prime:
       - -root
 

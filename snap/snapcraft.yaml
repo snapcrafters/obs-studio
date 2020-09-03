@@ -349,55 +349,45 @@ parts:
       ####
 
       # SceneSwitcher - https://github.com/WarmUpTill/SceneSwitcher
-      cd ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/
-      git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git --branch 1.6.2
-      echo "add_subdirectory(SceneSwitcher)" >> CMakeLists.txt
+      git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/SceneSwitcher --branch 1.6.2
+      echo "add_subdirectory(SceneSwitcher)" >> ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/CMakeLists.txt
 
       # StreamFX - https://github.com/Xaymar/obs-StreamFX
-      cd ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/
-      git clone --recursive https://github.com/Xaymar/obs-StreamFX.git streamfx --branch 0.8.3
-      echo "add_subdirectory(streamfx)" >> CMakeLists.txt
+      git clone --recursive https://github.com/Xaymar/obs-StreamFX.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/obs-StreamFX --branch 0.8.3
+      echo "add_subdirectory(obs-StreamFX)" >> ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/CMakeLists.txt
 
       # Source Switcher - https://github.com/exeldro/obs-source-switcher
-      cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/exeldro/obs-source-switcher.git source-switcher
-      echo "add_subdirectory(source-switcher)" >> CMakeLists.txt
+      git clone --recursive https://github.com/exeldro/obs-source-switcher.git ${SNAPCRAFT_PART_SRC}/plugins/obs-source-switcher
+      echo "add_subdirectory(obs-source-switcher)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
       # Move Transition - https://github.com/exeldro/obs-move-transition
-      cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/exeldro/obs-move-transition.git move-transition
-      echo "add_subdirectory(move-transition)" >> CMakeLists.txt
+      git clone --recursive https://github.com/exeldro/obs-move-transition.git ${SNAPCRAFT_PART_SRC}/plugins/obs-move-transition
+      echo "add_subdirectory(obs-move-transition)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
       # Freeze Filter - https://github.com/exeldro/obs-freeze-filter
-      cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/exeldro/obs-freeze-filter.git freeze-filter
-      echo "add_subdirectory(freeze-filter)" >> CMakeLists.txt
+      git clone --recursive https://github.com/exeldro/obs-freeze-filter.git ${SNAPCRAFT_PART_SRC}/plugins/obs-freeze-filter
+      echo "add_subdirectory(obs-freeze-filter)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
       # Replay Source - https://github.com/exeldro/obs-replay-source
-      cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/exeldro/obs-replay-source.git replay-source
-      sed -i 's/install_obs_plugin_with_data(replay-source data)/install_obs_plugin(replay-source)/' replay-source/CMakeLists.txt
-      echo "add_subdirectory(replay-source)" >> CMakeLists.txt
+      git clone --recursive https://github.com/exeldro/obs-replay-source.git ${SNAPCRAFT_PART_SRC}/plugins/obs-replay-source
+      sed -i 's/install_obs_plugin_with_data(replay-source data)/install_obs_plugin(replay-source)/' ${SNAPCRAFT_PART_SRC}/plugins/obs-replay-source/CMakeLists.txt
+      echo "add_subdirectory(obs-replay-source)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
       # Directory watch media - https://github.com/exeldro/obs-dir-watch-media
-      cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/exeldro/obs-dir-watch-media.git dir-watch-media
-      echo "add_subdirectory(dir-watch-media)" >> CMakeLists.txt
+      git clone --recursive https://github.com/exeldro/obs-dir-watch-media.git ${SNAPCRAFT_PART_SRC}/plugins/obs-dir-watch-media
+      echo "add_subdirectory(obs-dir-watch-media)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
       # Dynamic Delay - https://github.com/exeldro/obs-dynamic-delay
-      cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/exeldro/obs-dynamic-delay.git dynamic-delay
-      echo "add_subdirectory(dynamic-delay)" >> CMakeLists.txt
+      git clone --recursive https://github.com/exeldro/obs-dynamic-delay.git ${SNAPCRAFT_PART_SRC}/plugins/obs-dynamic-delay
+      echo "add_subdirectory(obs-dynamic-delay)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
       # Spectralizer - https://github.com/univrsal/spectralizer
-      cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/univrsal/spectralizer.git --branch v1.2
-      echo "add_subdirectory(spectralizer)" >> CMakeLists.txt
+      git clone --recursive https://github.com/univrsal/spectralizer.git ${SNAPCRAFT_PART_SRC}/plugins/spectralizer --branch v1.2
+      echo "add_subdirectory(spectralizer)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
       # Scrab - https://github.com/univrsal/scrab
-      cd ${SNAPCRAFT_PART_SRC}/plugins/
-      git clone --recursive https://github.com/univrsal/scrab.git --branch v1.1
-      echo "add_subdirectory(scrab)" >> CMakeLists.txt
+      git clone --recursive https://github.com/univrsal/scrab.git ${SNAPCRAFT_PART_SRC}/plugins/scrab --branch v1.1
+      echo "add_subdirectory(scrab)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
     override-build: |
       # obs-frontend-api.h is required for plugins to build

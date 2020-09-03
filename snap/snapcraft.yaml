@@ -314,13 +314,6 @@ parts:
       # Put the binary assets somewhere where the obs part can access them
       mkdir -p ${SNAPCRAFT_STAGE}/CEF
       cp -R ${SNAPCRAFT_PART_SRC}/* ${SNAPCRAFT_STAGE}/CEF
-    stage-packages:
-      # Required by CEF
-      - libatk-bridge2.0-0
-      - libatspi2.0-0
-      - libnss3
-      - libnspr4
-      - libxtst6
 
   obs:
     plugin: cmake
@@ -471,6 +464,8 @@ parts:
       - libx11-xcb-dev
       - libxcb1-dev
       # Required by Browser (CEF)
+      - libatk1.0-dev
+      - libatk-bridge2.0-dev
       - libnss3-dev
       - libnspr4-dev
       - libxtst-dev
@@ -514,6 +509,11 @@ parts:
       - libxcb-xfixes0
       - libx11-xcb1
       - libxcb1
+      # Required by CEF
+      - libatk-bridge2.0-0
+      - libnss3
+      - libnspr4
+      - libxtst6
       # Required by Spectralizer
       - libfftw3-3
 

@@ -615,11 +615,13 @@ parts:
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
         -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/ \
-        $SNAPCRAFT_PART_SRC 2>/dev/null || true
+        $SNAPCRAFT_PART_SRC
       make
       make install DESTDIR=$SNAPCRAFT_PART_INSTALL
     organize:
       usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-vnc.so: usr/lib/obs-plugins/
+    prime:
+      - -usr/lib/*/obs-plugins
 
   obs-websocket:
     plugin: cmake

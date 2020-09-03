@@ -84,16 +84,6 @@ apps:
       - x11
 
 parts:
-  sem-open-preload:
-    source: https://github.com/sergiusens/sem-open-preload.git
-    plugin: make
-    build-environment:
-      - CC: gcc-8
-      - CCX: g++-8
-    build-packages:
-      - gcc-8
-      - g++-8
-
   desktop-qt5:
     plugin: make
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git

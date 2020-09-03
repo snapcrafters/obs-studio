@@ -323,7 +323,6 @@ parts:
     override-pull: |
       snapcraftctl pull
 
-
       # Checkout that latest stable version
       last_committed_tag="$(git -C ../src tag | grep -v rc| sort -V | tail -n 1)"
       last_released_tag="$(snap info obs-studio | awk '$1 == "beta:" { print $2 }')"
@@ -468,7 +467,6 @@ parts:
       - libfdk-aac1
       - libfreetype6
       - libgl1
-      - libglu1-mesa
       - libglvnd0
       - jackd1                # not libjack-jackd2-0 as upstream suggests; snapd currently supports jack1
       - libjansson4

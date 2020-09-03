@@ -651,6 +651,7 @@ parts:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DOBS_INCLUDE_DIRS=$SNAPCRAFT_STAGE/usr/include/obs/
+      - -DOBS_LIBRARIES=$SNAPCRAFT_STAGE/usr/lib/
     build-packages:
       - libpango1.0-dev
     organize:

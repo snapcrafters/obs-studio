@@ -140,8 +140,6 @@ parts:
       - libmp3lame-dev
       - libomxil-bellagio-dev
       - libopenal-dev
-      - libopencore-amrnb-dev
-      - libopencore-amrwb-dev
       - libopenjp2-7-dev
       - libopus-dev
       - libpulse-dev
@@ -179,8 +177,6 @@ parts:
       - libgnutls30
       - libmp3lame0
       - libopenal1
-      - libopencore-amrnb0
-      - libopencore-amrwb0
       - libopenjp2-7
       - libopus0
       - libpulse0
@@ -237,8 +233,6 @@ parts:
       - --enable-libfontconfig
       - --enable-libfreetype
       - --enable-libmp3lame
-      - --enable-libopencore_amrnb
-      - --enable-libopencore_amrwb
       - --enable-libopenjpeg
       - --enable-libopus
       - --enable-libpulse

@@ -356,6 +356,13 @@ parts:
       fi
       snapcraftctl set-version "$(git describe --tags)"
 
+      # Work around for https://github.com/obsproject/obs-studio/issues/2490
+      # Seems to have started happening since upgrading to cmake 3.16 from 3.10
+      if [ -d plugins/obs-browser/obs-browser-page ]; then
+        mv -v plugins/obs-browser/obs-browser-page plugins/obs-browser/obs-browser-page-main
+        sed -i 's|obs-browser-page/obs-browser-page-main.cpp|obs-browser-page-main/obs-browser-page-main.cpp|g' plugins/obs-browser/CMakeLists.txt
+      fi
+
       ####
       #  The following plugins are all intended to be built in tree
       ####

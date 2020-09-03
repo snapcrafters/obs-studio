@@ -722,6 +722,22 @@ parts:
     organize:
       root/stage/usr/lib/obs-plugins/obs-gphoto.so: usr/lib/obs-plugins/
 
+  obs-gstreamer:
+    after: [obs]
+    plugin: meson
+    source: https://github.com/fzwoch/obs-gstreamer.git
+    meson-parameters:
+      - --prefix=/usr
+      - --buildtype=release
+    build-packages:
+      - libgstreamer1.0-dev
+      - libgstreamer-plugins-base1.0-dev
+      - ninja-build
+    stage-packages:
+      - gstreamer1.0-plugins-base
+    organize:
+      usr/lib/*/obs-plugins/obs-gstreamer.so: usr/lib/obs-plugins/
+
   # Required by Input Overlay if added as a 3rd party plugin
   libuiohook:
     plugin: autotools
@@ -772,11 +788,6 @@ parts:
       - libuiohook
       - netlib
     plugin: nil
-    stage-packages:
-      # obs-gstreamer
-      - libgstreamer1.0-0
-      - libgstreamer-plugins-base1.0-0
-      - liborc-0.4-0
 
   obs-wrapper:
     after:  [ obs ]

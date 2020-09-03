@@ -312,6 +312,7 @@ parts:
       - desktop-qt5
       - ffmpeg
       - cef
+      - rnnoise
     configflags:
       - -DCMAKE_C_COMPILER=gcc-8
       - -DCMAKE_CXX_COMPILER=g++-8

@@ -473,6 +473,8 @@ parts:
       - libfftw3-dev
       # Required by StreamFX
       - ninja-build
+      # Required by Advanced Scene Switcher
+      - libxss-dev
     stage-packages:
       # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
       - libmbedcrypto1
@@ -516,6 +518,8 @@ parts:
       - libxtst6
       # Required by Spectralizer
       - libfftw3-3
+      # Required by Advanced Scene Switcher
+      - libxss1
 
   obs-v4l2sink:
     plugin: cmake

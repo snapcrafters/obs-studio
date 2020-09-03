@@ -485,6 +485,7 @@ parts:
       - libfdk-aac1
       - libfreetype6
       - libgl1
+      - libglu1-mesa
       - libglvnd0
       - jackd1                # not libjack-jackd2-0 as upstream suggests; snapd currently supports jack1
       - libjansson4

@@ -430,7 +430,7 @@ parts:
       - gcc-8
       - g++-8
       - wget
-      - build-essential
+      - clang-tidy
       - libasound2-dev
       #- libavcodec-dev       # comes via the FFmpeg part
       #- libavdevice-dev      # comes via the FFmpeg part

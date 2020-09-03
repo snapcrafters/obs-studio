@@ -493,7 +493,11 @@ parts:
       - libjansson4
       - libluajit-5.1-2
       - libpulse0
+      - libpython3.6
+      - libqt5core5a
+      - libqt5svg5
       - libqt5x11extras5
+      - libqt5xml5
       - libspeexdsp1
       - libv4l-0
       - libv4lconvert0
@@ -505,10 +509,6 @@ parts:
       - libxcb-xinerama0
       - libxcomposite1
       - libxinerama1
-      - libpython3.6
-      - libqt5core5a
-      - libqt5svg5
-      - libqt5xml5
       - libxcb-xinput0
       - libxcb-randr0
       - libxcb-xfixes0

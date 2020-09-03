@@ -118,22 +118,8 @@ parts:
       - g++-8
       - pkg-config
 
-  avisynth-plus:
-    plugin: cmake
-    source: https://github.com/AviSynth/AviSynthPlus.git
-    source-tag: 'v3.6.1'
-    configflags:
-      - -DCMAKE_C_COMPILER=gcc-8
-      - -DCMAKE_CXX_COMPILER=g++-8
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-    build-packages:
-      - gcc-8
-      - g++-8
-
   ffmpeg:
     after:
-      - avisynth-plus
       - nv-codec-headers
     plugin: autotools
     source: https://github.com/FFmpeg/FFmpeg.git
@@ -236,11 +222,11 @@ parts:
         - libcrystalhd3
     configflags:
       - --prefix=/usr
+      - --disable-avisynth
       - --disable-debug
       - --disable-doc
       - --disable-programs
       - --disable-static
-      - --enable-avisynth
       - --enable-cuda
       - --enable-cuvid
       - --enable-libdrm

@@ -1,9 +1,4 @@
 name: obs-studio
-summary: OBS - Free and open source software for live streaming and screen recording
-description: |
-  OBS Studio is software designed for capturing, compositing, encoding, recording,
-  and streaming video content, efficiently.
-  It's distributed under the GNU General Public License v2 - see the accompanying COPYING file for more details.
 adopt-info: obs
 
 base: core18
@@ -50,8 +45,8 @@ layout:
 apps:
   obs-studio:
     command: bin/desktop-launch $SNAP/bin/obs-wrapper
-    command-chain:
-      - sem-open-preload-launch
+    common-id: com.obsproject.Studio
+    desktop: usr/share/applications/com.obsproject.Studio.desktop
     environment:
       # Tell libGL where to find the drivers
       LIBGL_DRIVERS_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
@@ -341,6 +336,7 @@ parts:
       - -DBROWSER_PANEL_SUPPORT_ENABLED=TRUE
       - -DUSE_QT_LOOP=TRUE
     source: https://github.com/obsproject/obs-studio.git
+    parse-info: [usr/share/metainfo/com.obsproject.Studio.appdata.xml]
     override-pull: |
       snapcraftctl pull
       set -x

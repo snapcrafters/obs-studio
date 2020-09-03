@@ -538,18 +538,12 @@ parts:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/flexiondotorg/obs-v4l2sink.git
-    override-build: |
-      set -x
-      cd $SNAPCRAFT_PART_SRC
-      cmake \
-        -DCMAKE_C_COMPILER=gcc-8 \
-        -DCMAKE_CXX_COMPILER=g++-8 \
-        -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/ \
-        $SNAPCRAFT_PART_SRC 2>/dev/null || true
-      make
-      make install DESTDIR=$SNAPCRAFT_PART_INSTALL
+    configflags:
+      - -DCMAKE_C_COMPILER=gcc-8
+      - -DCMAKE_CXX_COMPILER=g++-8
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
 
   obs-transition-matrix:
     plugin: cmake

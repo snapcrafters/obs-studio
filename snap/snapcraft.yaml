@@ -299,7 +299,6 @@ parts:
       - gcc-8
       - g++-8
     override-build: |
-      set -x
       strip ${SNAPCRAFT_PART_SRC}/Release/*.so
       strip ${SNAPCRAFT_PART_SRC}/Release/swiftshader/*.so
       strip ${SNAPCRAFT_PART_SRC}/Release/chrome-sandbox
@@ -342,7 +341,7 @@ parts:
     parse-info: [usr/share/metainfo/com.obsproject.Studio.appdata.xml]
     override-pull: |
       snapcraftctl pull
-      set -x
+
 
       # Checkout that latest stable version
       last_committed_tag="$(git -C ../src tag | grep -v rc| sort -V | tail -n 1)"
@@ -613,7 +612,6 @@ parts:
     stage-packages:
       - libvncclient1
     override-build: |
-      set -x
       mkdir -p $SNAPCRAFT_PART_SRC/build
       cd $SNAPCRAFT_PART_SRC/build
       cmake \

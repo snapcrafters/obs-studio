@@ -375,23 +375,16 @@ parts:
 
       git clone --recursive https://github.com/iamscottxu/obs-rtspserver.git ${SNAPCRAFT_PART_SRC}/plugins/obs-rtspserver --branch v1.0
       echo "add_subdirectory(obs-rtspserver)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
-    override-build: |
-      # obs-frontend-api.h is required for plugins to build
-      mkdir -p ${SNAPCRAFT_STAGE}/usr/include/obs || true
-      cp -v ${SNAPCRAFT_PART_SRC}/UI/obs-frontend-api/*.h ${SNAPCRAFT_STAGE}/usr/include/obs/
-      # ObsPluginHelpers.cmake
-      mkdir -p ${SNAPCRAFT_STAGE}/usr/include/cmake/external || true
-      cp -v ${SNAPCRAFT_PART_SRC}/cmake/external/*.cmake ${SNAPCRAFT_STAGE}/usr/include/cmake/external/
-      snapcraftctl build
-      # Fix some missing theme assets
-      cp ${SNAPCRAFT_PART_SRC}/UI/data/themes/Dark/close.svg ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-studio/themes/Dark/Close.svg
-      cp ${SNAPCRAFT_PART_SRC}/UI/data/themes/Dark/popout.svg ${SNAPCRAFT_PART_INSTALL}/usr/share/obs/obs-studio/themes/Dark/Popout.svg
-
+    override-stage: |
+      snapcraftctl stage
+      # Stage headers required for plugins to build
+      cp ${SNAPCRAFT_PART_SRC}/UI/obs-frontend-api/*.h ${SNAPCRAFT_STAGE}/usr/include/obs/
+      [ -d ${SNAPCRAFT_STAGE}/usr/include/cmake/external ] || mkdir -p ${SNAPCRAFT_STAGE}/usr/include/cmake/external
+      cp ${SNAPCRAFT_PART_SRC}/cmake/external/*.cmake ${SNAPCRAFT_STAGE}/usr/include/cmake/external/
     build-packages:
       # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
       - gcc-8
       - g++-8
-      - wget
       - clang-tidy
       - libasound2-dev
       #- libavcodec-dev       # comes via the FFmpeg part

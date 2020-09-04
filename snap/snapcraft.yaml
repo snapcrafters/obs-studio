@@ -388,6 +388,9 @@ parts:
       git clone --recursive https://github.com/univrsal/scrab.git ${SNAPCRAFT_PART_SRC}/plugins/scrab --branch v1.1
       echo "add_subdirectory(scrab)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
+      # https://github.com/iamscottxu/obs-rtspserver/
+      git clone --recursive https://github.com/iamscottxu/obs-rtspserver.git ${SNAPCRAFT_PART_SRC}/plugins/obs-rtspserver --branch v1.0
+      echo "add_subdirectory(obs-rtspserver)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
     override-build: |
       # obs-frontend-api.h is required for plugins to build
       mkdir -p ${SNAPCRAFT_STAGE}/usr/include/obs || true

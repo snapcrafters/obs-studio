@@ -30,7 +30,7 @@
 
 # Batteries included
 
-The snap of OBS studio comes pre-loaded with some additions features and plugins.
+The snap of OBS studio comes pre-loaded with some additional features and plugins.
 
   * Supports **nvenc (NVIDIA) and VA-API (AMD & Intel) accelerated video encoding**.
   * **[Advanced Scene Switcher](https://github.com/WarmUpTill/SceneSwitcher)** plugin; an automated scene switcher.

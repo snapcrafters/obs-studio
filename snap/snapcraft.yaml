@@ -383,7 +383,7 @@ parts:
       echo "add_subdirectory(obs-rtspserver)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
     override-stage: |
       snapcraftctl stage
-      # Stage headers required for plugins to build
+      # Stage headers required for out of tree plugins to build
       cp ${SNAPCRAFT_PART_SRC}/UI/obs-frontend-api/*.h ${SNAPCRAFT_STAGE}/usr/include/obs/
       [ -d ${SNAPCRAFT_STAGE}/usr/include/cmake/external ] || mkdir -p ${SNAPCRAFT_STAGE}/usr/include/cmake/external
       cp ${SNAPCRAFT_PART_SRC}/cmake/external/*.cmake ${SNAPCRAFT_STAGE}/usr/include/cmake/external/

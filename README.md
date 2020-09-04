@@ -120,17 +120,6 @@ plugin looks when correctly installed:
             └── ru-RU.ini
 ```
 
-And this is how the [obs-gstreamer](https://github.com/fzwoch/obs-gstreamer)
-plugin is arranged when correctly installed.
-
-```
-/home/username/snap/obs-studio/current/.config/obs-studio/plugins/
-├── obs-gstreamer
-│   └── bin
-│       └── 64bit
-│           └── obs-gstreamer.so
-```
-
 ### Input Overlay
 
 This snap of OBS Studio comes with `libuihook` and `netlib` pre-installed so

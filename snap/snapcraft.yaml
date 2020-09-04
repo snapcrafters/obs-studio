@@ -279,9 +279,10 @@ parts:
       - gcc-8
       - g++-8
     override-build: |
-      strip ${SNAPCRAFT_PART_SRC}/Release/*.so
-      strip ${SNAPCRAFT_PART_SRC}/Release/swiftshader/*.so
-      strip ${SNAPCRAFT_PART_SRC}/Release/chrome-sandbox
+      strip --strip-unneeded ${SNAPCRAFT_PART_SRC}/Release/*.so
+      strip --strip-unneeded ${SNAPCRAFT_PART_SRC}/Release/swiftshader/*.so
+      strip --strip-unneeded ${SNAPCRAFT_PART_SRC}/Release/chrome-sandbox
+    override-build: |
       cd ${SNAPCRAFT_PART_SRC}
       cmake \
         -DCMAKE_C_COMPILER=gcc-8 \

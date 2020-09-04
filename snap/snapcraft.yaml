@@ -315,7 +315,7 @@ parts:
       - -DDISABLE_UPDATE_MODULE=TRUE
       - -DBUILD_BROWSER=TRUE
       - -DCEF_ROOT_DIR=$SNAPCRAFT_STAGE/CEF
-      - -DBROWSER_PANEL_SUPPORT_ENABLED=TRUE
+      - -DBROWSER_PANEL_SUPPORT_ENABLED=FALSE
       - -DUSE_QT_LOOP=TRUE
     source: https://github.com/obsproject/obs-studio.git
     parse-info: [usr/share/metainfo/com.obsproject.Studio.appdata.xml]

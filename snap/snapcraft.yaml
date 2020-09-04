@@ -657,6 +657,7 @@ parts:
 
   libndi:
     plugin: nil
+    after: [ obs ]
     source: http://514f211588de67e4fdcf-437b8dd50f60b69cf0974b538e50585b.r63.cf1.rackcdn.com/Utilities/SDK/NDI_SDK_Linux_v2/InstallNDISDK_v4_Linux.tar.gz
     source-checksum: "sha256/45621d7e70e73d5e6b8d07cc8d55a920fac979508de65db705eff7a188222e71"
     stage-packages:
@@ -740,8 +741,8 @@ parts:
 
   # Required by Input Overlay if added as a 3rd party plugin
   libuiohook:
-    after: [ obs ]
     plugin: autotools
+    after: [ obs ]
     source: https://github.com/kwhat/libuiohook.git
     source-tag: '1.0.3'
     configflags:
@@ -765,8 +766,8 @@ parts:
 
   # Required by Input Overlay if added as a 3rd party plugin
   netlib:
-    after: [ obs ]
     plugin: cmake
+    after: [ obs ]
     source: https://github.com/univrsal/netlib.git
     source-tag: 'v0.2'
     build-packages:
@@ -807,8 +808,8 @@ parts:
     plugin: nil
 
   obs-wrapper:
-    after: [ obs-plugins ]
     plugin: dump
+    after: [ obs-plugins ]
     source: snap/local/
     organize:
       obs-wrapper: bin/

@@ -425,6 +425,7 @@ parts:
       - libluajit-5.1-dev
       - libmbedtls-dev
       - libpulse-dev
+      - libqt5svg5-dev
       - libqt5x11extras5-dev
       - libspeexdsp-dev
       #- libswresample-dev    # comes via the FFmpeg part
@@ -433,21 +434,20 @@ parts:
       - libv4l-dev
       - libvlc-dev
       - libx11-dev
+      - libx11-xcb-dev
       - libx264-dev
-      - libxcb-xinput-dev
+      - libxcb-randr0-dev
       - libxcb-shm0-dev
+      - libxcb-xfixes0-dev
       - libxcb-xinerama0-dev
+      - libxcb-xinput-dev
+      - libxcb1-dev
       - libxcomposite-dev
       - libxinerama-dev
       - pkg-config
       - python3-dev
       - qtbase5-dev
-      - libqt5svg5-dev
       - swig
-      - libxcb-randr0-dev
-      - libxcb-xfixes0-dev
-      - libx11-xcb-dev
-      - libxcb1-dev
       # Required by Browser (CEF)
       - libatk1.0-dev
       - libatk-bridge2.0-dev
@@ -462,9 +462,6 @@ parts:
       - libxss-dev
     stage-packages:
       # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
-      - libmbedcrypto1
-      - libmbedtls10
-      - libmbedx509-0
       - libasound2
       - libcurl4
       - libfdk-aac1
@@ -474,32 +471,30 @@ parts:
       - jackd1                # not libjack-jackd2-0 as upstream suggests; snapd currently supports jack1
       - libjansson4
       - libluajit-5.1-2
+      - libmbedtls10
       - libpulse0
       - libpython3.6
-      - libqt5core5a
       - libqt5svg5
       - libqt5x11extras5
       - libqt5xml5
       - libspeexdsp1
       - libv4l-0
-      - libv4lconvert0
       - libv4l2rds0
       - libvlc5
       - libx11-6
+      - libx11-xcb1
       - libx264-152
+      - libxcb-randr0
       - libxcb-shm0
+      - libxcb-xfixes0
       - libxcb-xinerama0
+      - libxcb-xinput0
       - libxcomposite1
       - libxinerama1
-      - libxcb-xinput0
-      - libxcb-randr0
-      - libxcb-xfixes0
-      - libx11-xcb1
-      - libxcb1
       # Required by CEF
       - libatk-bridge2.0-0
-      - libnss3
       - libnspr4
+      - libnss3
       - libxtst6
       # Required by Spectralizer
       - libfftw3-3
@@ -657,21 +652,15 @@ parts:
 
   libndi:
     plugin: nil
-    build-packages:
-      - wget
+    source: http://514f211588de67e4fdcf-437b8dd50f60b69cf0974b538e50585b.r63.cf1.rackcdn.com/Utilities/SDK/NDI_SDK_Linux_v2/InstallNDISDK_v4_Linux.tar.gz
+    source-checksum: "sha256/45621d7e70e73d5e6b8d07cc8d55a920fac979508de65db705eff7a188222e71"
     stage-packages:
       - libavahi-client3
       - libavahi-common3
     override-build: |
-      wget -c http://514f211588de67e4fdcf-437b8dd50f60b69cf0974b538e50585b.r63.cf1.rackcdn.com/Utilities/SDK/NDI_SDK_Linux_v2/InstallNDISDK_v4_Linux.tar.gz
-      tar -xf InstallNDISDK_v4_Linux.tar.gz
-      yes | env PAGER=/dev/null ./InstallNDISDK_v4_Linux.sh
+      yes | env PAGER=cat ./InstallNDISDK_v4_Linux.sh
       SDK="${SNAPCRAFT_PART_BUILD}/NDI SDK for Linux"
-      # binaries
-      install -D -m755 "${SDK}/bin/${SNAPCRAFT_ARCH_TRIPLET}/"ndi* -t "${SNAPCRAFT_PART_INSTALL}/usr/bin"
-      # headers
       install -D -m644 "${SDK}/include/"*.h -t "${SNAPCRAFT_PART_INSTALL}/usr/include"
-      # library
       install -D -m755 "${SDK}/lib/${SNAPCRAFT_ARCH_TRIPLET}/libndi.so.4".*.* -t "${SNAPCRAFT_PART_INSTALL}/usr/local/lib/"
       cd "${SNAPCRAFT_PART_INSTALL}/usr/local/lib"
       ln -s "libndi.so.4".*.* "libndi.so.4"

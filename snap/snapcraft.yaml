@@ -689,8 +689,7 @@ parts:
 
   obs-gphoto:
     plugin: cmake
-    after:
-      - obs
+    after: [ obs ]
     source: https://github.com/adlerweb/obs-gphoto.git
     source-branch: 'adlerweb'
     configflags:
@@ -713,8 +712,8 @@ parts:
       root/stage/usr/lib/obs-plugins/obs-gphoto.so: usr/lib/obs-plugins/
 
   obs-gstreamer:
-    after: [obs]
     plugin: meson
+    after: [ obs ]
     source: https://github.com/fzwoch/obs-gstreamer.git
     build-environment:
       - CC: gcc-8
@@ -785,15 +784,15 @@ parts:
     plugin: nil
 
   obs-wrapper:
-    after:  [ obs ]
+    after: [ obs ]
     plugin: dump
     source: snap/local/
     organize:
       obs-wrapper: bin/
 
   cleanup:
-    after: [ obs-wrapper ]
     plugin: nil
+    after: [ obs-wrapper ]
     override-prime: |
       for CRUFT in CEF usr/include usr/share/bug usr/share/lintian usr/share/man; do
         rm -rf ${SNAPCRAFT_PRIME}/${CRUFT}

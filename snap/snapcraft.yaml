@@ -595,6 +595,28 @@ parts:
     prime:
       - -usr/lib/*/obs-plugins
 
+  obs-audio-pan:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/norihiro/obs-audio-pan-filter.git
+    source-tag: '0.1.0'
+    override-build: |
+      mkdir -p $SNAPCRAFT_PART_SRC/build
+      cd $SNAPCRAFT_PART_SRC/build
+      cmake \
+        -DCMAKE_C_COMPILER=gcc-8 \
+        -DCMAKE_CXX_COMPILER=g++-8 \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/ \
+        $SNAPCRAFT_PART_SRC
+      make
+      make install DESTDIR=$SNAPCRAFT_PART_INSTALL
+    organize:
+      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-audio-pan-filter.so: usr/lib/obs-plugins/
+    prime:
+      - -usr/lib/*/obs-plugins
+
   obs-websocket:
     plugin: cmake
     after: [ obs ]

@@ -736,7 +736,7 @@ parts:
     stage-packages:
       - gstreamer1.0-plugins-base
     organize:
-      usr/lib/*/obs-plugins/obs-gstreamer.so: usr/lib/obs-plugins/
+      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-gstreamer.so: usr/lib/obs-plugins/
 
   # Required by Input Overlay if added as a 3rd party plugin
   libuiohook:
@@ -782,8 +782,8 @@ parts:
       make
     organize:
       libnetlib.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libnetlib.so
-      netlib_client: usr/bin/netlib_client
-      netlib_server: usr/bin/netlib_server
+    prime:
+      - usr/lib/*/libnetlib.so
 
   # Adds runtime support to the snap for 3rd party plugins not bundled in the snap
   obs-plugin-support:

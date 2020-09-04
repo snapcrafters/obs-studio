@@ -700,6 +700,8 @@ parts:
       - -DCMAKE_BUILD_TYPE=Release
       - -DSYSTEM_INSTALL=1
     build-packages:
+      - gcc-8
+      - g++-8
       - libgphoto2-dev
       - libjpeg-turbo8-dev
       - libudev-dev
@@ -714,10 +716,15 @@ parts:
     after: [obs]
     plugin: meson
     source: https://github.com/fzwoch/obs-gstreamer.git
+    build-environment:
+      - CC: gcc-8
+      - CCX: g++-8
     meson-parameters:
       - --prefix=/usr
       - --buildtype=release
     build-packages:
+      - gcc-8
+      - g++-8
       - libgstreamer1.0-dev
       - libgstreamer-plugins-base1.0-dev
       - ninja-build

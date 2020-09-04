@@ -286,6 +286,8 @@ parts:
         -DCMAKE_C_COMPILER=gcc-8 \
         -DCMAKE_CXX_COMPILER=g++-8 \
         -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_C_FLAGS_RELEASE='-s' \
+        -DCMAKE_CXX_FLAGS_RELEASE='-s' \
         ${SNAPCRAFT_PART_SRC}
       make libcef_dll_wrapper
 
@@ -298,6 +300,8 @@ parts:
     source: https://github.com/xiph/rnnoise.git
     configflags:
       - --prefix=/usr
+      - --disable-debug
+      - --disable-static
 
   obs:
     plugin: cmake
@@ -311,6 +315,8 @@ parts:
       - -DCMAKE_CXX_COMPILER=g++-8
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE='-s'
+      - -DCMAKE_CXX_FLAGS_RELEASE='-s'
       - -DUNIX_STRUCTURE=TRUE
       - -DDISABLE_UPDATE_MODULE=TRUE
       - -DBUILD_BROWSER=TRUE
@@ -487,6 +493,8 @@ parts:
       - -DCMAKE_CXX_COMPILER=g++-8
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE='-s'
+      - -DCMAKE_CXX_FLAGS_RELEASE='-s'
       - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
 
   obs-transition-matrix:
@@ -499,6 +507,8 @@ parts:
       - -DCMAKE_CXX_COMPILER=g++-8
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE='-s'
+      - -DCMAKE_CXX_FLAGS_RELEASE='-s'
       - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
       - -DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/
 
@@ -511,7 +521,9 @@ parts:
       - -DCMAKE_CXX_COMPILER=g++-8
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
-      - -DGLOBAL_INSTALLATION=ON
+      - -DCMAKE_C_FLAGS_RELEASE='-s'
+      - -DCMAKE_CXX_FLAGS_RELEASE='-s'
+      - -DGLOBAL_INSTALLATION=TRUE
     override-pull: |
       snapcraftctl pull
       sed -i 's|VERSION 3\.17|VERSION 3\.10|' CMakeLists.txt
@@ -526,6 +538,8 @@ parts:
       - -DCMAKE_CXX_COMPILER=g++-8
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE='-s'
+      - -DCMAKE_CXX_FLAGS_RELEASE='-s'
       - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
       - -DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/
 
@@ -538,6 +552,8 @@ parts:
       - -DCMAKE_CXX_COMPILER=g++-8
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE='-s'
+      - -DCMAKE_CXX_FLAGS_RELEASE='-s'
       - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
       - -DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/
 
@@ -558,6 +574,8 @@ parts:
         -DCMAKE_CXX_COMPILER=g++-8 \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_C_FLAGS_RELEASE='-s' \
+        -DCMAKE_CXX_FLAGS_RELEASE='-s' \
         -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/ \
         $SNAPCRAFT_PART_SRC
       make
@@ -580,6 +598,8 @@ parts:
         -DCMAKE_CXX_COMPILER=g++-8 \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_C_FLAGS_RELEASE='-s' \
+        -DCMAKE_CXX_FLAGS_RELEASE='-s' \
         -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/ \
         $SNAPCRAFT_PART_SRC
       make
@@ -599,8 +619,10 @@ parts:
       - -DCMAKE_CXX_COMPILER=g++-8
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE='-s'
+      - -DCMAKE_CXX_FLAGS_RELEASE='-s'
       - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
-      - -DUSE_UBUNTU_FIX=true
+      - -DUSE_UBUNTU_FIX=TRUE
     build-packages:
       - libasio-dev
       - libwebsocketpp-dev
@@ -617,6 +639,8 @@ parts:
       - -DCMAKE_CXX_COMPILER=g++-8
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE='-s'
+      - -DCMAKE_CXX_FLAGS_RELEASE='-s'
       - -DOBS_INCLUDE_DIRS=$SNAPCRAFT_STAGE/usr/include/obs/
       - -DOBS_LIBRARIES=$SNAPCRAFT_STAGE/usr/lib/
     build-packages:
@@ -659,8 +683,10 @@ parts:
       - -DCMAKE_CXX_COMPILER=g++-8
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
-      - -DUSE_UBUNTU_FIX=true
+      - -DCMAKE_C_FLAGS_RELEASE='-s'
+      - -DCMAKE_CXX_FLAGS_RELEASE='-s'
       - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
+      - -DUSE_UBUNTU_FIX=TRUE
     prime:
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-ndi.so
 
@@ -674,7 +700,9 @@ parts:
       - -DCMAKE_CXX_COMPILER=g++-8
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
-      - -DSYSTEM_INSTALL=1
+      - -DCMAKE_C_FLAGS_RELEASE='-s'
+      - -DCMAKE_CXX_FLAGS_RELEASE='-s'
+      - -DSYSTEM_INSTALL=TRUE
     build-packages:
       - gcc-8
       - g++-8
@@ -698,6 +726,7 @@ parts:
     meson-parameters:
       - --prefix=/usr
       - --buildtype=release
+      - --strip
     build-packages:
       - gcc-8
       - g++-8
@@ -716,6 +745,8 @@ parts:
     source-tag: '1.0.3'
     configflags:
       - --prefix=/usr
+      - --disable-debug
+      - --disable-static
     build-environment:
       - CC: gcc-8
       - CCX: g++-8
@@ -745,6 +776,8 @@ parts:
         -DCMAKE_C_COMPILER=gcc-8 \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_C_FLAGS_RELEASE='-s' \
+        -DCMAKE_CXX_FLAGS_RELEASE='-s' \
         ${SNAPCRAFT_PART_SRC}
       make
     organize:

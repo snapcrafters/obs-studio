@@ -644,6 +644,10 @@ parts:
       - -DOBS_LIBRARIES=$SNAPCRAFT_STAGE/usr/lib/
     build-packages:
       - libpango1.0-dev
+    stage-packages:
+      - libpango-1.0-0
+      - libpangocairo-1.0-0
+      - libpangoft2-1.0-0
     organize:
       usr/data/obs-plugins/text-pango/locale/*.ini: usr/share/obs/obs-plugins/text-pango/locale/
       usr/obs-plugins/*bit/libtext-pango.so: usr/lib/obs-plugins/

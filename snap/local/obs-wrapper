@@ -12,15 +12,6 @@ else
   ARCH="${SNAP_ARCH}-linux-gnu"
 fi
 
-# Make PulseAudio socket available inside the snap-specific $XDG_RUNTIME_DIR
-if [ -n "$XDG_RUNTIME_DIR" ]; then
-    pulsenative="pulse/native"
-    pulseaudio_sockpath="$XDG_RUNTIME_DIR/../$pulsenative"
-    if [ -S "$pulseaudio_sockpath" ]; then
-        export PULSE_SERVER="unix:${pulseaudio_sockpath}"
-    fi
-fi
-
 if [ -e "/var/lib/snapd/lib/gl/xorg/nvidia_drv.so" ]; then
   export VDPAU_DRIVER_PATH="/var/lib/snapd/lib/gl/vdpau"
 else

@@ -269,13 +269,14 @@ parts:
 
   cef:
     plugin: cmake
-    source: 
+    source:
       - on amd64: http://opensource.spotify.com/cefbuilds/cef_binary_76.1.13%2Bgf19c584%2Bchromium-76.0.3809.132_linux64_minimal.tar.bz2
       - on i386: http://opensource.spotify.com/cefbuilds/cef_binary_76.1.13%2Bgf19c584%2Bchromium-76.0.3809.132_linux32_minimal.tar.bz2
     build-packages:
       - gcc-8
       - g++-8
-    override-build: |
+    override-pull: |
+      snapcraftctl pull
       strip --strip-unneeded ${SNAPCRAFT_PART_SRC}/Release/*.so
       strip --strip-unneeded ${SNAPCRAFT_PART_SRC}/Release/swiftshader/*.so
       strip --strip-unneeded ${SNAPCRAFT_PART_SRC}/Release/chrome-sandbox

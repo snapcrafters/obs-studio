@@ -164,9 +164,6 @@ parts:
       - opencl-headers
       - pkg-config
       - yasm
-      # Only available for amd64 and i386
-      - try:
-        - libcrystalhd-dev
     stage-packages:
       - libass9
       - libdrm2
@@ -211,10 +208,10 @@ parts:
       # Only available for amd64 and i386
       - try:
         - mesa-va-drivers
-        - libcrystalhd3
     configflags:
       - --prefix=/usr
       - --disable-avisynth
+      - --disable-crystalhd
       - --disable-debug
       - --disable-doc
       - --disable-programs

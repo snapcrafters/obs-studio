@@ -298,6 +298,7 @@ parts:
       - --prefix=/usr
       - --disable-static
 
+  # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
   obs:
     plugin: cmake
     after:
@@ -336,8 +337,7 @@ parts:
       fi
       snapcraftctl set-version "$(git describe --tags)"
 
-      # Work around for https://github.com/obsproject/obs-studio/issues/2490
-      # Seems to have started happening since upgrading to cmake 3.16 from 3.10
+      # Work around for https://github.com/obsproject/obs-browser/issues/239
       if [ -d plugins/obs-browser/obs-browser-page ]; then
         mv -v plugins/obs-browser/obs-browser-page plugins/obs-browser/obs-browser-page-main
         sed -i 's|obs-browser-page/obs-browser-page-main.cpp|obs-browser-page-main/obs-browser-page-main.cpp|g' plugins/obs-browser/CMakeLists.txt
@@ -383,7 +383,6 @@ parts:
       [ -d ${SNAPCRAFT_STAGE}/usr/include/cmake/external ] || mkdir -p ${SNAPCRAFT_STAGE}/usr/include/cmake/external
       cp ${SNAPCRAFT_PART_SRC}/cmake/external/*.cmake ${SNAPCRAFT_STAGE}/usr/include/cmake/external/
     build-packages:
-      # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
       - gcc-8
       - g++-8
       - clang-tidy
@@ -439,7 +438,6 @@ parts:
       # Required by Advanced Scene Switcher
       - libxss-dev
     stage-packages:
-      # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
       - libasound2
       - libcurl4
       - libfdk-aac1

@@ -785,6 +785,7 @@ parts:
 
   # Adds runtime support to the snap for 3rd party plugins not bundled in the snap
   obs-plugins:
+    plugin: nil
     after:
       - libuiohook
       - netlib
@@ -800,7 +801,6 @@ parts:
       - obs-vnc
       - obs-websocket
       - obs-v4l2sink
-    plugin: nil
 
   obs-wrapper:
     plugin: dump

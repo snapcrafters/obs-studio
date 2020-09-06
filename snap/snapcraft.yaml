@@ -91,16 +91,15 @@ parts:
       - CC: gcc-8
       - CCX: g++-8
     build-packages:
+      - build-essential
       - gcc-8
       - g++-8
       - qtbase5-dev
-      - dpkg-dev
     stage-packages:
+      - gsettings-desktop-schemas
       - libqt5gui5
-      - libqt5svg5
+      - qt5-image-formats-plugins
       - qtwayland5
-      - shared-mime-info
-      - xdg-user-dirs
 
   nv-codec-headers:
     plugin: make

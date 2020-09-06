@@ -1,21 +1,9 @@
 #!/usr/bin/env bash
 
-if [ "${SNAP_ARCH}" == "amd64" ]; then
-  ARCH="x86_64-linux-gnu"
-elif [ "${SNAP_ARCH}" == "armhf" ]; then
-  ARCH="arm-linux-gnueabihf"
-elif [ "${SNAP_ARCH}" == "arm64" ]; then
-  ARCH="aarch64-linux-gnu"
-elif [ "${SNAP_ARCH}" == "ppc64el" ]; then
-  ARCH="powerpc64le-linux-gnu"
-else
-  ARCH="${SNAP_ARCH}-linux-gnu"
-fi
-
 if [ -e "/var/lib/snapd/lib/gl/xorg/nvidia_drv.so" ]; then
   export VDPAU_DRIVER_PATH="/var/lib/snapd/lib/gl/vdpau"
 else
-  export VDPAU_DRIVER_PATH="/usr/lib/${ARCH}/vdpau/"
+  export VDPAU_DRIVER_PATH="/usr/lib/${SNAP_LAUNCHER_ARCH_TRIPLET}/vdpau/"
 fi
 
 # Make sure the user plugins folder exists.

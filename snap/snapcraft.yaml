@@ -206,12 +206,11 @@ parts:
       - libxml2
       - libxv1
       - libxvidcore4
-      - mesa-va-drivers
       - mesa-vdpau-drivers
       - ocl-icd-libopencl1
       # Only available for amd64 and i386
       - try:
-        - i965-va-driver
+        - mesa-va-drivers
         - libcrystalhd3
     configflags:
       - --prefix=/usr

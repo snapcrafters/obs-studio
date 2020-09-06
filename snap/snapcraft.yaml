@@ -222,10 +222,10 @@ parts:
       - --disable-static
       - --enable-cuda
       - --enable-cuvid
-      - --enable-libdrm
       - --enable-gnutls
       - --enable-gpl
       - --enable-libass
+      - --enable-libdrm
       - --enable-libfdk-aac
       - --enable-libfontconfig
       - --enable-libfreetype

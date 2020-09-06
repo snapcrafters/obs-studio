@@ -49,12 +49,11 @@ apps:
     common-id: com.obsproject.Studio
     desktop: usr/share/applications/com.obsproject.Studio.desktop
     environment:
-      # Mesa Libs for OpenGL support
       # Workaround in snapd for proprietary nVidia drivers mounts the drivers in
       # /var/lib/snapd/lib/gl that needs to be in LD_LIBRARY_PATH
       # Without that OpenGL using apps do not work with the nVidia drivers.
       # Ref.: https://bugs.launchpad.net/snappy/+bug/1588192
-      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa-egl:$LIBGL_DRIVERS_PATH:/var/lib/snapd/lib/gl
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$LIBGL_DRIVERS_PATH:/var/lib/snapd/lib/gl
     plugs:
       - alsa
       - audio-playback

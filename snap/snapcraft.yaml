@@ -656,7 +656,6 @@ parts:
     source-checksum: "sha256/45621d7e70e73d5e6b8d07cc8d55a920fac979508de65db705eff7a188222e71"
     stage-packages:
       - libavahi-client3
-      - libavahi-common3
     override-build: |
       yes | env PAGER=cat ./InstallNDISDK_v4_Linux.sh
       SDK="${SNAPCRAFT_PART_BUILD}/NDI SDK for Linux"

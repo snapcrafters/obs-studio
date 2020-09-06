@@ -713,8 +713,7 @@ parts:
     organize:
       root/stage/usr/lib/obs-plugins/obs-gphoto.so: usr/lib/obs-plugins/
     prime:
-      - usr/lib
-      - usr/share
+      - -root
 
   obs-gstreamer:
     plugin: meson

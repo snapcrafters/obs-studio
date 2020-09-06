@@ -19,20 +19,13 @@ else
 fi
 
 # Make sure the user plugins folder exists.
-if [ ! -d "${SNAP_USER_DATA}/.config/obs-studio/plugins" ]; then
-  echo "Making ${SNAP_USER_DATA}/.config/obs-studio/plugins"
-  mkdir -p "${SNAP_USER_DATA}/.config/obs-studio/plugins"
-fi
+[ ! -d "${SNAP_USER_DATA}/.config/obs-studio/plugins" ] || mkdir -p "${SNAP_USER_DATA}/.config/obs-studio/plugins"
 
 # Make sure a default Scene configuration exists, prior to OBS launching.
 # The prevents some plugins segfaulting on first start of a fresh install.
-if [ ! -d "${SNAP_USER_DATA}/.config/obs-studio/basic/scenes" ]; then
-  echo "Making ${SNAP_USER_DATA}/.config/obs-studio/basic/scenes"
-  mkdir -p "${SNAP_USER_DATA}/.config/obs-studio/basic/scenes"
-fi
+[ ! -d "${SNAP_USER_DATA}/.config/obs-studio/basic/scenes" ] || mkdir -p "${SNAP_USER_DATA}/.config/obs-studio/basic/scenes"
 
 if [ ! -e "${SNAP_USER_DATA}/.config/obs-studio/basic/scenes/Untitled.json" ]; then
-  echo "Making ${SNAP_USER_DATA}/.config/obs-studio/basic/scenes/Untitled.json"
   cat <<'EOM' > "${SNAP_USER_DATA}/.config/obs-studio/basic/scenes/Untitled.json"
 {
     "AuxAudioDevice1": {
@@ -233,8 +226,6 @@ if [ ! -e "${SNAP_USER_DATA}/.config/obs-studio/basic/scenes/Untitled.json" ]; t
     "transitions": []
 }
 EOM
-else
-  echo "Found ${SNAP_USER_DATA}/.config/obs-studio/basic/scenes/Untitled.json"
 fi
 
 exec "${SNAP}/usr/bin/obs" "${@}"

@@ -580,8 +580,6 @@ parts:
       make install DESTDIR=$SNAPCRAFT_PART_INSTALL
     organize:
       usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-vnc.so: usr/lib/obs-plugins/
-    prime:
-      - -usr/lib/*/obs-plugins
 
   obs-audio-pan:
     plugin: cmake
@@ -604,8 +602,6 @@ parts:
       make install DESTDIR=$SNAPCRAFT_PART_INSTALL
     organize:
       usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-audio-pan-filter.so: usr/lib/obs-plugins/
-    prime:
-      - -usr/lib/*/obs-plugins
 
   obs-websocket:
     plugin: cmake
@@ -625,7 +621,7 @@ parts:
       - libasio-dev
       - libwebsocketpp-dev
     prime:
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-websocket.so
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins
 
   obs-text-pango:
     plugin: cmake
@@ -651,7 +647,8 @@ parts:
       usr/data/obs-plugins/text-pango/locale/*.ini: usr/share/obs/obs-plugins/text-pango/locale/
       usr/obs-plugins/*bit/libtext-pango.so: usr/lib/obs-plugins/
     prime:
-      - -usr/data/obs-plugins/text-pango
+      - usr/share
+      - usr/lib
 
   libndi:
     plugin: nil
@@ -714,6 +711,9 @@ parts:
       - libudev1
     organize:
       root/stage/usr/lib/obs-plugins/obs-gphoto.so: usr/lib/obs-plugins/
+    prime:
+      - usr/lib
+      - usr/share
 
   obs-gstreamer:
     plugin: meson

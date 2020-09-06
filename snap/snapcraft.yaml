@@ -300,7 +300,6 @@ parts:
     source: https://github.com/xiph/rnnoise.git
     configflags:
       - --prefix=/usr
-      - --disable-debug
       - --disable-static
 
   obs:

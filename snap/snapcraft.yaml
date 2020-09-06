@@ -523,9 +523,8 @@ parts:
       - -DCMAKE_C_FLAGS_RELEASE='-s'
       - -DCMAKE_CXX_FLAGS_RELEASE='-s'
       - -DGLOBAL_INSTALLATION=TRUE
-    override-pull: |
-      snapcraftctl pull
-      sed -i 's|VERSION 3\.17|VERSION 3\.10|' CMakeLists.txt
+    build-snaps:
+      - cmake/3.17/stable
 
   obs-vintage-filter:
     plugin: cmake

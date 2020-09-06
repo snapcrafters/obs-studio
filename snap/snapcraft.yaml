@@ -749,6 +749,7 @@ parts:
       - --prefix=/usr
       - --disable-debug
       - --disable-static
+      - --enable-quiet
     build-environment:
       - CC: gcc-8
       - CCX: g++-8

@@ -815,11 +815,11 @@ parts:
     plugin: nil
     after: [ obs-wrapper ]
     override-prime: |
-      for CRUFT in CEF usr/include usr/share/bug usr/share/lintian usr/share/man; do
+      for CRUFT in CEF usr/include usr/share/bug usr/share/lintian usr/share/man usr/share/pkgconfig; do
         rm -rf ${SNAPCRAFT_PRIME}/${CRUFT}
       done
       find ${SNAPCRAFT_PRIME}/usr/share/doc/ -type f -not -name 'copyright' -delete || true
       rm ${SNAPCRAFT_PRIME}/usr/share/doc/*/*.gz 2>/dev/null || true
       rm -rf ${SNAPCRAFT_PRIME}/usr/share/doc/*/examples || true
-      rm ${SNAPCRAFT_PRIME}/usr/share/doc/*/README* || true
-      find ${SNAPCRAFT_PRIME}/usr/share -type d -empty -delete || true
+      rm ${SNAPCRAFT_PRIME}/usr/share/doc/*/README* 2>/dev/null || true
+      find ${SNAPCRAFT_PRIME}/usr -type d -empty -delete || true

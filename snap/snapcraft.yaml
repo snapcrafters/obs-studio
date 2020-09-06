@@ -346,8 +346,8 @@ parts:
       # Fix incorrectly named assets
       #  - https://github.com/flexiondotorg/obs-studio/commit/06fdd352989cde049efdbdc0109fcb548fd9f6e2#diff-665a769f87fd0b4a95ffcd167d8fc80d
       for THEME in Acri Dark Rachni; do
-        sed 's|Dark/Close\.svg|Dark/close\.svg|' UI/data/themes/${THEME}.qss
-        sed 's|Dark/Popout\.svg|Dark/popout\.svg|' UI/data/themes/${THEME}.qss
+        sed -i 's|Dark/Close\.svg|Dark/close\.svg|' ${SNAPCRAFT_PART_SRC}/UI/data/themes/${THEME}.qss
+        sed -i 's|Dark/Popout\.svg|Dark/popout\.svg|' ${SNAPCRAFT_PART_SRC}/UI/data/themes/${THEME}.qss
       done
 
       #  The following plugins are all intended to be built in tree

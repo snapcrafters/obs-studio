@@ -704,6 +704,7 @@ parts:
       - libgphoto2-6
       - libjpeg-turbo8
       - libudev1
+      - libusb-1.0-0
     organize:
       root/stage/usr/lib/obs-plugins/obs-gphoto.so: usr/lib/obs-plugins/
     prime:

@@ -217,4 +217,5 @@ if [ ! -e "${SNAP_USER_DATA}/.config/obs-studio/basic/scenes/Untitled.json" ]; t
 EOM
 fi
 
+unset SESSION_MANAGER
 exec "$@"

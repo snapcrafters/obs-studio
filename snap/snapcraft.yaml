@@ -57,7 +57,7 @@ apps:
       # Without that OpenGL using apps do not work with the nVidia drivers.
       # Ref.: https://bugs.launchpad.net/snappy/+bug/1588192
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$LIBGL_DRIVERS_PATH:/var/lib/snapd/lib/gl
-    plugs:
+    plugs: &plugs
       - alsa
       - audio-playback
       - audio-record
@@ -78,6 +78,30 @@ apps:
       - unity7
       - wayland
       - x11
+  vainfo:
+    command: usr/bin/vainfo
+    command-chain:
+      - bin/desktop-launch
+      - bin/obs-wrapper
+    plugs: *plugs
+  vdpauinfo:
+    command: usr/bin/vdpauinfo
+    command-chain:
+      - bin/desktop-launch
+      - bin/obs-wrapper
+    plugs: *plugs
+  eglinfo:
+    command: usr/bin/eglinfo
+    command-chain:
+      - bin/desktop-launch
+      - bin/obs-wrapper
+    plugs: *plugs
+  glxinfo:
+    command: usr/bin/glxinfo
+    command-chain:
+      - bin/desktop-launch
+      - bin/obs-wrapper
+    plugs: *plugs
 
 parts:
   desktop-qt5:
@@ -809,6 +833,11 @@ parts:
     plugin: dump
     after: [ obs-plugins ]
     source: snap/local/
+    stage-packages:
+      - mesa-utils
+      - mesa-utils-extra
+      - vainfo
+      - vdpauinfo
     organize:
       obs-wrapper: bin/
 

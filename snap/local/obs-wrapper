@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
-if [ -e "/var/lib/snapd/lib/gl/xorg/nvidia_drv.so" ]; then
+export VDPAU_DRIVER_PATH="/usr/lib/${SNAP_LAUNCHER_ARCH_TRIPLET}/vdpau/"
+if [ -e "/var/lib/snapd/lib/gl/vdpau/libvdpau_nvidia.so" ]; then
   export VDPAU_DRIVER_PATH="/var/lib/snapd/lib/gl/vdpau"
-else
-  export VDPAU_DRIVER_PATH="/usr/lib/${SNAP_LAUNCHER_ARCH_TRIPLET}/vdpau/"
+  # Prevent picking VA-API (Intel/AMD) over NVIDIA VDPAU; on PRIME systems for example
+  unset LIBVA_DRIVERS_PATH
 fi
 
 # Make sure the user plugins folder exists.

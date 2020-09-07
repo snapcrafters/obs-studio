@@ -278,13 +278,6 @@ parts:
       - --enable-vdpau
       - --enable-version3
       - --enable-xlib
-    prime:
-      - usr/bin
-      - usr/lib
-      - usr/lib/pkgconfig
-      - usr/include
-      - -usr/share/doc
-      - -usr/share/man
 
   cef:
     plugin: cmake

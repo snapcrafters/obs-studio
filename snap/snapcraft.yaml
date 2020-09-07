@@ -45,7 +45,10 @@ layout:
 
 apps:
   obs-studio:
-    command: bin/desktop-launch $SNAP/bin/obs-wrapper
+    command: usr/bin/obs
+    command-chain:
+      - bin/desktop-launch
+      - bin/obs-wrapper
     common-id: com.obsproject.Studio
     desktop: usr/share/applications/com.obsproject.Studio.desktop
     environment:

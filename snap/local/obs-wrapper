@@ -216,4 +216,4 @@ if [ ! -e "${SNAP_USER_DATA}/.config/obs-studio/basic/scenes/Untitled.json" ]; t
 EOM
 fi
 
-exec "${SNAP}/usr/bin/obs" "${@}"
+exec "$@"

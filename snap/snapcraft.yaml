@@ -47,16 +47,12 @@ apps:
   obs-studio:
     command: usr/bin/obs
     command-chain:
-      - bin/desktop-launch
+      - snap/command-chain/desktop-launch
       - bin/obs-wrapper
     common-id: com.obsproject.Studio
     desktop: usr/share/applications/com.obsproject.Studio.desktop
     environment:
-      # Workaround in snapd for proprietary nVidia drivers mounts the drivers in
-      # /var/lib/snapd/lib/gl that needs to be in LD_LIBRARY_PATH
-      # Without that OpenGL using apps do not work with the nVidia drivers.
-      # Ref.: https://bugs.launchpad.net/snappy/+bug/1588192
-      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$LIBGL_DRIVERS_PATH:/var/lib/snapd/lib/gl
+      SNAP_DESKTOP_RUNTIME: $SNAP
     plugs: &plugs
       - alsa
       - audio-playback
@@ -82,40 +78,42 @@ apps:
   vainfo:
     command: usr/bin/vainfo
     command-chain:
-      - bin/desktop-launch
+      - snap/command-chain/desktop-launch
       - bin/obs-wrapper
+    environment:
+      SNAP_DESKTOP_RUNTIME: $SNAP
     plugs: *plugs
   vdpauinfo:
     command: usr/bin/vdpauinfo
     command-chain:
-      - bin/desktop-launch
+      - snap/command-chain/desktop-launch
       - bin/obs-wrapper
+    environment:
+      SNAP_DESKTOP_RUNTIME: $SNAP
     plugs: *plugs
   eglinfo:
     command: usr/bin/eglinfo
     command-chain:
-      - bin/desktop-launch
+      - snap/command-chain/desktop-launch
       - bin/obs-wrapper
+    environment:
+      SNAP_DESKTOP_RUNTIME: $SNAP
     plugs: *plugs
   glxinfo:
     command: usr/bin/glxinfo
     command-chain:
-      - bin/desktop-launch
+      - snap/command-chain/desktop-launch
       - bin/obs-wrapper
+    environment:
+      SNAP_DESKTOP_RUNTIME: $SNAP
     plugs: *plugs
 
 parts:
   desktop-qt5:
     plugin: make
-    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
-    source-subdir: qt
-    make-parameters:
-      - FLAVOR=qt5
-    build-environment:
-      - CC: gcc-8
-      - CCX: g++-8
+    source: $SNAPCRAFT_EXTENSIONS_DIR/desktop
+    source-subdir: kde-neon
     build-packages:
-      - build-essential
       - gcc-8
       - g++-8
       - qtbase5-dev

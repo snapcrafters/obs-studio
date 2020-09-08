@@ -319,9 +319,8 @@ parts:
   obs:
     plugin: cmake
     after:
-      - desktop-qt5
-      - ffmpeg
       - cef
+      - ffmpeg
       - rnnoise
     configflags:
       - -DCMAKE_C_COMPILER=gcc-8
@@ -837,7 +836,12 @@ parts:
 
   cleanup:
     plugin: nil
-    after: [ obs-wrapper ]
+    after:
+      - cef
+      - desktop-qt5
+      - ffmpeg
+      - obs-wrapper
+      - rnnoise
     override-prime: |
       for CRUFT in CEF usr/include usr/share/bug usr/share/lintian usr/share/man usr/share/pkgconfig; do
         rm -rf ${SNAPCRAFT_PRIME}/${CRUFT}

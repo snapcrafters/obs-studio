@@ -8,11 +8,11 @@ if [ -e "/var/lib/snapd/lib/gl/vdpau/libvdpau_nvidia.so" ]; then
 fi
 
 # Make sure the user plugins folder exists.
-[ ! -d "${SNAP_USER_DATA}/.config/obs-studio/plugins" ] || mkdir -p "${SNAP_USER_DATA}/.config/obs-studio/plugins"
+[ -d "${SNAP_USER_DATA}/.config/obs-studio/plugins" ] || mkdir -p "${SNAP_USER_DATA}/.config/obs-studio/plugins"
 
 # Make sure a default Scene configuration exists, prior to OBS launching.
 # The prevents some plugins segfaulting on first start of a fresh install.
-[ ! -d "${SNAP_USER_DATA}/.config/obs-studio/basic/scenes" ] || mkdir -p "${SNAP_USER_DATA}/.config/obs-studio/basic/scenes"
+[ -d "${SNAP_USER_DATA}/.config/obs-studio/basic/scenes" ] || mkdir -p "${SNAP_USER_DATA}/.config/obs-studio/basic/scenes"
 
 if [ ! -e "${SNAP_USER_DATA}/.config/obs-studio/basic/scenes/Untitled.json" ]; then
   cat <<'EOM' > "${SNAP_USER_DATA}/.config/obs-studio/basic/scenes/Untitled.json"

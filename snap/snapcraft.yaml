@@ -113,6 +113,9 @@ parts:
     plugin: make
     source: $SNAPCRAFT_EXTENSIONS_DIR/desktop
     source-subdir: kde-neon
+    build-environment:
+      - CC: gcc-8
+      - CCX: g++-8
     build-packages:
       - gcc-8
       - g++-8

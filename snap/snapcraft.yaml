@@ -462,6 +462,12 @@ parts:
       - libxss-dev
     stage-packages:
       - libasound2
+      #- libavcodec58         # comes via the FFmpeg part
+      #- libavdevice58        # comes via the FFmpeg part
+      #- libavfilter7         # comes via the FFmpeg part
+      #- libavformat58        # comes via the FFmpeg part
+      #- libavutil56          # comes via the FFmpeg part
+      #- libavresample4       # comes via the FFmpeg part
       - libcurl4
       - libfdk-aac1
       - libfreetype6
@@ -477,6 +483,8 @@ parts:
       - libqt5x11extras5
       - libqt5xml5
       - libspeexdsp1
+      #- libswresample3       # comes via the FFmpeg part
+      #- libswscale5          # comes via the FFmpeg part
       - libv4l-0
       - libv4l2rds0
       - libvlc5

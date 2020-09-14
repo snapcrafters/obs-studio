@@ -851,7 +851,7 @@ parts:
       - obs-wrapper
       - rnnoise
     override-prime: |
-      for CRUFT in CEF usr/include usr/share/bug usr/share/lintian usr/share/man usr/share/pkgconfig; do
+      for CRUFT in CEF usr/include usr/share/apport usr/share/bug usr/share/fonts usr/share/lintian usr/share/man usr/share/pkgconfig; do
         rm -rf ${SNAPCRAFT_PRIME}/${CRUFT}
       done
       find ${SNAPCRAFT_PRIME}/usr/share/doc/ -type f -not -name 'copyright' -delete || true

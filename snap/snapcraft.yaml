@@ -52,6 +52,7 @@ apps:
     common-id: com.obsproject.Studio
     desktop: usr/share/applications/com.obsproject.Studio.desktop
     environment:
+      PYTHONPATH: $PYTHONPATH:$SNAP/usr/lib/python3/dist-packages
       SNAP_DESKTOP_RUNTIME: $SNAP
     plugs: &plugs
       - alsa
@@ -830,9 +831,19 @@ parts:
       - obs-websocket
       - obs-v4l2sink
 
-  obs-wrapper:
+  # Adds 3rd party OBS scripts to the snap
+  obs-scripts:
     plugin: dump
     after: [ obs-plugins ]
+    source: snap/local/
+    stage-packages:
+      - python3-lxml
+    organize:
+      youtubelink.py: usr/share/obs/obs-plugins/frontend-tools/scripts/
+
+  obs-wrapper:
+    plugin: dump
+    after: [ obs-scripts ]
     source: snap/local/
     stage-packages:
       - mesa-utils

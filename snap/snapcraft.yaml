@@ -141,12 +141,11 @@ parts:
       - pkg-config
 
   ffmpeg:
+    plugin: autotools
     after:
       - nv-codec-headers
-    plugin: autotools
     source: https://github.com/FFmpeg/FFmpeg.git
     source-branch: release/4.3
-    source-depth: 1
     build-environment:
       - CC: gcc-8
       - CCX: g++-8

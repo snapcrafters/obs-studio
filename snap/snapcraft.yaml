@@ -126,6 +126,7 @@ parts:
       - libqt5gui5
       - qt5-image-formats-plugins
       - qtwayland5
+      - xdg-desktop-portal
 
   nv-codec-headers:
     plugin: make

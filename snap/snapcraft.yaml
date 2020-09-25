@@ -142,10 +142,28 @@ parts:
       - g++-8
       - pkg-config
 
+  srt:
+    plugin: cmake
+    source: https://github.com/Haivision/srt.git
+    source-tag: 'v1.4.1'
+    configflags:
+      - -DCMAKE_C_COMPILER=gcc-8
+      - -DCMAKE_CXX_COMPILER=g++-8
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE=-s
+      - -DCMAKE_CXX_FLAGS_RELEASE=-s
+      - -DENABLE_STATIC=OFF
+    build-packages:
+      - gcc-8
+      - g++-8
+      - libssl-dev
+
   ffmpeg:
     plugin: autotools
     after:
       - nv-codec-headers
+      - srt
     source: https://github.com/FFmpeg/FFmpeg.git
     source-branch: release/4.3
     build-environment:
@@ -257,6 +275,7 @@ parts:
       - --enable-libpulse
       - --enable-librsvg
       - --enable-libspeex
+      - --enable-libsrt
       - --enable-libtheora
       - --enable-libtwolame
       - --enable-libv4l2

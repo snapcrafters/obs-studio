@@ -454,6 +454,7 @@ parts:
       - libudev-dev
       - libv4l-dev
       - libvlc-dev
+      - libvlccore-dev
       - libx11-dev
       - libx11-xcb-dev
       - libx264-dev
@@ -509,6 +510,7 @@ parts:
       - libv4l-0
       - libv4l2rds0
       - libvlc5
+      - libvlccore9
       - libx11-6
       - libx11-xcb1
       - libx264-152
@@ -832,6 +834,23 @@ parts:
     prime:
       - usr/lib/*/libnetlib.so
 
+  vlc-plugins:
+    plugin: nil
+    stage-packages:
+      - vlc-plugin-base
+    stage:
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libsrt.*         # Provided by the srt part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavcodec.*     # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavdevice.*    # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavfilter.*    # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavformat.*    # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavutil.*      # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libpostproc.*    # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libswresample.*  # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libswscale.*     # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/vlc/lua
+      - -usr/share/vlc
+
   # Adds runtime support to the snap for 3rd party plugins not bundled in the snap
   obs-plugins:
     plugin: nil
@@ -850,6 +869,7 @@ parts:
       - obs-vnc
       - obs-websocket
       - obs-v4l2sink
+      - vlc-plugins
 
   # Adds 3rd party OBS scripts to the snap
   obs-scripts:

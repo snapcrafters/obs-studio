@@ -385,13 +385,6 @@ parts:
         sed -i 's|obs-browser-page/obs-browser-page-main.cpp|obs-browser-page-main/obs-browser-page-main.cpp|g' plugins/obs-browser/CMakeLists.txt
       fi
 
-      # Fix incorrectly named assets
-      #  - https://github.com/flexiondotorg/obs-studio/commit/06fdd352989cde049efdbdc0109fcb548fd9f6e2#diff-665a769f87fd0b4a95ffcd167d8fc80d
-      for THEME in Acri Dark Rachni; do
-        sed -i 's|Dark/Close\.svg|Dark/close\.svg|' ${SNAPCRAFT_PART_SRC}/UI/data/themes/${THEME}.qss
-        sed -i 's|Dark/Popout\.svg|Dark/popout\.svg|' ${SNAPCRAFT_PART_SRC}/UI/data/themes/${THEME}.qss
-      done
-
       #  The following plugins are all intended to be built in tree
       git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/SceneSwitcher --branch 1.6.2
       echo "add_subdirectory(SceneSwitcher)" >> ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/CMakeLists.txt

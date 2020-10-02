@@ -838,6 +838,7 @@ parts:
   vlc-plugins:
     plugin: nil
     stage-packages:
+      - libslang2
       - vlc-plugin-base
     stage:
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libsrt.*         # Provided by the srt part

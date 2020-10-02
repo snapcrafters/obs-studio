@@ -335,6 +335,8 @@ parts:
     configflags:
       - --prefix=/usr
       - --disable-static
+    stage:
+      - -usr/lib/*.la
 
   # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
   obs:
@@ -809,6 +811,8 @@ parts:
       - libxinerama1
       - libxt6
       - libxtst6
+    stage:
+      - -usr/lib/*.la
 
   # Required by Input Overlay if added as a 3rd party plugin
   netlib:

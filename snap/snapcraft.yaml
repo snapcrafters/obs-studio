@@ -252,6 +252,7 @@ parts:
       # Only available for amd64 and i386
       - try:
         - mesa-va-drivers
+        - i965-va-driver
     configflags:
       - --prefix=/usr
       - --disable-avisynth

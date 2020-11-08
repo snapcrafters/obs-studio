@@ -1,6 +1,6 @@
 name: obs-studio
 adopt-info: obs
-base: core18
+base: core20
 grade: stable
 confinement: strict
 license: GPL-2.0
@@ -114,12 +114,8 @@ parts:
     plugin: make
     source: $SNAPCRAFT_EXTENSIONS_DIR/desktop
     source-subdir: kde-neon
-    build-environment:
-      - CC: gcc-8
-      - CCX: g++-8
     build-packages:
-      - gcc-8
-      - g++-8
+      - g++
       - qtbase5-dev
     stage-packages:
       - gsettings-desktop-schemas
@@ -134,29 +130,20 @@ parts:
     source-branch: 'sdk/9.1'
     make-parameters:
       - PREFIX=/usr
-    build-environment:
-      - CC: gcc-8
-      - CCX: g++-8
     build-packages:
-      - gcc-8
-      - g++-8
       - pkg-config
 
   srt:
     plugin: cmake
     source: https://github.com/Haivision/srt.git
     source-tag: 'v1.4.1'
-    configflags:
-      - -DCMAKE_C_COMPILER=gcc-8
-      - -DCMAKE_CXX_COMPILER=g++-8
+    cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_C_FLAGS_RELEASE=-s
       - -DCMAKE_CXX_FLAGS_RELEASE=-s
       - -DENABLE_STATIC=OFF
     build-packages:
-      - gcc-8
-      - g++-8
       - libssl-dev
 
   ffmpeg:
@@ -166,12 +153,7 @@ parts:
       - srt
     source: https://github.com/FFmpeg/FFmpeg.git
     source-branch: release/4.3
-    build-environment:
-      - CC: gcc-8
-      - CCX: g++-8
     build-packages:
-      - gcc-8
-      - g++-8
       - libass-dev
       - libbz2-dev
       - libdrm-dev
@@ -231,12 +213,12 @@ parts:
       - libvdpau-va-gl1
       - libvorbis0a
       - libvorbisenc2
-      - libvpx5
+      - libvpx6
       - libwebp6
       - libwebpmux3
       - libx11-6
-      - libx264-152
-      - libx265-146
+      - libx264-155
+      - libx265-179
       - libxau6
       - libxcb-shape0
       - libxcb-shm0
@@ -253,7 +235,7 @@ parts:
       - try:
         - mesa-va-drivers
         - i965-va-driver
-    configflags:
+    autotools-configure-parameters:
       - --prefix=/usr
       - --disable-avisynth
       - --disable-crystalhd
@@ -307,9 +289,6 @@ parts:
     source:
       - on amd64: http://opensource.spotify.com/cefbuilds/cef_binary_76.1.13%2Bgf19c584%2Bchromium-76.0.3809.132_linux64_minimal.tar.bz2
       - on i386: http://opensource.spotify.com/cefbuilds/cef_binary_76.1.13%2Bgf19c584%2Bchromium-76.0.3809.132_linux32_minimal.tar.bz2
-    build-packages:
-      - gcc-8
-      - g++-8
     override-pull: |
       snapcraftctl pull
       strip --strip-unneeded ${SNAPCRAFT_PART_SRC}/Release/*.so
@@ -318,8 +297,6 @@ parts:
     override-build: |
       cd ${SNAPCRAFT_PART_SRC}
       cmake \
-        -DCMAKE_C_COMPILER=gcc-8 \
-        -DCMAKE_CXX_COMPILER=g++-8 \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_C_FLAGS_RELEASE=-s \
         -DCMAKE_CXX_FLAGS_RELEASE=-s \
@@ -333,7 +310,7 @@ parts:
   rnnoise:
     plugin: autotools
     source: https://github.com/xiph/rnnoise.git
-    configflags:
+    autotools-configure-parameters:
       - --prefix=/usr
       - --disable-static
     stage:
@@ -346,9 +323,7 @@ parts:
       - cef
       - ffmpeg
       - rnnoise
-    configflags:
-      - -DCMAKE_C_COMPILER=gcc-8
-      - -DCMAKE_CXX_COMPILER=g++-8
+    cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_C_FLAGS_RELEASE=-s
@@ -426,8 +401,6 @@ parts:
       [ -d ${SNAPCRAFT_STAGE}/usr/include/cmake/external ] || mkdir -p ${SNAPCRAFT_STAGE}/usr/include/cmake/external
       cp ${SNAPCRAFT_PART_SRC}/cmake/external/*.cmake ${SNAPCRAFT_STAGE}/usr/include/cmake/external/
     build-packages:
-      - gcc-8
-      - g++-8
       - clang-tidy
       - libasound2-dev
       #- libavcodec-dev       # comes via the FFmpeg part
@@ -497,9 +470,9 @@ parts:
       - jackd1                # not libjack-jackd2-0 as upstream suggests; snapd currently supports jack1
       - libjansson4
       - libluajit-5.1-2
-      - libmbedtls10
+      - libmbedtls12
       - libpulse0
-      - libpython3.6
+      - libpython3.8
       - libqt5svg5
       - libqt5x11extras5
       - libqt5xml5
@@ -512,7 +485,7 @@ parts:
       - libvlccore9
       - libx11-6
       - libx11-xcb1
-      - libx264-152
+      - libx264-155
       - libxcb-randr0
       - libxcb-shm0
       - libxcb-xfixes0
@@ -534,9 +507,7 @@ parts:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/flexiondotorg/obs-v4l2sink.git
-    configflags:
-      - -DCMAKE_C_COMPILER=gcc-8
-      - -DCMAKE_CXX_COMPILER=g++-8
+    cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_C_FLAGS_RELEASE=-s
@@ -548,9 +519,7 @@ parts:
     after: [ obs ]
     source: https://github.com/admshao/obs-transition-matrix.git
     source-tag: 'v1.0'
-    configflags:
-      - -DCMAKE_C_COMPILER=gcc-8
-      - -DCMAKE_CXX_COMPILER=g++-8
+    cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_C_FLAGS_RELEASE=-s
@@ -562,9 +531,7 @@ parts:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/univrsal/dvds3.git
-    configflags:
-      - -DCMAKE_C_COMPILER=gcc-8
-      - -DCMAKE_CXX_COMPILER=g++-8
+    cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_C_FLAGS_RELEASE=-s
@@ -579,9 +546,7 @@ parts:
     after: [ obs ]
     source: https://github.com/cg2121/obs-vintage-filter.git
     source-tag: 'v0.1'
-    configflags:
-      - -DCMAKE_C_COMPILER=gcc-8
-      - -DCMAKE_CXX_COMPILER=g++-8
+    cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_C_FLAGS_RELEASE=-s
@@ -593,9 +558,7 @@ parts:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/petrifiedpenguin/obs-rgb-levels-filter.git
-    configflags:
-      - -DCMAKE_C_COMPILER=gcc-8
-      - -DCMAKE_CXX_COMPILER=g++-8
+    cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_C_FLAGS_RELEASE=-s
@@ -616,8 +579,6 @@ parts:
       mkdir -p $SNAPCRAFT_PART_SRC/build
       cd $SNAPCRAFT_PART_SRC/build
       cmake \
-        -DCMAKE_C_COMPILER=gcc-8 \
-        -DCMAKE_CXX_COMPILER=g++-8 \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_C_FLAGS_RELEASE=-s \
@@ -638,8 +599,6 @@ parts:
       mkdir -p $SNAPCRAFT_PART_SRC/build
       cd $SNAPCRAFT_PART_SRC/build
       cmake \
-        -DCMAKE_C_COMPILER=gcc-8 \
-        -DCMAKE_CXX_COMPILER=g++-8 \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_C_FLAGS_RELEASE=-s \
@@ -656,9 +615,7 @@ parts:
     after: [ obs ]
     source: https://github.com/Palakis/obs-websocket.git
     source-tag: '4.8.0'
-    configflags:
-      - -DCMAKE_C_COMPILER=gcc-8
-      - -DCMAKE_CXX_COMPILER=g++-8
+    cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_C_FLAGS_RELEASE=-s
@@ -676,9 +633,7 @@ parts:
     after: [ obs ]
     source: https://github.com/kkartaltepe/obs-text-pango.git
     source-tag: v1.0
-    configflags:
-      - -DCMAKE_C_COMPILER=gcc-8
-      - -DCMAKE_CXX_COMPILER=g++-8
+    cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_C_FLAGS_RELEASE=-s
@@ -721,9 +676,7 @@ parts:
       - libndi
     source: https://github.com/Palakis/obs-ndi.git
     source-tag: '4.9.1'
-    configflags:
-      - -DCMAKE_C_COMPILER=gcc-8
-      - -DCMAKE_CXX_COMPILER=g++-8
+    cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_C_FLAGS_RELEASE=-s
@@ -738,17 +691,13 @@ parts:
     after: [ obs ]
     source: https://github.com/adlerweb/obs-gphoto.git
     source-branch: 'adlerweb'
-    configflags:
-      - -DCMAKE_C_COMPILER=gcc-8
-      - -DCMAKE_CXX_COMPILER=g++-8
+    cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_C_FLAGS_RELEASE=-s
       - -DCMAKE_CXX_FLAGS_RELEASE=-s
       - -DSYSTEM_INSTALL=TRUE
     build-packages:
-      - gcc-8
-      - g++-8
       - libgphoto2-dev
       - libjpeg-turbo8-dev
       - libudev-dev
@@ -766,16 +715,11 @@ parts:
     plugin: meson
     after: [ obs ]
     source: https://github.com/fzwoch/obs-gstreamer.git
-    build-environment:
-      - CC: gcc-8
-      - CCX: g++-8
     meson-parameters:
       - --prefix=/usr
       - --buildtype=release
       - --strip
     build-packages:
-      - gcc-8
-      - g++-8
       - libgstreamer1.0-dev
       - libgstreamer-plugins-base1.0-dev
       - ninja-build
@@ -790,17 +734,12 @@ parts:
     after: [ obs ]
     source: https://github.com/kwhat/libuiohook.git
     source-tag: '1.0.3'
-    configflags:
+    autotools-configure-parameters:
       - --prefix=/usr
       - --disable-debug
       - --disable-static
       - --enable-quiet
-    build-environment:
-      - CC: gcc-8
-      - CCX: g++-8
     build-packages:
-      - gcc-8
-      - g++-8
       - libxinerama-dev
       - libxt-dev
       - libxtst-dev
@@ -818,13 +757,8 @@ parts:
     after: [ obs ]
     source: https://github.com/univrsal/netlib.git
     source-tag: 'v0.2'
-    build-packages:
-      - gcc-8
-      - g++-8
     override-build: |
       cmake \
-        -DCMAKE_CXX_COMPILER=g++-8 \
-        -DCMAKE_C_COMPILER=gcc-8 \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_C_FLAGS_RELEASE=-s \

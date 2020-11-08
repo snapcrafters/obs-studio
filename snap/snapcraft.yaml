@@ -386,6 +386,9 @@ parts:
       git clone --recursive https://github.com/exeldro/obs-dynamic-delay.git ${SNAPCRAFT_PART_SRC}/plugins/obs-dynamic-delay
       echo "add_subdirectory(obs-dynamic-delay)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
+      git clone --recursive https://github.com/exeldro/obs-recursion-effect.git ${SNAPCRAFT_PART_SRC}/plugins/obs-recursion-effect --branch 0.0.1
+      echo "add_subdirectory(obs-recursion-effect)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
+
       git clone --recursive https://github.com/univrsal/spectralizer.git ${SNAPCRAFT_PART_SRC}/plugins/spectralizer --branch v1.2
       echo "add_subdirectory(spectralizer)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 

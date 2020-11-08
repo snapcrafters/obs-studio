@@ -62,13 +62,19 @@ The snap of OBS studio comes pre-loaded with some additional features and plugin
 
 ## Removable Storage
 
-To access content on external storage, manually connect to the removable-media plug:-
+To access content on external storage, manually connect to the removable-media plug:
 
 ```
 snap connect obs-studio:removable-media
 ```
 
 ## V4L2Sink
+
+Connect to the kernel-module-observe plug so that OBS can observer the status of kernel modules:
+
+```
+sudo snap connect obs-studio:kernel-module-observe
+```
 
 To make use of the V4L2Sink plugin to create a virtual webcam, install
 and configure `v4l2loopback` as follows:
@@ -115,8 +121,8 @@ plugin looks when correctly installed:
 /home/username/snap/obs-studio/current/.config/obs-studio/plugins/
 └── input-overlay
     ├── bin
-    │   └── 64bit
-    │       └── input-overlay.so
+    │   └── 64bit
+    │       └── input-overlay.so
     └── data
         └── locale
             ├── de-DE.ini

@@ -67,6 +67,7 @@ apps:
       - home
       - jack1
       - joystick
+      - kernel-module-observe
       - network
       - network-bind
       - opengl
@@ -316,6 +317,7 @@ parts:
       - -usr/lib/*.la
 
   # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
+  # Review this commit when adding VirtualWebCam support https://github.com/obsproject/obs-studio/commit/6af8726c7478a2f69310c2063254409b6af082b7
   obs:
     plugin: cmake
     after:

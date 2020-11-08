@@ -354,6 +354,10 @@ parts:
       # Update the icon path
       sed -i 's|Icon=com\.obsproject\.Studio|Icon=/usr/share/icons/hicolor/256x256/apps/com\.obsproject\.Studio\.png|' UI/xdg-data/com.obsproject.Studio.desktop
 
+      # Apply the "Save device by path" patch https://github.com/obsproject/obs-studio/pull/3437
+      wget "https://patch-diff.githubusercontent.com/raw/obsproject/obs-studio/pull/3437.diff" -O ${SNAPCRAFT_PART_SRC}/3437.diff
+      patch -p1 < ${SNAPCRAFT_PART_SRC}/3437.diff
+
       # Work around for https://github.com/obsproject/obs-browser/issues/239
       if [ -d plugins/obs-browser/obs-browser-page ]; then
         mv -v plugins/obs-browser/obs-browser-page plugins/obs-browser/obs-browser-page-main

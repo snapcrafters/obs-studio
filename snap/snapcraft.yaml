@@ -115,7 +115,6 @@ parts:
     source: $SNAPCRAFT_EXTENSIONS_DIR/desktop
     source-subdir: kde-neon
     build-packages:
-      - g++
       - qtbase5-dev
     stage-packages:
       - gsettings-desktop-schemas

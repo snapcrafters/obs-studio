@@ -466,6 +466,8 @@ parts:
       - ninja-build
       # Required by Advanced Scene Switcher
       - libxss-dev
+      # Required to get patches
+      - wget
     stage-packages:
       - libasound2
       #- libavcodec58         # comes via the FFmpeg part

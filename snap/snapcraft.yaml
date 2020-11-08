@@ -403,6 +403,10 @@ parts:
       cp ${SNAPCRAFT_PART_SRC}/UI/obs-frontend-api/*.h ${SNAPCRAFT_STAGE}/usr/include/obs/
       [ -d ${SNAPCRAFT_STAGE}/usr/include/cmake/external ] || mkdir -p ${SNAPCRAFT_STAGE}/usr/include/cmake/external
       cp ${SNAPCRAFT_PART_SRC}/cmake/external/*.cmake ${SNAPCRAFT_STAGE}/usr/include/cmake/external/
+    build-environment:
+      - CMAKE_INCLUDE_PATH: $CMAKE_INCLUDE_PATH:$SNAPCRAFT_STAGE/include:$SNAPCRAFT_STAGE/usr/include:$SNAPCRAFT_STAGE/include/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/include/$SNAPCRAFT_ARCH_TRIPLET
+      - CMAKE_LIBRARY_PATH: $CMAKE_LIBRARY_PATH:$SNAPCRAFT_STAGE/lib:$SNAPCRAFT_STAGE/usr/lib:$SNAPCRAFT_STAGE/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
+      - LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAPCRAFT_STAGE/lib:$SNAPCRAFT_STAGE/usr/lib:$SNAPCRAFT_STAGE/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
     build-packages:
       - clang-tidy
       - libasound2-dev

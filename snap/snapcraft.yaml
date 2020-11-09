@@ -77,22 +77,6 @@ apps:
       - unity7
       - wayland
       - x11
-  vainfo:
-    command: usr/bin/vainfo
-    command-chain:
-      - snap/command-chain/desktop-launch
-      - bin/obs-wrapper
-    environment:
-      SNAP_DESKTOP_RUNTIME: $SNAP
-    plugs: *plugs
-  vdpauinfo:
-    command: usr/bin/vdpauinfo
-    command-chain:
-      - snap/command-chain/desktop-launch
-      - bin/obs-wrapper
-    environment:
-      SNAP_DESKTOP_RUNTIME: $SNAP
-    plugs: *plugs
   eglinfo:
     command: usr/bin/eglinfo
     command-chain:
@@ -103,6 +87,22 @@ apps:
     plugs: *plugs
   glxinfo:
     command: usr/bin/glxinfo
+    command-chain:
+      - snap/command-chain/desktop-launch
+      - bin/obs-wrapper
+    environment:
+      SNAP_DESKTOP_RUNTIME: $SNAP
+    plugs: *plugs
+  vainfo:
+    command: usr/bin/vainfo
+    command-chain:
+      - snap/command-chain/desktop-launch
+      - bin/obs-wrapper
+    environment:
+      SNAP_DESKTOP_RUNTIME: $SNAP
+    plugs: *plugs
+  vdpauinfo:
+    command: usr/bin/vdpauinfo
     command-chain:
       - snap/command-chain/desktop-launch
       - bin/obs-wrapper

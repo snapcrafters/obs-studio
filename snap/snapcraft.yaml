@@ -93,6 +93,62 @@ apps:
     environment:
       SNAP_DESKTOP_RUNTIME: $SNAP
     plugs: *plugs
+  ffmpeg:
+    command: usr/bin/ffmpeg
+    command-chain:
+      - snap/command-chain/desktop-launch
+      - bin/obs-wrapper
+    environment:
+      SNAP_DESKTOP_RUNTIME: $SNAP
+    plugs: *plugs
+  ffplay:
+    command: usr/bin/ffplay
+    command-chain:
+      - snap/command-chain/desktop-launch
+      - bin/obs-wrapper
+    environment:
+      SNAP_DESKTOP_RUNTIME: $SNAP
+    plugs: *plugs
+  ffprobe:
+    command: usr/bin/ffprobe
+    command-chain:
+      - snap/command-chain/desktop-launch
+      - bin/obs-wrapper
+    environment:
+      SNAP_DESKTOP_RUNTIME: $SNAP
+    plugs: *plugs
+  srt-ffplay:
+    command: usr/bin/srt-ffplay
+    command-chain:
+      - snap/command-chain/desktop-launch
+      - bin/obs-wrapper
+    environment:
+      SNAP_DESKTOP_RUNTIME: $SNAP
+    plugs: *plugs
+  srt-file-transmit:
+    command: usr/bin/srt-file-transmit
+    command-chain:
+      - snap/command-chain/desktop-launch
+      - bin/obs-wrapper
+    environment:
+      SNAP_DESKTOP_RUNTIME: $SNAP
+    plugs: *plugs
+  srt-live-transmit:
+    command: usr/bin/srt-live-transmit
+    command-chain:
+      - snap/command-chain/desktop-launch
+      - bin/obs-wrapper
+    environment:
+      SNAP_DESKTOP_RUNTIME: $SNAP
+    plugs: *plugs
+  srt-tunnel:
+    command: usr/bin/srt-tunnel
+    command-chain:
+      - snap/command-chain/desktop-launch
+      - bin/obs-wrapper
+    environment:
+      SNAP_DESKTOP_RUNTIME: $SNAP
+    plugs: *plugs
   vainfo:
     command: usr/bin/vainfo
     command-chain:
@@ -241,7 +297,6 @@ parts:
       - --disable-crystalhd
       - --disable-debug
       - --disable-doc
-      - --disable-programs
       - --disable-static
       - --enable-cuda
       - --enable-cuvid

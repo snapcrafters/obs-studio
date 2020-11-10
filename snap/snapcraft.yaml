@@ -127,7 +127,7 @@ parts:
   nv-codec-headers:
     plugin: make
     source: https://github.com/FFmpeg/nv-codec-headers.git
-    source-branch: 'sdk/9.1'
+    source-branch: 'sdk/10.0'
     make-parameters:
       - PREFIX=/usr
     build-packages:

@@ -38,6 +38,8 @@ layout:
     bind: $SNAP/usr/local/lib
   /usr/share/alsa:
     bind: $SNAP/usr/share/alsa
+  /usr/share/libdrm/amdgpu.ids:
+    bind: $SNAP/usr/share/libdrm/amdgpu.ids
   /usr/share/obs:
     bind: $SNAP/usr/share/obs
   /usr/share/X11:

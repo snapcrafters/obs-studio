@@ -49,7 +49,6 @@ The snap of OBS studio comes pre-loaded with some additional features and plugin
   * **[Recursion Effect](https://github.com/exeldro/obs-recursion-effect)** plugin; add recursion effect to a source using a filter.
   * **[RGB Levels](https://github.com/petrifiedpenguin/obs-rgb-levels-filter)** plugin; simple filter to adjust RGB levels.
   * **[RTSPServer](https://github.com/iamscottxu/obs-rtspserver/)** plugin; encode and publish to a RTSP stream.
-  * **[Scrab](https://github.com/univrsal/scrab)** plugin; adds a configurable hotkey to quickly select a screen region and add it as an image source to the current scene.
   * **[Source Switcher](https://github.com/exeldro/obs-source-switcher)** plugin; to switch between a list of sources.
   * **[Spectralizer](https://github.com/univrsal/spectralizer)** plugin; audio visualization using fftw.
   * **[StreamFX](https://github.com/Xaymar/obs-StreamFX)** plugin; collection modern effects filters and transitions.

@@ -609,19 +609,6 @@ parts:
       snapcraftctl pull
       sed -i 's|VERSION 3\.17|VERSION 3\.10|' CMakeLists.txt
 
-  obs-vintage-filter:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/cg2121/obs-vintage-filter.git
-    source-tag: 'v0.1'
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
-      - -DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/
-
   obs-rgb-levels:
     plugin: cmake
     after: [ obs ]
@@ -871,7 +858,6 @@ parts:
       - obs-rgb-levels
       - obs-text-pango
       - obs-transition-matrix
-      - obs-vintage-filter
       - obs-vnc
       - obs-websocket
       - obs-v4l2sink

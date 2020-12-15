@@ -292,8 +292,8 @@ parts:
       - ocl-icd-libopencl1
       # Only available for amd64 and i386
       - try:
-        - mesa-va-drivers
         - i965-va-driver
+        - mesa-va-drivers
     autotools-configure-parameters:
       - --prefix=/usr
       - --disable-avisynth

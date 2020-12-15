@@ -54,7 +54,6 @@ The snap of OBS studio comes pre-loaded with some additional features and plugin
   * **[StreamFX](https://github.com/Xaymar/obs-StreamFX)** plugin; collection modern effects filters and transitions.
   * **[Text Pango](https://github.com/kkartaltepe/obs-text-pango)** plugin; Provides a text source rendered using Pango with multi-language support, emoji support, vertical rendering and RTL support.
   * **[Transition Matrix](https://github.com/admshao/obs-transition-matrix)** plugin; customize Any -> One or One -> One scene transitions.
-  * **[V4L2Sink](https://github.com/CatxFish/obs-v4l2sink)** plugin; provides output capabilities to a Video4Linux2 device to create virtual webcams.
   * **[VNC Source](https://github.com/norihiro/obs-vnc)** plugin; VNC viewer that works as a source.
   * **[Websockets](https://github.com/Palakis/obs-websocket)** plugin; remote-control OBS Studio through WebSockets, compatible with [StreamControl](https://play.google.com/store/apps/details?id=dev.t4ils.obs_remote&hl=en).
 
@@ -66,23 +65,17 @@ To access content on external storage, manually connect to the removable-media p
 snap connect obs-studio:removable-media
 ```
 
-## V4L2Sink
+## OBS Virtual Camera
 
-Connect to the kernel-module-observe plug so that OBS can observer the status of kernel modules:
-
-```
-sudo snap connect obs-studio:kernel-module-observe
-```
-
-To make use of the V4L2Sink plugin to create a virtual webcam, install
-and configure `v4l2loopback` as follows:
+Starting with OBS Studio 26.1, Virtual Camera support is integrated. Here is
+how to create a virtual webcam, install and configure `v4l2loopback` as follows:
 
 ```
 sudo apt -y install v4l2loopback-dkms v4l2loopback-utils
-echo "options v4l2loopback devices=1 video_nr=99 card_label=VirtualCam exclusive_caps=1" | sudo tee /etc/modprobe.d/v4l2loopback.conf
+echo "options v4l2loopback devices=1 video_nr=99 card_label='OBS Virtual Camera' exclusive_caps=1" | sudo tee /etc/modprobe.d/v4l2loopback.conf
 echo "v4l2loopback" | sudo tee /etc/modules-load.d/v4l2loopback.conf
 sudo modprobe -r v4l2loopback
-sudo modprobe v4l2loopback devices=1 video_nr=99 card_label=VirtualCam exclusive_caps=1
+sudo modprobe v4l2loopback devices=1 video_nr=99 card_label='OBS Virtual Camera' exclusive_caps=1
 ```
 
 Then use `/dev/video99` as the path to V4L2 device in *Tools -> V4L2 Video Output*.

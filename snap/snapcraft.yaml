@@ -47,7 +47,7 @@ layout:
 
 apps:
   obs-studio:
-    command: usr/bin/obs
+    command: usr/bin/obs --multi
     command-chain:
       - snap/command-chain/desktop-launch
       - bin/obs-wrapper
@@ -70,6 +70,7 @@ apps:
       - jack1
       - joystick
       - kernel-module-observe
+      - kernel-module-control
       - network
       - network-bind
       - opengl
@@ -456,6 +457,11 @@ parts:
 
       git clone --recursive https://github.com/iamscottxu/obs-rtspserver.git ${SNAPCRAFT_PART_SRC}/plugins/obs-rtspserver --branch v1.0
       echo "add_subdirectory(obs-rtspserver)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
+    override-build: |
+      # Make sure the libcaption headers are discoverable
+      mkdir -p ${SNAPCRAFT_STAGE}/usr/include/caption/
+      cp ${SNAPCRAFT_PART_SRC}/deps/libcaption/caption/*.h ${SNAPCRAFT_STAGE}/usr/include/caption/
+      snapcraftctl build
     override-stage: |
       snapcraftctl stage
       # Stage headers required for out of tree plugins to build
@@ -486,6 +492,7 @@ parts:
       - libpulse-dev
       - libqt5svg5-dev
       - libqt5x11extras5-dev
+      - libsndio-dev
       - libspeexdsp-dev
       #- libswresample-dev    # comes via the FFmpeg part
       #- libswscale-dev       # comes via the FFmpeg part
@@ -507,7 +514,11 @@ parts:
       - pkg-config
       - python3-dev
       - qtbase5-dev
+      - re2c
       - swig
+      # Required for VirtualCam
+      - linux-libc-dev
+      - v4l2loopback-dkms
       # Required by Browser (CEF)
       - libatk1.0-dev
       - libatk-bridge2.0-dev
@@ -544,6 +555,7 @@ parts:
       - libqt5svg5
       - libqt5x11extras5
       - libqt5xml5
+      - libsndio7.0
       - libspeexdsp1
       #- libswresample3       # comes via the FFmpeg part
       #- libswscale5          # comes via the FFmpeg part
@@ -561,6 +573,9 @@ parts:
       - libxcb-xinput0
       - libxcomposite1
       - libxinerama1
+      # Required for VirtualCam; but pkexec can't be invoked from inside a snap
+      - kmod
+      - policykit-1
       # Required by CEF
       - libatk-bridge2.0-0
       - libnspr4
@@ -570,17 +585,6 @@ parts:
       - libfftw3-3
       # Required by Advanced Scene Switcher
       - libxss1
-
-  obs-v4l2sink:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/flexiondotorg/obs-v4l2sink.git
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
 
   obs-transition-matrix:
     plugin: cmake
@@ -860,7 +864,6 @@ parts:
       - obs-transition-matrix
       - obs-vnc
       - obs-websocket
-      - obs-v4l2sink
       - vlc-plugins
 
   # Adds 3rd party OBS scripts to the snap

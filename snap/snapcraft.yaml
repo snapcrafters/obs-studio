@@ -833,6 +833,8 @@ parts:
   vlc-plugins:
     plugin: nil
     stage-packages:
+      - freeglut3
+      - libglu1-mesa
       - libslang2
       - vlc-plugin-base
     stage:

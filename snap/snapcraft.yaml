@@ -7,12 +7,6 @@ license: GPL-2.0
 architectures:
   - build-on: amd64
 
-# We should migrate to using the official folder for obs-studio config
-#plugs:
-#  obs-config-dir:
-#    interface: personal-files
-#    write: [$HOME/.config/obs-studio]
-
 plugs:
   # Support for common GTK themes
   # https://forum.snapcraft.io/t/how-to-use-the-system-gtk-theme-via-the-gtk-common-themes-snap/6235

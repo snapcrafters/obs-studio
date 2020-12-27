@@ -697,7 +697,7 @@ parts:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/kkartaltepe/obs-text-pango.git
-    source-tag: v1.0
+    source-tag: 'v1.0'
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release

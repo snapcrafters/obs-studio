@@ -466,7 +466,7 @@ parts:
       git clone --recursive https://github.com/univrsal/spectralizer.git ${SNAPCRAFT_PART_SRC}/plugins/spectralizer --branch v1.2
       echo "add_subdirectory(spectralizer)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
-      git clone --recursive https://github.com/iamscottxu/obs-rtspserver.git ${SNAPCRAFT_PART_SRC}/plugins/obs-rtspserver --branch v1.0
+      git clone --recursive https://github.com/iamscottxu/obs-rtspserver.git ${SNAPCRAFT_PART_SRC}/plugins/obs-rtspserver --branch v1.1.1
       echo "add_subdirectory(obs-rtspserver)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
     override-build: |
       # Make sure the libcaption headers are discoverable

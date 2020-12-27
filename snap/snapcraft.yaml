@@ -399,8 +399,7 @@ parts:
       - -DDISABLE_UPDATE_MODULE=TRUE
       - -DBUILD_BROWSER=TRUE
       - -DCEF_ROOT_DIR=$SNAPCRAFT_STAGE/CEF
-      - -DBROWSER_PANEL_SUPPORT_ENABLED=FALSE
-      - -DUSE_QT_LOOP=TRUE
+      - -DBROWSER_PANEL_SUPPORT_ENABLED=TRUE
     source: https://github.com/obsproject/obs-studio.git
     parse-info: [usr/share/metainfo/com.obsproject.Studio.appdata.xml]
     override-pull: |
@@ -423,8 +422,18 @@ parts:
       sed -i 's|Icon=com\.obsproject\.Studio|Icon=/usr/share/icons/hicolor/256x256/apps/com\.obsproject\.Studio\.png|' UI/xdg-data/com.obsproject.Studio.desktop
 
       # Apply the "Save device by path" patch https://github.com/obsproject/obs-studio/pull/3437
-      wget "https://patch-diff.githubusercontent.com/raw/obsproject/obs-studio/pull/3437.diff" -O ${SNAPCRAFT_PART_SRC}/3437.diff
+      wget -q "https://patch-diff.githubusercontent.com/raw/obsproject/obs-studio/pull/3437.diff" -O ${SNAPCRAFT_PART_SRC}/3437.diff
       patch -p1 < ${SNAPCRAFT_PART_SRC}/3437.diff
+
+      # Apply the "Add module functions" patch https://github.com/obsproject/obs-studio/pull/3871
+      wget -q "https://patch-diff.githubusercontent.com/raw/obsproject/obs-studio/pull/3871.diff" -O ${SNAPCRAFT_PART_SRC}/3871.diff
+      patch -p1 < ${SNAPCRAFT_PART_SRC}/3871.diff
+
+      # Apply the "Add Linux browser panel support" patch https://github.com/obsproject/obs-browser/pull/254
+      wget -q "https://patch-diff.githubusercontent.com/raw/obsproject/obs-browser/pull/254.diff" -O ${SNAPCRAFT_PART_SRC}/254.diff
+      cd plugins/obs-browser/
+      patch -p1 < ${SNAPCRAFT_PART_SRC}/254.diff
+      cd "${SNAPCRAFT_PART_SRC}"
 
       # Work around for https://github.com/obsproject/obs-browser/issues/239
       if [ -d plugins/obs-browser/obs-browser-page ]; then

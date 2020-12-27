@@ -72,7 +72,6 @@ apps:
       - jack1
       - joystick
       - kernel-module-observe
-      - kernel-module-control
       - network
       - network-bind
       - opengl

@@ -596,7 +596,7 @@ parts:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/admshao/obs-transition-matrix.git
-    source-tag: 'v1.0'
+    source-commit: 15f096ea143051be450e6cc8d07b501df55aa515
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release

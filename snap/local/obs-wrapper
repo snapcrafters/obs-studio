@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+if [ -d "${SNAP}/usr/lib/alsa-lib" ]; then
+  export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${SNAP}/usr/lib/alsa-lib"
+elif [ -d "${SNAP}/usr/lib/${SNAP_LAUNCHER_ARCH_TRIPLET}/alsa-lib" ]; then
+  export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${SNAP}/usr/lib/${SNAP_LAUNCHER_ARCH_TRIPLET}/alsa-lib"
+fi
+
 export VDPAU_DRIVER_PATH="/usr/lib/${SNAP_LAUNCHER_ARCH_TRIPLET}/vdpau/"
 if [ -e "/var/lib/snapd/lib/gl/vdpau/libvdpau_nvidia.so" ]; then
   export VDPAU_DRIVER_PATH="/var/lib/snapd/lib/gl/vdpau"

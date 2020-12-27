@@ -36,6 +36,8 @@ layout:
     bind: $SNAP/usr/lib/obs-scripting
   /usr/local/lib:
     bind: $SNAP/usr/local/lib
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
+    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
   /usr/share/alsa:
     bind: $SNAP/usr/share/alsa
   /usr/share/libdrm:

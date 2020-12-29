@@ -463,9 +463,6 @@ parts:
       git clone --recursive https://github.com/exeldro/obs-recursion-effect.git ${SNAPCRAFT_PART_SRC}/plugins/obs-recursion-effect
       echo "add_subdirectory(obs-recursion-effect)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
-      git clone --recursive https://github.com/univrsal/spectralizer.git ${SNAPCRAFT_PART_SRC}/plugins/spectralizer --branch v1.2
-      echo "add_subdirectory(spectralizer)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
-
       git clone --recursive https://github.com/iamscottxu/obs-rtspserver.git ${SNAPCRAFT_PART_SRC}/plugins/obs-rtspserver --branch v1.1.1
       echo "add_subdirectory(obs-rtspserver)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
     override-build: |
@@ -536,8 +533,6 @@ parts:
       - libnss3-dev
       - libnspr4-dev
       - libxtst-dev
-      # Required by Spectralizer
-      - libfftw3-dev
       # Required by StreamFX
       - ninja-build
       # Required by Advanced Scene Switcher
@@ -587,10 +582,25 @@ parts:
       # Required for VirtualCam; but pkexec can't be invoked from inside a snap
       - kmod
       - policykit-1
-      # Required by Spectralizer
-      - libfftw3-3
       # Required by Advanced Scene Switcher
       - libxss1
+
+  obs-spectralizer:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/univrsal/spectralizer.git
+    source-tag: 'v1.3.0'
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE=-s
+      - -DCMAKE_CXX_FLAGS_RELEASE=-s
+      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
+      - -DGLOBAL_INSTALLATION=TRUE
+    build-packages:
+      - libfftw3-dev
+    stage-packages:
+      - libfftw3-3
 
   obs-transition-matrix:
     plugin: cmake
@@ -870,6 +880,7 @@ parts:
       - obs-rgb-levels
       - obs-text-pango
       - obs-transition-matrix
+      - obs-spectralizer
       - obs-vnc
       - obs-websocket
       - vlc-plugins

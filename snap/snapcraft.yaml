@@ -69,6 +69,7 @@ apps:
       - network
       - network-bind
       - opengl
+      - password-manager-service
       - pulseaudio
       - raw-usb
       - removable-media

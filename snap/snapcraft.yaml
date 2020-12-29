@@ -435,9 +435,6 @@ parts:
         sed -i 's|obs-browser-page/obs-browser-page-main.cpp|obs-browser-page-main/obs-browser-page-main.cpp|g' plugins/obs-browser/CMakeLists.txt
       fi
 
-      # Make v4l2loopback detection snap compatible
-      sed -i 's/modinfo v4l2loopback/kmod list \| grep v4l2loopback/' plugins/linux-v4l2/linux-v4l2.c
-
       #  The following plugins are all intended to be built in tree
       git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/SceneSwitcher --branch 1.8.1
       echo "add_subdirectory(SceneSwitcher)" >> ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/CMakeLists.txt
@@ -529,7 +526,6 @@ parts:
       - swig
       # Required for VirtualCam
       - linux-libc-dev
-      - v4l2loopback-dkms
       # Required by Browser (CEF)
       - libatk1.0-dev
       - libatk-bridge2.0-dev
@@ -582,9 +578,8 @@ parts:
       - libxcb-xinput0
       - libxcomposite1
       - libxinerama1
-      # Required for VirtualCam; but pkexec can't be invoked from inside a snap
+      # Required for VirtualCam
       - kmod
-      - policykit-1
       # Required by Advanced Scene Switcher
       - libxss1
 

@@ -71,14 +71,15 @@ Starting with OBS Studio 26.1, Virtual Camera support is integrated. Here is
 how to create a virtual webcam, install and configure `v4l2loopback` as follows:
 
 ```
+sudo snap connect obs-studio:kernel-module-observe
 sudo apt -y install v4l2loopback-dkms v4l2loopback-utils
-echo "options v4l2loopback devices=1 video_nr=99 card_label='OBS Virtual Camera' exclusive_caps=1" | sudo tee /etc/modprobe.d/v4l2loopback.conf
+echo "options v4l2loopback devices=1 video_nr=13 card_label='OBS Virtual Camera' exclusive_caps=1" | sudo tee /etc/modprobe.d/v4l2loopback.conf
 echo "v4l2loopback" | sudo tee /etc/modules-load.d/v4l2loopback.conf
 sudo modprobe -r v4l2loopback
-sudo modprobe v4l2loopback devices=1 video_nr=99 card_label='OBS Virtual Camera' exclusive_caps=1
+sudo modprobe v4l2loopback devices=1 video_nr=13 card_label='OBS Virtual Camera' exclusive_caps=1
 ```
 
-Then use `/dev/video99` as the path to V4L2 device in *Tools -> V4L2 Video Output*.
+**NOTE!** Using `video_nr` greater than 64 will not work.
 
 ## NDI
 

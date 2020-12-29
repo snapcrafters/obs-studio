@@ -588,6 +588,16 @@ parts:
       # Required by Advanced Scene Switcher
       - libxss1
 
+  libcurl:
+    plugin: nil
+    stage-packages:
+      - libcurl4
+    override-prime: |
+      # The Advanced Scene Switcher looks in hardcoded paths for libcurl.so.4
+      # So, copy libcurl.so.4 to a location referenced by the snap layouts
+      [ -d ${SNAPCRAFT_PRIME}/usr/local/lib ] || mkdir -p ${SNAPCRAFT_PRIME}/usr/local/lib
+      cp -v ${SNAPCRAFT_STAGE}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/libcurl.so.* ${SNAPCRAFT_PRIME}/usr/local/lib/
+
   obs-spectralizer:
     plugin: cmake
     after: [ obs ]
@@ -905,6 +915,7 @@ parts:
       - cef
       - desktop-qt5
       - ffmpeg
+      - libcurl
       - libuiohook
       - netlib
       - obs-wrapper

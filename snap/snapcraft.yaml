@@ -72,7 +72,9 @@ apps:
       - pulseaudio
       - raw-usb
       - removable-media
+      - screen-inhibit-control
       - unity7
+      - upower-observe
       - wayland
       - x11
   eglinfo:

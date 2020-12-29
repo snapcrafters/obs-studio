@@ -26,6 +26,8 @@
     sudo snap connect obs-studio:joystick
     sudo snap connect obs-studio:kernel-module-observe
     sudo snap connect obs-studio:removable-media
+    sudo snap connect obs-studio:screen-inhibit-control
+    sudo snap connect obs-studio:upower-observe
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/obs-studio)
 

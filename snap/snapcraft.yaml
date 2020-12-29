@@ -361,7 +361,7 @@ parts:
         -DCMAKE_C_FLAGS_RELEASE=-s \
         -DCMAKE_CXX_FLAGS_RELEASE=-s \
         ${SNAPCRAFT_PART_SRC}
-      make libcef_dll_wrapper
+      make -j $(nproc) libcef_dll_wrapper
 
       # Put the binary assets somewhere where the obs part can access them
       mkdir -p ${SNAPCRAFT_STAGE}/CEF
@@ -650,7 +650,7 @@ parts:
         -DCMAKE_CXX_FLAGS_RELEASE=-s \
         -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/ \
         $SNAPCRAFT_PART_SRC
-      make
+      make -j $(nproc)
       make install DESTDIR=$SNAPCRAFT_PART_INSTALL
     organize:
       usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-vnc.so: usr/lib/obs-plugins/
@@ -670,7 +670,7 @@ parts:
         -DCMAKE_CXX_FLAGS_RELEASE=-s \
         -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/ \
         $SNAPCRAFT_PART_SRC
-      make
+      make -j $(nproc)
       make install DESTDIR=$SNAPCRAFT_PART_INSTALL
     organize:
       usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-audio-pan-filter.so: usr/lib/obs-plugins/
@@ -830,7 +830,7 @@ parts:
         -DCMAKE_C_FLAGS_RELEASE=-s \
         -DCMAKE_CXX_FLAGS_RELEASE=-s \
         ${SNAPCRAFT_PART_SRC}
-      make
+      make -j $(nproc)
     organize:
       libnetlib.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libnetlib.so
     prime:

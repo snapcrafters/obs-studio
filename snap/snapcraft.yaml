@@ -816,7 +816,7 @@ parts:
     organize:
       usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-gstreamer.so: usr/lib/obs-plugins/
 
-  # Required by Input Overlay if added as a 3rd party plugin
+  # Required by Input Overlay if it's added as a 3rd party plugin
   libuiohook:
     plugin: autotools
     source: https://github.com/kwhat/libuiohook.git

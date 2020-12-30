@@ -387,7 +387,6 @@ parts:
       - -usr/lib/*.la
 
   # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
-  # Review this commit when adding VirtualWebCam support https://github.com/obsproject/obs-studio/commit/6af8726c7478a2f69310c2063254409b6af082b7
   obs:
     plugin: cmake
     after:
@@ -534,8 +533,6 @@ parts:
       - qtbase5-dev
       - re2c
       - swig
-      # Required for VirtualCam
-      - linux-libc-dev
       # Required by StreamFX
       - ninja-build
       # Required by Advanced Scene Switcher
@@ -582,10 +579,17 @@ parts:
       - libxcb-xinput0
       - libxcomposite1
       - libxinerama1
-      # Required for VirtualCam
-      - kmod
       # Required by Advanced Scene Switcher
       - libxss1
+
+  # Required for VirtualCam; stage the minimum required binaries
+  kmod:
+    plugin: nil
+    stage-packages:
+      - kmod
+    prime:
+      - bin
+      - sbin
 
   libcurl:
     plugin: nil
@@ -914,6 +918,7 @@ parts:
       - cef
       - desktop-qt5
       - ffmpeg
+      - kmod
       - libcurl
       - libuiohook
       - netlib

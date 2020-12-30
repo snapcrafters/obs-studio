@@ -347,8 +347,13 @@ parts:
     source:
       - on amd64: https://cef-builds.spotifycdn.com/cef_binary_87.1.12%2Bg03f9336%2Bchromium-87.0.4280.88_linux64_minimal.tar.bz2
       - on arm64: https://cef-builds.spotifycdn.com/cef_binary_87.1.12%2Bg03f9336%2Bchromium-87.0.4280.88_linuxarm64_minimal.tar.bz2
+    build-packages:
+      - libatk1.0-dev
+      - libatk-bridge2.0-dev
+      - libnss3-dev
+      - libnspr4-dev
+      - libxtst-dev
     stage-packages:
-      # Required by CEF
       - libatk-bridge2.0-0
       - libcups2
       - libnspr4
@@ -531,12 +536,6 @@ parts:
       - swig
       # Required for VirtualCam
       - linux-libc-dev
-      # Required by Browser (CEF)
-      - libatk1.0-dev
-      - libatk-bridge2.0-dev
-      - libnss3-dev
-      - libnspr4-dev
-      - libxtst-dev
       # Required by StreamFX
       - ninja-build
       # Required by Advanced Scene Switcher

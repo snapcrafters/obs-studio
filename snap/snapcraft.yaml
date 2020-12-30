@@ -384,6 +384,8 @@ parts:
     source: https://github.com/xiph/rnnoise.git
     autotools-configure-parameters:
       - --prefix=/usr
+      - --disable-doc
+      - --disable-examples
       - --disable-static
     stage:
       - -usr/lib/*.la

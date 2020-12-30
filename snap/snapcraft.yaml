@@ -606,85 +606,80 @@ parts:
       [ -d ${SNAPCRAFT_PRIME}/usr/local/lib ] || mkdir -p ${SNAPCRAFT_PRIME}/usr/local/lib
       cp ${SNAPCRAFT_STAGE}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/libcurl-gnutls.so.4 ${SNAPCRAFT_PRIME}/usr/local/lib/libcurl.so.4
 
-  obs-spectralizer:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/univrsal/spectralizer.git
-    source-tag: 'v1.3.0'
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
-      - -DGLOBAL_INSTALLATION=TRUE
-    build-packages:
-      - libfftw3-dev
+  libndi:
+    plugin: nil
+    source: http://514f211588de67e4fdcf-437b8dd50f60b69cf0974b538e50585b.r63.cf1.rackcdn.com/Utilities/SDK/NDI_SDK_Linux_v2/InstallNDISDK_v4_Linux.tar.gz
+    source-checksum: "sha256/45621d7e70e73d5e6b8d07cc8d55a920fac979508de65db705eff7a188222e71"
     stage-packages:
-      - libfftw3-3
-
-  obs-transition-matrix:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/admshao/obs-transition-matrix.git
-    source-commit: 15f096ea143051be450e6cc8d07b501df55aa515
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
-      - -DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/
-
-  obs-dvd-screensaver:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/univrsal/dvds3.git
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DGLOBAL_INSTALLATION=TRUE
-    override-pull: |
-      snapcraftctl pull
-      sed -i 's|VERSION 3\.17|VERSION 3\.16|' CMakeLists.txt
-
-  obs-rgb-levels:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/petrifiedpenguin/obs-rgb-levels-filter.git
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
-      - -DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/
-
-  obs-vnc:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/norihiro/obs-vnc.git
-    source-tag: '0.2.1'
-    build-packages:
-      - libvncserver-dev
-    stage-packages:
-      - libvncclient1
+      - libavahi-client3
     override-build: |
-      mkdir -p $SNAPCRAFT_PART_SRC/build
-      cd $SNAPCRAFT_PART_SRC/build
+      yes | env PAGER=cat ./InstallNDISDK_v4_Linux.sh
+      SDK="${SNAPCRAFT_PART_BUILD}/NDI SDK for Linux"
+      install -D -m644 "${SDK}/include/"*.h -t "${SNAPCRAFT_PART_INSTALL}/usr/include"
+      install -D -m755 "${SDK}/lib/${SNAPCRAFT_ARCH_TRIPLET}/libndi.so.4".*.* -t "${SNAPCRAFT_PART_INSTALL}/usr/local/lib/"
+      cd "${SNAPCRAFT_PART_INSTALL}/usr/local/lib"
+      ln -s "libndi.so.4".*.* "libndi.so.4"
+      ln -s "libndi.so.4".*.*  libndi.so
+
+  # Required by Input Overlay if it's added as a 3rd party plugin
+  libuiohook:
+    plugin: autotools
+    source: https://github.com/kwhat/libuiohook.git
+    source-tag: '1.0.3'
+    autotools-configure-parameters:
+      - --prefix=/usr
+      - --disable-debug
+      - --disable-static
+      - --enable-quiet
+    build-packages:
+      - libxinerama-dev
+      - libxt-dev
+      - libxtst-dev
+      - pkg-config
+    stage-packages:
+      - libxinerama1
+      - libxt6
+      - libxtst6
+    stage:
+      - -usr/lib/*.la
+
+  # Required by Input Overlay if it's added as a 3rd party plugin
+  netlib:
+    plugin: cmake
+    source: https://github.com/univrsal/netlib.git
+    source-tag: 'v0.2'
+    override-build: |
       cmake \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_C_FLAGS_RELEASE=-s \
         -DCMAKE_CXX_FLAGS_RELEASE=-s \
-        -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/ \
-        $SNAPCRAFT_PART_SRC
+        ${SNAPCRAFT_PART_SRC}
       make -j $(nproc)
-      make install DESTDIR=$SNAPCRAFT_PART_INSTALL
     organize:
-      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-vnc.so: usr/lib/obs-plugins/
+      libnetlib.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libnetlib.so
+    prime:
+      - usr/lib/*/libnetlib.so
+
+  vlc-plugins:
+    plugin: nil
+    stage-packages:
+      - freeglut3
+      - libglu1-mesa
+      - libslang2
+      - vlc-plugin-base
+    stage:
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libsrt.*         # Provided by the srt part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavcodec.*     # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavdevice.*    # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavfilter.*    # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavformat.*    # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavutil.*      # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libpostproc.*    # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libswresample.*  # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libswscale.*     # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/vlc/lua
+      - -usr/share/vlc
 
   obs-audio-pan:
     plugin: cmake
@@ -706,77 +701,19 @@ parts:
     organize:
       usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-audio-pan-filter.so: usr/lib/obs-plugins/
 
-  obs-websocket:
+  obs-dvd-screensaver:
     plugin: cmake
     after: [ obs ]
-    source: https://github.com/Palakis/obs-websocket.git
-    source-branch: '4.x-current'
+    source: https://github.com/univrsal/dvds3.git
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_C_FLAGS_RELEASE=-s
       - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
-      - -DUSE_UBUNTU_FIX=TRUE
-    prime:
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins
-
-  obs-text-pango:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/kkartaltepe/obs-text-pango.git
-    source-tag: 'v1.0'
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DOBS_INCLUDE_DIRS=$SNAPCRAFT_STAGE/usr/include/obs/
-      - -DOBS_LIBRARIES=$SNAPCRAFT_STAGE/usr/lib/
-    build-packages:
-      - libpango1.0-dev
-    stage-packages:
-      - libpango-1.0-0
-      - libpangocairo-1.0-0
-      - libpangoft2-1.0-0
-    organize:
-      usr/data/obs-plugins/text-pango/locale/*.ini: usr/share/obs/obs-plugins/text-pango/locale/
-      usr/obs-plugins/*bit/libtext-pango.so: usr/lib/obs-plugins/
-    prime:
-      - usr/share
-      - usr/lib
-
-  libndi:
-    plugin: nil
-    source: http://514f211588de67e4fdcf-437b8dd50f60b69cf0974b538e50585b.r63.cf1.rackcdn.com/Utilities/SDK/NDI_SDK_Linux_v2/InstallNDISDK_v4_Linux.tar.gz
-    source-checksum: "sha256/45621d7e70e73d5e6b8d07cc8d55a920fac979508de65db705eff7a188222e71"
-    stage-packages:
-      - libavahi-client3
-    override-build: |
-      yes | env PAGER=cat ./InstallNDISDK_v4_Linux.sh
-      SDK="${SNAPCRAFT_PART_BUILD}/NDI SDK for Linux"
-      install -D -m644 "${SDK}/include/"*.h -t "${SNAPCRAFT_PART_INSTALL}/usr/include"
-      install -D -m755 "${SDK}/lib/${SNAPCRAFT_ARCH_TRIPLET}/libndi.so.4".*.* -t "${SNAPCRAFT_PART_INSTALL}/usr/local/lib/"
-      cd "${SNAPCRAFT_PART_INSTALL}/usr/local/lib"
-      ln -s "libndi.so.4".*.* "libndi.so.4"
-      ln -s "libndi.so.4".*.*  libndi.so
-
-  obs-ndi:
-    plugin: cmake
-    after:
-      - libndi
-      - obs
-    source: https://github.com/Palakis/obs-ndi.git
-    source-tag: '4.9.1'
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
-      - -DUSE_UBUNTU_FIX=TRUE
-    prime:
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-ndi.so
+      - -DGLOBAL_INSTALLATION=TRUE
+    override-pull: |
+      snapcraftctl pull
+      sed -i 's|VERSION 3\.17|VERSION 3\.16|' CMakeLists.txt
 
   obs-gphoto:
     plugin: cmake
@@ -821,65 +758,128 @@ parts:
     organize:
       usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-gstreamer.so: usr/lib/obs-plugins/
 
-  # Required by Input Overlay if it's added as a 3rd party plugin
-  libuiohook:
-    plugin: autotools
-    source: https://github.com/kwhat/libuiohook.git
-    source-tag: '1.0.3'
-    autotools-configure-parameters:
-      - --prefix=/usr
-      - --disable-debug
-      - --disable-static
-      - --enable-quiet
-    build-packages:
-      - libxinerama-dev
-      - libxt-dev
-      - libxtst-dev
-      - pkg-config
-    stage-packages:
-      - libxinerama1
-      - libxt6
-      - libxtst6
-    stage:
-      - -usr/lib/*.la
-
-  # Required by Input Overlay if added as a 3rd party plugin
-  netlib:
+  obs-ndi:
     plugin: cmake
-    source: https://github.com/univrsal/netlib.git
-    source-tag: 'v0.2'
+    after:
+      - libndi
+      - obs
+    source: https://github.com/Palakis/obs-ndi.git
+    source-tag: '4.9.1'
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE=-s
+      - -DCMAKE_CXX_FLAGS_RELEASE=-s
+      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
+      - -DUSE_UBUNTU_FIX=TRUE
+    prime:
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-ndi.so
+
+  obs-rgb-levels:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/petrifiedpenguin/obs-rgb-levels-filter.git
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE=-s
+      - -DCMAKE_CXX_FLAGS_RELEASE=-s
+      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
+      - -DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/
+
+  obs-spectralizer:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/univrsal/spectralizer.git
+    source-tag: 'v1.3.0'
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE=-s
+      - -DCMAKE_CXX_FLAGS_RELEASE=-s
+      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
+      - -DGLOBAL_INSTALLATION=TRUE
+    build-packages:
+      - libfftw3-dev
+    stage-packages:
+      - libfftw3-3
+
+  obs-text-pango:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/kkartaltepe/obs-text-pango.git
+    source-tag: 'v1.0'
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE=-s
+      - -DCMAKE_CXX_FLAGS_RELEASE=-s
+      - -DOBS_INCLUDE_DIRS=$SNAPCRAFT_STAGE/usr/include/obs/
+      - -DOBS_LIBRARIES=$SNAPCRAFT_STAGE/usr/lib/
+    build-packages:
+      - libpango1.0-dev
+    stage-packages:
+      - libpango-1.0-0
+      - libpangocairo-1.0-0
+      - libpangoft2-1.0-0
+    organize:
+      usr/data/obs-plugins/text-pango/locale/*.ini: usr/share/obs/obs-plugins/text-pango/locale/
+      usr/obs-plugins/*bit/libtext-pango.so: usr/lib/obs-plugins/
+    prime:
+      - usr/share
+      - usr/lib
+
+  obs-transition-matrix:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/admshao/obs-transition-matrix.git
+    source-commit: 15f096ea143051be450e6cc8d07b501df55aa515
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE=-s
+      - -DCMAKE_CXX_FLAGS_RELEASE=-s
+      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
+      - -DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/
+
+  obs-vnc:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/norihiro/obs-vnc.git
+    source-tag: '0.2.1'
+    build-packages:
+      - libvncserver-dev
+    stage-packages:
+      - libvncclient1
     override-build: |
+      mkdir -p $SNAPCRAFT_PART_SRC/build
+      cd $SNAPCRAFT_PART_SRC/build
       cmake \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_C_FLAGS_RELEASE=-s \
         -DCMAKE_CXX_FLAGS_RELEASE=-s \
-        ${SNAPCRAFT_PART_SRC}
+        -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/ \
+        $SNAPCRAFT_PART_SRC
       make -j $(nproc)
+      make install DESTDIR=$SNAPCRAFT_PART_INSTALL
     organize:
-      libnetlib.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libnetlib.so
-    prime:
-      - usr/lib/*/libnetlib.so
+      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-vnc.so: usr/lib/obs-plugins/
 
-  vlc-plugins:
-    plugin: nil
-    stage-packages:
-      - freeglut3
-      - libglu1-mesa
-      - libslang2
-      - vlc-plugin-base
-    stage:
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libsrt.*         # Provided by the srt part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavcodec.*     # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavdevice.*    # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavfilter.*    # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavformat.*    # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavutil.*      # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libpostproc.*    # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libswresample.*  # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libswscale.*     # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/vlc/lua
-      - -usr/share/vlc
+  obs-websocket:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/Palakis/obs-websocket.git
+    source-branch: '4.x-current'
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE=-s
+      - -DCMAKE_CXX_FLAGS_RELEASE=-s
+      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
+      - -DUSE_UBUNTU_FIX=TRUE
+    prime:
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins
 
   # Adds 3rd party OBS scripts to the snap
   obs-scripts:

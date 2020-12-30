@@ -90,6 +90,26 @@ need to connect the Avahi Control interface.
 snap connect obs-studio:avahi-control
 ```
 
+## Browser
+
+Optional interfaces can be connected that integrate with Browser Sources and Custom Browser Socks.
+
+### Process Control
+
+The OBS Browser does attempt to adjust the scheduler priority, you can enable this capability by optionally enable the `process-control` interface.
+
+```
+snap connect obs-studio:process-control
+```
+
+### Passwords and Keys
+
+The browser in OBS can obtain user credentials from applications such as GNOME Passwords and Keys (seahorse) or Kwallet. Connecting this interface is entirely optional and not required.
+
+```
+snap connect obs-studio:password-manager-service
+```
+
 ## gPhoto
 
 The [gPhoto](https://github.com/adlerweb/obs-gphoto) plugin is bundled and

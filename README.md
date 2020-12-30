@@ -7,7 +7,8 @@
 <p align="center"><b>This is the snap for OBS Studio</b>, <i>“Free and open source software for live streaming and screen recording; the snap comes pre-loaded with extra features and plugins!”</i> It works on Ubuntu, Fedora, Debian, and other major Linux distributions.</p>
 
 <p align="center">
-<a href="https://build.snapcraft.io/user/snapcrafters/obs-studio"><img src="https://build.snapcraft.io/badge/snapcrafters/obs-studio.svg" alt="Snap Status"></a>
+<a href="https://snapcraft.io/obs-studio"><img alt="obs-studio" src="https://snapcraft.io/obs-studio/badge.svg" /></a>
+<a href="https://snapcraft.io/obs-studio"><img alt="obs-studio" src="https://snapcraft.io/obs-studio/trending.svg?name=0" /></a>
 </p>
 
 <!-- Uncomment and modify this when you have a screenshot
@@ -22,10 +23,7 @@
     sudo snap connect obs-studio:audio-record
     sudo snap connect obs-studio:avahi-control
     sudo snap connect obs-studio:camera
-    sudo snap connect obs-studio:jack1
-    sudo snap connect obs-studio:joystick
     sudo snap connect obs-studio:kernel-module-observe
-    sudo snap connect obs-studio:removable-media
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/obs-studio)
 
@@ -67,8 +65,8 @@ snap connect obs-studio:removable-media
 
 ## OBS Virtual Camera
 
-Starting with OBS Studio 26.1, Virtual Camera support is integrated. Here is
-how to create a virtual webcam, install and configure `v4l2loopback` as follows:
+Starting with OBS Studio 26.1, Virtual Camera support is integrated. Here's
+how to install and configure `v4l2loopback` which OBS uses:
 
 ```
 sudo snap connect obs-studio:kernel-module-observe
@@ -96,7 +94,7 @@ Optional interfaces can be connected that integrate with Browser Sources and Cus
 
 ### Process Control
 
-The OBS Browser does attempt to adjust the scheduler priority, you can enable this capability by optionally enable the `process-control` interface.
+The OBS Browser does attempt to adjust the scheduler priority, you can enable this capability by optionally connecting the `process-control` interface.
 
 ```
 snap connect obs-studio:process-control
@@ -104,7 +102,7 @@ snap connect obs-studio:process-control
 
 ### Passwords and Keys
 
-The browser in OBS can obtain user credentials from applications such as GNOME Passwords and Keys (seahorse) or Kwallet. Connecting this interface is entirely optional and not required.
+The browser in OBS can obtain user credentials from applications such as GNOME Passwords and Keys (seahorse) or Kwallet, should you want it to.
 
 ```
 snap connect obs-studio:password-manager-service
@@ -119,6 +117,13 @@ You will need to connect the Raw USB interface.
 ```
 snap connect obs-studio:raw-usb
 ```
+
+## ALSA & Jack audio
+
+If you use ALSA or Jack audio the you can enable interfaces to those audio systems.
+
+    sudo snap connect obs-studio:alsa
+    sudo snap connect obs-studio:jack1
 
 ## 3rd Party plugins
 

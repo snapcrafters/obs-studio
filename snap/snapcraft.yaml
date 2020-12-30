@@ -24,6 +24,8 @@ plugs:
     default-provider: gtk-common-themes
 
 layout:
+  /etc/alsa/conf.d:
+    bind: $SNAP/usr/share/alsa/alsa.conf.d
   /usr/lib/obs-plugins:
     bind: $SNAP/usr/lib/obs-plugins
   /usr/lib/obs-scripting:

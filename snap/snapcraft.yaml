@@ -705,7 +705,7 @@ parts:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/Palakis/obs-websocket.git
-    source-tag: '4.8.0'
+    source-branch: '4.x-current'
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
@@ -713,9 +713,6 @@ parts:
       - -DCMAKE_CXX_FLAGS_RELEASE=-s
       - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
       - -DUSE_UBUNTU_FIX=TRUE
-    build-packages:
-      - libasio-dev
-      - libwebsocketpp-dev
     prime:
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins
 

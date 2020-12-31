@@ -204,9 +204,8 @@ parts:
       - -DCMAKE_C_FLAGS_RELEASE=-s
       - -DCMAKE_CXX_FLAGS_RELEASE=-s
       - -DENABLE_STATIC=OFF
-      - -DUSE_ENCLIB=gnutls
     build-packages:
-      - libgnutls28-dev
+      - libssl-dev
 
   ffmpeg:
     plugin: autotools
@@ -220,7 +219,6 @@ parts:
       - libbz2-dev
       - libdrm-dev
       - libfdk-aac-dev
-      - libgnutls28-dev
       - liblzma-dev
       - libmp3lame-dev
       - libomxil-bellagio-dev
@@ -232,6 +230,7 @@ parts:
       - libsctp-dev
       - libsdl2-dev
       - libspeex-dev
+      - libssl-dev
       - libtheora-dev
       - libtwolame-dev
       - libva-dev
@@ -256,7 +255,6 @@ parts:
       - libass9
       - libdrm2
       - libfdk-aac1
-      - libgnutls30
       - libmp3lame0
       - libopenal1
       - libopenjp2-7
@@ -265,6 +263,7 @@ parts:
       - librsvg2-2
       - libsdl2-2.0-0
       - libspeex1
+      - libssl1.1
       - libtheora0
       - libtwolame0
       - libv4l-0
@@ -306,7 +305,6 @@ parts:
       - --disable-static
       - --enable-cuda
       - --enable-cuvid
-      - --enable-gnutls
       - --enable-gpl
       - --enable-libass
       - --enable-libdrm
@@ -337,6 +335,7 @@ parts:
       - --enable-openal
       - --enable-opencl
       - --enable-opengl
+      - --enable-openssl
       - --enable-runtime-cpudetect
       - --enable-sdl2
       - --enable-shared
@@ -502,7 +501,7 @@ parts:
       #- libavfilter-dev      # comes via the FFmpeg part
       #- libavformat-dev      # comes via the FFmpeg part
       #- libavutil-dev        # comes via the FFmpeg part
-      - libcurl4-gnutls-dev
+      - libcurl4-openssl-dev
       - libfdk-aac-dev
       - libfontconfig1-dev
       - libfreetype6-dev
@@ -552,7 +551,7 @@ parts:
       #- libavformat58        # comes via the FFmpeg part
       #- libavutil56          # comes via the FFmpeg part
       #- libavresample4       # comes via the FFmpeg part
-      - libcurl3-gnutls
+      - libcurl4
       - libfdk-aac1
       - libfreetype6
       - libgl1
@@ -599,12 +598,12 @@ parts:
   libcurl:
     plugin: nil
     stage-packages:
-      - libcurl3-gnutls
+      - libcurl4
     override-prime: |
       # The Advanced Scene Switcher looks in hardcoded paths for libcurl.so.4
       # So, copy libcurl.so.4 to a location referenced by the snap layouts
       [ -d ${SNAPCRAFT_PRIME}/usr/local/lib ] || mkdir -p ${SNAPCRAFT_PRIME}/usr/local/lib
-      cp ${SNAPCRAFT_STAGE}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/libcurl-gnutls.so.4 ${SNAPCRAFT_PRIME}/usr/local/lib/libcurl.so.4
+      cp ${SNAPCRAFT_STAGE}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/libcurl.so.4 ${SNAPCRAFT_PRIME}/usr/local/lib/
 
   libndi:
     plugin: nil

@@ -852,7 +852,7 @@ parts:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/norihiro/obs-vnc.git
-    source-tag: '0.2.1'
+    source-tag: '0.2.2'
     build-packages:
       - libvncserver-dev
     stage-packages:

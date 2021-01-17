@@ -55,6 +55,7 @@ apps:
       GTK_USE_PORTAL: 1
       QT_QPA_PLATFORMTHEME: flatpak
     plugs: &plugs
+      - adb-support
       - alsa
       - audio-playback
       - audio-record
@@ -585,6 +586,13 @@ parts:
       # Required by Advanced Scene Switcher
       - libxss1
 
+  # Required for DroidCam; if it's added as a user-installed plugin
+  adb:
+    plugin: nil
+    stage-packages:
+      - adb
+      - libusbmuxd6
+
   # Required for VirtualCam; stage the minimum required binaries
   kmod:
     plugin: nil
@@ -915,6 +923,7 @@ parts:
   cleanup:
     plugin: nil
     after:
+      - adb
       - cef
       - desktop-qt5
       - ffmpeg

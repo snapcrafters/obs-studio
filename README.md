@@ -68,8 +68,11 @@ snap connect obs-studio:removable-media
 
 ## OBS Virtual Camera
 
-Starting with OBS Studio 26.1, Virtual Camera support is integrated. Here's
-how to install and configure `v4l2loopback` which OBS uses:
+Starting with OBS Studio 26.1, Virtual Camera support is integrated. The
+`Start Virtual Camera` button is located in the Controls pane, just below
+`Start Recording`.
+
+Here's how to install and configure `v4l2loopback` which OBS uses:
 
 ```
 sudo snap connect obs-studio:kernel-module-observe
@@ -79,8 +82,6 @@ echo "v4l2loopback" | sudo tee /etc/modules-load.d/v4l2loopback.conf
 sudo modprobe -r v4l2loopback
 sudo modprobe v4l2loopback devices=1 video_nr=13 card_label='OBS Virtual Camera' exclusive_caps=1
 ```
-
-The `Start Virtual Camera` button is located in the Controls pane, just below `Start Recording`.
 
 **NOTE!** Using `video_nr` greater than 64 will not work.
 

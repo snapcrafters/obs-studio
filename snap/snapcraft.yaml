@@ -408,21 +408,11 @@ parts:
       - -DCEF_ROOT_DIR=$SNAPCRAFT_STAGE/CEF
       - -DBROWSER_PANEL_SUPPORT_ENABLED=TRUE
     source: https://github.com/obsproject/obs-studio.git
+    #source-tag: '26.1.2'
+    source-commit: 'bb6b1e53f82401561cdec5993217f84883f228f3'
     parse-info: [usr/share/metainfo/com.obsproject.Studio.appdata.xml]
     override-pull: |
       snapcraftctl pull
-
-      # Checkout that latest stable version
-      last_committed_tag="$(git -C ../src tag | grep -v rc| sort -V | tail -n 1)"
-      last_released_tag="$(snap info obs-studio | awk '$1 == "beta:" { print $2 }')"
-      # If the latest tag from the upstream project has not been released to
-      # beta, build that tag instead of master.
-      if [ "${last_committed_tag}" != "${last_released_tag}" ]; then
-        git fetch
-        git checkout "${last_committed_tag}"
-        cd ../src
-        git checkout "${last_committed_tag}"
-      fi
       snapcraftctl set-version "$(git describe --tags)"
 
       # Update the icon path

@@ -347,8 +347,8 @@ parts:
   cef:
     plugin: cmake
     source:
-      - on amd64: https://cef-builds.spotifycdn.com/cef_binary_87.1.12%2Bg03f9336%2Bchromium-87.0.4280.88_linux64_minimal.tar.bz2
-      - on arm64: https://cef-builds.spotifycdn.com/cef_binary_87.1.12%2Bg03f9336%2Bchromium-87.0.4280.88_linuxarm64_minimal.tar.bz2
+      - on amd64: https://cef-builds.spotifycdn.com/cef_binary_87.1.13%2Bg481a82a%2Bchromium-87.0.4280.141_linux64_minimal.tar.bz2
+      - on arm64: https://cef-builds.spotifycdn.com/cef_binary_87.1.13%2Bg481a82a%2Bchromium-87.0.4280.141_linuxarm64_minimal.tar.bz2
     build-packages:
       - libatk1.0-dev
       - libatk-bridge2.0-dev

@@ -797,7 +797,7 @@ parts:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/univrsal/spectralizer.git
-    source-tag: 'v1.3.0'
+    source-tag: 'v1.3.2'
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release

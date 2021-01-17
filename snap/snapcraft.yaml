@@ -834,19 +834,6 @@ parts:
       - usr/share
       - usr/lib
 
-  obs-transition-matrix:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/admshao/obs-transition-matrix.git
-    source-commit: 15f096ea143051be450e6cc8d07b501df55aa515
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
-      - -DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/
-
   obs-vnc:
     plugin: cmake
     after: [ obs ]
@@ -905,7 +892,6 @@ parts:
       - obs-ndi
       - obs-rgb-levels
       - obs-text-pango
-      - obs-transition-matrix
       - obs-scripts
       - obs-spectralizer
       - obs-vnc

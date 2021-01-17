@@ -77,6 +77,8 @@ sudo modprobe -r v4l2loopback
 sudo modprobe v4l2loopback devices=1 video_nr=13 card_label='OBS Virtual Camera' exclusive_caps=1
 ```
 
+The `Start Virtual Camera` button is located in the Controls pane, just below `Start Recording`.
+
 **NOTE!** Using `video_nr` greater than 64 will not work.
 
 ## NDI

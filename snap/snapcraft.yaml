@@ -409,7 +409,7 @@ parts:
       - -DBROWSER_PANEL_SUPPORT_ENABLED=TRUE
     source: https://github.com/obsproject/obs-studio.git
     #source-tag: '26.1.2'
-    source-commit: 'bb6b1e53f82401561cdec5993217f84883f228f3'
+    source-commit: '23e9d4153e00fa0944a7387fb3c7206a3ba34006'
     parse-info: [usr/share/metainfo/com.obsproject.Studio.appdata.xml]
     override-pull: |
       snapcraftctl pull
@@ -422,14 +422,10 @@ parts:
       wget -q "https://patch-diff.githubusercontent.com/raw/obsproject/obs-studio/pull/3437.diff" -O ${SNAPCRAFT_PART_SRC}/3437.diff
       patch -p1 < ${SNAPCRAFT_PART_SRC}/3437.diff
 
-      # Apply the "Add module functions" patch https://github.com/obsproject/obs-studio/pull/3871
-      wget -q "https://patch-diff.githubusercontent.com/raw/obsproject/obs-studio/pull/3871.diff" -O ${SNAPCRAFT_PART_SRC}/3871.diff
-      patch -p1 < ${SNAPCRAFT_PART_SRC}/3871.diff
+      # Apply the "Fix qt display bug with preview widgets" patch https://github.com/obsproject/obs-studio/pull/4235
+      wget -q "https://patch-diff.githubusercontent.com/raw/obsproject/obs-studio/pull/4235.diff" -O ${SNAPCRAFT_PART_SRC}/4235.diff
+      patch -p1 < ${SNAPCRAFT_PART_SRC}/4235.diff
 
-      # Apply the "Add Linux browser panel support" patch https://github.com/obsproject/obs-browser/pull/254
-      wget -q "https://patch-diff.githubusercontent.com/raw/obsproject/obs-browser/pull/254.diff" -O ${SNAPCRAFT_PART_SRC}/254.diff
-      cd plugins/obs-browser/
-      patch -p1 < ${SNAPCRAFT_PART_SRC}/254.diff
       cd "${SNAPCRAFT_PART_SRC}"
 
       # Work around for https://github.com/obsproject/obs-browser/issues/239

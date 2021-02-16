@@ -858,7 +858,7 @@ parts:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/Palakis/obs-websocket.git
-    source-branch: '4.x-current'
+    source-branch: '4.9.0'
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release

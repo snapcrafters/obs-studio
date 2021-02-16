@@ -450,8 +450,8 @@ parts:
       git clone --recursive https://github.com/exeldro/obs-freeze-filter.git ${SNAPCRAFT_PART_SRC}/plugins/obs-freeze-filter
       echo "add_subdirectory(obs-freeze-filter)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
-      git clone --recursive https://github.com/exeldro/obs-replay-source.git ${SNAPCRAFT_PART_SRC}/plugins/obs-replay-source
-      echo "add_subdirectory(obs-replay-source)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
+      #git clone --recursive https://github.com/exeldro/obs-replay-source.git ${SNAPCRAFT_PART_SRC}/plugins/obs-replay-source
+      #echo "add_subdirectory(obs-replay-source)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
       git clone --recursive https://github.com/exeldro/obs-dir-watch-media.git ${SNAPCRAFT_PART_SRC}/plugins/obs-dir-watch-media
       echo "add_subdirectory(obs-dir-watch-media)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt

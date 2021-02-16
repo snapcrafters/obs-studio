@@ -614,7 +614,7 @@ parts:
     stage-packages:
       - libavahi-client3
     override-build: |
-      yes | env PAGER=cat ./InstallNDISDK_v4_Linux.sh
+      yes | env PAGER=cat ./InstallNDISDK_v4_Linux.sh || true
       SDK="${SNAPCRAFT_PART_BUILD}/NDI SDK for Linux"
       install -D -m644 "${SDK}/include/"*.h -t "${SNAPCRAFT_PART_INSTALL}/usr/include"
       install -D -m755 "${SDK}/lib/${SNAPCRAFT_ARCH_TRIPLET}/libndi.so.4".*.* -t "${SNAPCRAFT_PART_INSTALL}/usr/local/lib/"

@@ -916,7 +916,23 @@ parts:
       - rnnoise
       - vlc-plugins
     override-prime: |
-      for CRUFT in CEF usr/include usr/share/apport usr/share/bug usr/share/fonts usr/share/lintian usr/share/man usr/share/pkgconfig; do
+      for CRUFT in \
+        CEF \
+        usr/include \
+        usr/lib/cmake \
+        usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig \
+        usr/share/GConf \
+        usr/share/apport \
+        usr/share/bug \
+        usr/share/ffmpeg/examples \
+        usr/share/fonts \
+        usr/share/icons/Adwaita \
+        usr/share/icons/Humanity* \
+        usr/share/icons/LoginIcons \
+        usr/share/icons/ubuntu-mono-* \
+        usr/share/lintian \
+        usr/share/man \
+        usr/share/pkgconfig; do
         rm -rf ${SNAPCRAFT_PRIME}/${CRUFT}
       done
       find ${SNAPCRAFT_PRIME}/usr/share/doc/ -type f -not -name 'copyright' -delete || true

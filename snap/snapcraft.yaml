@@ -421,11 +421,6 @@ parts:
       # Apply the "Save device by path" patch https://github.com/obsproject/obs-studio/pull/3437
       wget -q "https://patch-diff.githubusercontent.com/raw/obsproject/obs-studio/pull/3437.diff" -O ${SNAPCRAFT_PART_SRC}/3437.diff
       patch -p1 < ${SNAPCRAFT_PART_SRC}/3437.diff
-
-      # Apply the "Fix qt display bug with preview widgets" patch https://github.com/obsproject/obs-studio/pull/4235
-      wget -q "https://patch-diff.githubusercontent.com/raw/obsproject/obs-studio/pull/4235.diff" -O ${SNAPCRAFT_PART_SRC}/4235.diff
-      patch -p1 < ${SNAPCRAFT_PART_SRC}/4235.diff
-
       cd "${SNAPCRAFT_PART_SRC}"
 
       # Work around for https://github.com/obsproject/obs-browser/issues/239

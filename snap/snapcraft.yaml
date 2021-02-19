@@ -407,6 +407,7 @@ parts:
       - -DBUILD_BROWSER=TRUE
       - -DCEF_ROOT_DIR=$SNAPCRAFT_STAGE/CEF
       - -DBROWSER_PANEL_SUPPORT_ENABLED=TRUE
+      - -DENABLE_WAYLAND=TRUE
     source: https://github.com/obsproject/obs-studio.git
     #source-tag: '26.1.2'
     source-commit: '23e9d4153e00fa0944a7387fb3c7206a3ba34006'
@@ -525,6 +526,7 @@ parts:
       - pkg-config
       - python3-dev
       - qtbase5-dev
+      - qtbase5-private-dev
       - re2c
       - swig
       # Required by StreamFX
@@ -656,6 +658,36 @@ parts:
       libnetlib.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libnetlib.so
     prime:
       - usr/lib/*/libnetlib.so
+
+  pipewire:
+    after:
+      - ffmpeg
+      - obs
+    plugin: meson
+    source: https://gitlab.freedesktop.org/pipewire/pipewire.git
+    source-tag: '0.3.21'
+    meson-parameters:
+      - --prefix=/usr
+      - --buildtype=release
+      - --strip
+      - -Dbluez5=false
+      - -Dexamples=false
+      - -Djack=false
+      - -Dman=false
+      - -Dpipewire-jack=false
+      - -Dsystemd=false
+    build-packages:
+      - libgstreamer1.0-dev
+      - libgstreamer-plugins-base1.0-dev
+      - libsbc-dev
+      - libsdl2-dev
+      - libsndfile1-dev
+    stage-packages:
+      - libgstreamer1.0-0
+      - libgstreamer-plugins-base1.0-0
+      - libsdl2-2.0-0
+      - libsbc1
+      - libsndfile1
 
   vlc-plugins:
     plugin: nil
@@ -866,6 +898,19 @@ parts:
     prime:
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins
 
+  obs-xdg-portal:
+    plugin: meson
+    after:
+      - obs
+      - pipewire
+    source: https://gitlab.gnome.org/feaneron/obs-xdg-portal.git
+    meson-parameters:
+      - --prefix=/usr
+      - --buildtype=release
+      - --strip
+    build-packages:
+      - xdg-desktop-portal-dev
+
   # Adds 3rd party OBS scripts to the snap
   obs-scripts:
     plugin: dump
@@ -889,6 +934,7 @@ parts:
       - obs-spectralizer
       - obs-vnc
       - obs-websocket
+      - obs-xdg-portal
     source: snap/local/
     stage-packages:
       - mesa-utils

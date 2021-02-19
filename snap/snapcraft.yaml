@@ -748,9 +748,11 @@ parts:
     build-packages:
       - libgstreamer1.0-dev
       - libgstreamer-plugins-good1.0-dev
+      - libjack-dev
       - ninja-build
     stage-packages:
       - gstreamer1.0-plugins-good
+      - libjack0
     organize:
       usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-gstreamer.so: usr/lib/obs-plugins/
 

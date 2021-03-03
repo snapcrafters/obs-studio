@@ -53,8 +53,6 @@ apps:
     environment:
       PYTHONPATH: $PYTHONPATH:$SNAP/usr/lib/python3/dist-packages
       SNAP_DESKTOP_RUNTIME: $SNAP
-      GTK_USE_PORTAL: 1
-      QT_QPA_PLATFORMTHEME: flatpak
     plugs: &plugs
       - alsa
       - audio-playback
@@ -182,7 +180,6 @@ parts:
     stage-packages:
       - gsettings-desktop-schemas
       - qt5-gtk-platformtheme
-      - qt5-xdgdesktopportal-platformtheme
       - qtwayland5
 
   nv-codec-headers:

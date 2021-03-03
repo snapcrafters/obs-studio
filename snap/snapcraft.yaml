@@ -6,6 +6,7 @@ confinement: strict
 license: GPL-2.0
 architectures:
   - build-on: amd64
+compression: lzo
 
 plugs:
   # Support for common GTK themes

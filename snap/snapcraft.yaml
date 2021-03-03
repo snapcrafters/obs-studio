@@ -407,7 +407,7 @@ parts:
       - -DENABLE_WAYLAND=TRUE
     source: https://github.com/obsproject/obs-studio.git
     #source-tag: '26.1.2'
-    source-commit: '81a89e689fb36bd24b47c5806d09438e3d82ece3'
+    source-commit: '09c3892127a3a3786a567a0cf01ba7bd7d66b09b'
     parse-info: [usr/share/metainfo/com.obsproject.Studio.appdata.xml]
     override-pull: |
       snapcraftctl pull

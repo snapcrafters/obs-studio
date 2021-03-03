@@ -773,7 +773,9 @@ parts:
       - libjack-dev
       - ninja-build
     stage-packages:
+      - freeglut3
       - gstreamer1.0-plugins-good
+      - libglu1-mesa
       - libjack0
     organize:
       usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-gstreamer.so: usr/lib/obs-plugins/

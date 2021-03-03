@@ -167,29 +167,3 @@ snap connect obs-studio:joystick
 because it introduced excessive CPU utilisation when bundled, although
 works fine as a user-installed plugin. So we've made it as easy as possible
 to add it yourself should you need it.*
-
-### DroidCam OBS
-
-If you want to use [DroidCam OBS](https://play.google.com/store/apps/details?id=com.dev47apps.obsdroidcam)
-you will need to install the accompanying plugin.
-
-  * Download the [DroidCam OBS Plugin for Linux](http://dev47apps.com/obs/)
-  * Extract the `droidcam_obs_1.1.1_linux.zip` archive.
-  * Put the plugin in `~/snap/obs-studio/current/.config/obs-studio/plugins/`.
-
-```
-mv droidcam-obs ~/snap/obs-studio/current/.config/obs-studio/plugins/
-```
-
-This is how the DroidCam OBS plugin looks when correctly installed:
-
-```
-/home/username/snap/obs-studio/current/.config/obs-studio/plugins/
-└── droidcam-obs
-    ├── bin
-    │   └── 64bit
-    │       └── droidcam-obs.so
-    └── data
-        └── locale
-            └── en-US.ini
-```

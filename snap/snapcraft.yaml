@@ -496,6 +496,7 @@ parts:
       - libmbedtls-dev
       - libpulse-dev
       - libqt5svg5-dev
+      - libqt5waylandclient5-dev
       - libqt5x11extras5-dev
       - libsndio-dev
       - libspeexdsp-dev
@@ -505,6 +506,7 @@ parts:
       - libv4l-dev
       - libvlc-dev
       - libvlccore-dev
+      - libwayland-dev
       - libx11-dev
       - libx11-xcb-dev
       - libx264-dev
@@ -548,6 +550,7 @@ parts:
       - libpulse0
       - libpython3.8
       - libqt5svg5
+      - libqt5waylandclient5
       - libqt5x11extras5
       - libqt5xml5
       - libsndio7.0
@@ -568,6 +571,8 @@ parts:
       - libxcb-xinput0
       - libxcomposite1
       - libxinerama1
+      - qt5-gtk-platformtheme
+      - qtwayland5
       # Required by Advanced Scene Switcher
       - libxss1
 

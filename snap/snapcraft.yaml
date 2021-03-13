@@ -169,6 +169,14 @@ apps:
     environment:
       SNAP_DESKTOP_RUNTIME: $SNAP
     plugs: *plugs
+  vulkaninfo:
+    command: usr/bin/vulkaninfo
+    command-chain:
+      - snap/command-chain/desktop-launch
+      - bin/obs-wrapper
+    environment:
+      SNAP_DESKTOP_RUNTIME: $SNAP
+    plugs: *plugs
 
 parts:
   desktop-launch:
@@ -799,6 +807,21 @@ parts:
     prime:
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-ndi.so
 
+  # Vulkan support add ad per: https://forum.snapcraft.io/t/correct-way-to-do-nvidia-vulkan/20361
+  obs-nvfbc:
+    plugin: meson
+    after: [ obs ]
+    source: https://gitlab.com/fzwoch/obs-nvfbc.git
+    meson-parameters:
+      - --prefix=/usr
+      - --buildtype=release
+      - --strip
+    stage-packages:
+      - libvulkan1
+      - mesa-vulkan-drivers
+    organize:
+      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/nvfbc.so: usr/lib/obs-plugins/
+
   obs-rgb-levels:
     plugin: cmake
     after: [ obs ]
@@ -913,6 +936,7 @@ parts:
       - obs-gphoto
       - obs-gstreamer
       - obs-ndi
+      - obs-nvfbc
       - obs-rgb-levels
       - obs-text-pango
       - obs-spectralizer
@@ -925,6 +949,7 @@ parts:
       - mesa-utils-extra
       - vainfo
       - vdpauinfo
+      - vulkan-tools
     organize:
       obs-wrapper: bin/
 

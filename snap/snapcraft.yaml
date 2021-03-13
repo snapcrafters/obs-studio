@@ -903,15 +903,6 @@ parts:
     build-packages:
       - xdg-desktop-portal-dev
 
-  # Adds 3rd party OBS scripts to the snap
-  obs-scripts:
-    plugin: dump
-    source: snap/local/
-    stage-packages:
-      - python3-lxml
-    organize:
-      youtubelink.py: usr/share/obs/obs-plugins/frontend-tools/scripts/
-
   obs-wrapper:
     plugin: dump
     after:
@@ -922,7 +913,6 @@ parts:
       - obs-ndi
       - obs-rgb-levels
       - obs-text-pango
-      - obs-scripts
       - obs-spectralizer
       - obs-vnc
       - obs-websocket

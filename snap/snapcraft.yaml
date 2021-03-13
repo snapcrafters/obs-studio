@@ -26,21 +26,21 @@ plugs:
 
 layout:
   /usr/lib/obs-plugins:
-    bind: $SNAP/usr/lib/obs-plugins
+    symlink: $SNAP/usr/lib/obs-plugins
   /usr/lib/obs-scripting:
-    bind: $SNAP/usr/lib/obs-scripting
+    symlink: $SNAP/usr/lib/obs-scripting
   /usr/local/lib:
-    bind: $SNAP/usr/local/lib
+    symlink: $SNAP/usr/local/lib
   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
-    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
+    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
   /usr/share/alsa:
-    bind: $SNAP/usr/share/alsa
-  /usr/share/libdrm:
-    bind: $SNAP/usr/share/libdrm
+    symlink: $SNAP/usr/share/alsa
+  /usr/share/libdrm/amdgpu.ids:
+    symlink: $SNAP/usr/share/libdrm/amdgpu.ids
   /usr/share/obs:
-    bind: $SNAP/usr/share/obs
+    symlink: $SNAP/usr/share/obs
   /usr/share/X11:
-    bind: $SNAP/usr/share/X11
+    symlink: $SNAP/usr/share/X11
 
 apps:
   obs-studio:

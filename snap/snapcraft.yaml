@@ -171,16 +171,12 @@ apps:
     plugs: *plugs
 
 parts:
-  desktop-qt5:
+  desktop-launch:
     plugin: make
     source: $SNAPCRAFT_EXTENSIONS_DIR/desktop
     source-subdir: kde-neon
-    build-packages:
-      - qtbase5-dev
-    stage-packages:
-      - gsettings-desktop-schemas
-      - qt5-gtk-platformtheme
-      - qtwayland5
+    make-parameters:
+      - PLATFORM_PLUG="gtk-3-themes"
 
   nv-codec-headers:
     plugin: make
@@ -930,7 +926,7 @@ parts:
     plugin: nil
     after:
       - cef
-      - desktop-qt5
+      - desktop-launch
       - ffmpeg
       - kmod
       - libcurl

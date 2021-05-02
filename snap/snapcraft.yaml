@@ -446,8 +446,7 @@ parts:
       - -DBROWSER_PANEL_SUPPORT_ENABLED=TRUE
       - -DENABLE_WAYLAND=TRUE
     source: https://github.com/obsproject/obs-studio.git
-    #source-tag: '26.1.2'
-    source-commit: 'a609554b8972f53016eb31d22d615d5b6896edb2'
+    source-tag: '27.0.0-rc2'
     parse-info: [usr/share/metainfo/com.obsproject.Studio.appdata.xml]
     override-pull: |
       snapcraftctl pull
@@ -542,7 +541,6 @@ parts:
       - libpulse-dev
       - libqt5svg5-dev
       - libqt5waylandclient5-dev
-      - libqt5x11extras5-dev
       - libsndio-dev
       - libspeexdsp-dev
       #- libswresample-dev    # comes via the FFmpeg part
@@ -596,7 +594,6 @@ parts:
       - libpython3.8
       - libqt5svg5
       - libqt5waylandclient5
-      - libqt5x11extras5
       - libqt5xml5
       - libsndio7.0
       - libspeexdsp1

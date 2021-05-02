@@ -435,7 +435,7 @@ parts:
       git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/SceneSwitcher --branch 1.11.2
       echo "add_subdirectory(SceneSwitcher)" >> ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/CMakeLists.txt
 
-      git clone --recursive https://github.com/Xaymar/obs-StreamFX.git ${SNAPCRAFT_PART_SRC}/plugins/obs-StreamFX --branch 0.9.3
+      git clone --recursive https://github.com/Xaymar/obs-StreamFX.git ${SNAPCRAFT_PART_SRC}/plugins/obs-StreamFX --branch 0.10.0
       echo "add_subdirectory(obs-StreamFX)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
       git clone --recursive https://github.com/exeldro/obs-source-switcher.git ${SNAPCRAFT_PART_SRC}/plugins/obs-source-switcher

@@ -351,6 +351,35 @@ parts:
       - --enable-version3
       - --enable-xlib
 
+  pipewire:
+    after:
+      - ffmpeg
+    plugin: meson
+    source: https://gitlab.freedesktop.org/pipewire/pipewire.git
+    source-tag: '0.3.21'
+    meson-parameters:
+      - --prefix=/usr
+      - --buildtype=release
+      - --strip
+      - -Dbluez5=false
+      - -Dexamples=false
+      - -Djack=false
+      - -Dman=false
+      - -Dpipewire-jack=false
+      - -Dsystemd=false
+    build-packages:
+      - libgstreamer1.0-dev
+      - libgstreamer-plugins-base1.0-dev
+      - libsbc-dev
+      - libsdl2-dev
+      - libsndfile1-dev
+    stage-packages:
+      - libgstreamer1.0-0
+      - libgstreamer-plugins-base1.0-0
+      - libsdl2-2.0-0
+      - libsbc1
+      - libsndfile1
+
   cef:
     plugin: cmake
     source:
@@ -403,6 +432,7 @@ parts:
     after:
       - cef
       - ffmpeg
+      - pipewire
       - rnnoise
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
@@ -665,36 +695,6 @@ parts:
     prime:
       - usr/lib/*/libnetlib.so
 
-  pipewire:
-    after:
-      - ffmpeg
-      - obs
-    plugin: meson
-    source: https://gitlab.freedesktop.org/pipewire/pipewire.git
-    source-tag: '0.3.21'
-    meson-parameters:
-      - --prefix=/usr
-      - --buildtype=release
-      - --strip
-      - -Dbluez5=false
-      - -Dexamples=false
-      - -Djack=false
-      - -Dman=false
-      - -Dpipewire-jack=false
-      - -Dsystemd=false
-    build-packages:
-      - libgstreamer1.0-dev
-      - libgstreamer-plugins-base1.0-dev
-      - libsbc-dev
-      - libsdl2-dev
-      - libsndfile1-dev
-    stage-packages:
-      - libgstreamer1.0-0
-      - libgstreamer-plugins-base1.0-0
-      - libsdl2-2.0-0
-      - libsbc1
-      - libsndfile1
-
   vlc-plugins:
     plugin: nil
     stage-packages:
@@ -921,19 +921,6 @@ parts:
     prime:
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins
 
-  obs-xdg-portal:
-    plugin: meson
-    after:
-      - obs
-      - pipewire
-    source: https://gitlab.gnome.org/feaneron/obs-xdg-portal.git
-    meson-parameters:
-      - --prefix=/usr
-      - --buildtype=release
-      - --strip
-    build-packages:
-      - xdg-desktop-portal-dev
-
   obs-wrapper:
     plugin: dump
     after:
@@ -948,7 +935,6 @@ parts:
       - obs-spectralizer
       - obs-vnc
       - obs-websocket
-      - obs-xdg-portal
     source: snap/local/
     stage-packages:
       - mesa-utils

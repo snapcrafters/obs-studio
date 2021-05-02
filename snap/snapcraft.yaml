@@ -185,6 +185,12 @@ parts:
     source-subdir: kde-neon
     make-parameters:
       - PLATFORM_PLUG="gtk-3-themes"
+    stage-packages:
+      - libglib2.0-0
+      - libgdk-pixbuf2.0-0
+      - gsettings-desktop-schemas
+      - gtk-update-icon-cache
+      - shared-mime-info
 
   nv-codec-headers:
     plugin: make

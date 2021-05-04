@@ -220,7 +220,7 @@ parts:
       - nv-codec-headers
       - srt
     source: https://github.com/FFmpeg/FFmpeg.git
-    source-branch: release/4.4
+    source-branch: release/4.3
     build-packages:
       - libass-dev
       - libbz2-dev

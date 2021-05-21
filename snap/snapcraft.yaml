@@ -356,17 +356,17 @@ parts:
       - ffmpeg
     plugin: meson
     source: https://gitlab.freedesktop.org/pipewire/pipewire.git
-    source-tag: '0.3.21'
+    source-tag: '0.3.28'
     meson-parameters:
       - --prefix=/usr
       - --buildtype=release
       - --strip
-      - -Dbluez5=false
-      - -Dexamples=false
-      - -Djack=false
-      - -Dman=false
-      - -Dpipewire-jack=false
-      - -Dsystemd=false
+      - -Dbluez5=disabled
+      - -Dexamples=disabled
+      - -Djack=disabled
+      - -Dman=disabled
+      - -Dpipewire-jack=disabled
+      - -Dsystemd=disabled
     build-packages:
       - libgstreamer1.0-dev
       - libgstreamer-plugins-base1.0-dev

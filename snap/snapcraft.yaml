@@ -504,7 +504,7 @@ parts:
       git clone --recursive https://github.com/exeldro/obs-transition-table.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/obs-transition-table
       echo "add_subdirectory(obs-transition-table)" >> ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/CMakeLists.txt
 
-      git clone --recursive https://github.com/iamscottxu/obs-rtspserver.git ${SNAPCRAFT_PART_SRC}/plugins/obs-rtspserver --branch v2.0.2
+      git clone --recursive https://github.com/iamscottxu/obs-rtspserver.git ${SNAPCRAFT_PART_SRC}/plugins/obs-rtspserver --branch v2.0.3
       echo "add_subdirectory(obs-rtspserver)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
     override-build: |
       # Make sure the libcaption headers are discoverable

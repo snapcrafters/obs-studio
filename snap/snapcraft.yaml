@@ -700,19 +700,15 @@ parts:
   netlib:
     plugin: cmake
     source: https://github.com/univrsal/netlib.git
-    source-tag: 'v0.2'
-    override-build: |
-      cmake \
-        -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_C_FLAGS_RELEASE=-s \
-        -DCMAKE_CXX_FLAGS_RELEASE=-s \
-        ${SNAPCRAFT_PART_SRC}
-      make -j $(nproc)
-    organize:
-      libnetlib.so: usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libnetlib.so
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE=-s
+      - -DNETLIB_ENABLE_TESTS=FALSE
+      - -DNETLIB_ENABLE_STATIC=FALSE
+      - -DNETLIB_ENABLE_SHARED=TRUE
     prime:
-      - usr/lib/*/libnetlib.so
+      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libnetlib.so
 
   vlc-plugins:
     after:

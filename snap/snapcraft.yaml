@@ -504,6 +504,9 @@ parts:
       git clone --recursive https://github.com/exeldro/obs-source-record.git ${SNAPCRAFT_PART_SRC}/plugins/obs-source-record
       echo "add_subdirectory(obs-source-record)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
+      git clone --recursive https://github.com/exeldro/obs-downstream-keyer.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/obs-downstream-keyer
+      echo "add_subdirectory(obs-downstream-keyer)" >> ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/CMakeLists.txt
+
       git clone --recursive https://github.com/exeldro/obs-source-copy.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/obs-source-copy
       echo "add_subdirectory(obs-source-copy)" >> ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/CMakeLists.txt
 

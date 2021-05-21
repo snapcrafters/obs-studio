@@ -20,9 +20,7 @@
 ## Install
 
     sudo snap install obs-studio
-    sudo snap connect obs-studio:audio-record
     sudo snap connect obs-studio:avahi-control
-    sudo snap connect obs-studio:camera
     sudo snap connect obs-studio:kernel-module-observe
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/obs-studio)

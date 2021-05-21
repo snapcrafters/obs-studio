@@ -21,5 +21,16 @@ fi
 # Make sure the user plugins folder exists.
 [ -d "${SNAP_USER_DATA}/.config/obs-studio/plugins" ] || mkdir -p "${SNAP_USER_DATA}/.config/obs-studio/plugins"
 
+# If the current session is Wayland then use EGL
+echo -n "Checking display server:"
+if [ "${XDG_SESSION_TYPE}" == "wayland" ] && [[ ${WAYLAND_DISPLAY} == *"wayland"* ]]; then
+  echo " Wayland detected, enabling EGL."
+  export OBS_USE_EGL=1
+elif [ "${XDG_SESSION_TYPE}" == "x11" ]; then
+  echo " X11 detected."
+else
+  echo " No display server found."
+fi
+
 unset SESSION_MANAGER
 exec "$@"

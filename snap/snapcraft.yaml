@@ -458,6 +458,12 @@ parts:
       # Apply the "Save device by path" patch https://github.com/obsproject/obs-studio/pull/3437
       wget -q "https://patch-diff.githubusercontent.com/raw/obsproject/obs-studio/pull/3437.diff" -O ${SNAPCRAFT_PART_SRC}/3437.diff
       patch -p1 < ${SNAPCRAFT_PART_SRC}/3437.diff
+
+      # Apply the "Fix button states for VST plugins" patch https://github.com/obsproject/obs-vst/pull/83
+      wget -q "https://patch-diff.githubusercontent.com/raw/obsproject/obs-vst/pull/83.diff" -O ${SNAPCRAFT_PART_SRC}/plugins/obs-vst/83.diff
+      cd ${SNAPCRAFT_PART_SRC}/plugins/obs-vst
+      patch -p1 < 83.diff
+
       cd "${SNAPCRAFT_PART_SRC}"
 
       # Work around for https://github.com/obsproject/obs-browser/issues/239

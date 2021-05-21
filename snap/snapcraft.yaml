@@ -715,6 +715,8 @@ parts:
       - usr/lib/*/libnetlib.so
 
   vlc-plugins:
+    after:
+      - srt
     plugin: nil
     stage-packages:
       - freeglut3
@@ -972,6 +974,7 @@ parts:
       - ffmpeg
       - kmod
       - libcurl
+      - libgamepad
       - libuiohook
       - netlib
       - obs-wrapper

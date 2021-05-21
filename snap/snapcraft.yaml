@@ -688,7 +688,6 @@ parts:
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
       - -DCMAKE_CXX_FLAGS_RELEASE=-s
       - -DGAMEPAD_ENABLE_TESTS=FALSE
       - -DGAMEPAD_ENABLE_STATIC=FALSE

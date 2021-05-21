@@ -654,25 +654,33 @@ parts:
 
   # Required by Input Overlay if it's added as a 3rd party plugin
   libuiohook:
-    plugin: autotools
+    plugin: cmake
     source: https://github.com/kwhat/libuiohook.git
-    source-tag: '1.0.3'
-    autotools-configure-parameters:
-      - --prefix=/usr
-      - --disable-debug
-      - --disable-static
-      - --enable-quiet
+    source-branch: '1.2'
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE=-s
+      - -DBUILD_SHARED_LIBS=TRUE
     build-packages:
       - libxinerama-dev
+      - libxkbcommon-x11-dev
+      - libxkbfile-dev
       - libxt-dev
       - libxtst-dev
       - pkg-config
     stage-packages:
+      - libice6
+      - libsm6
+      - libxcb-xkb1
+      - libxkbcommon-x11-0
+      - libxkbfile1
       - libxinerama1
       - libxt6
       - libxtst6
-    stage:
-      - -usr/lib/*.la
+    prime:
+      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libuiohook.so*
+
   # Required by Input Overlay if it's added as a 3rd party plugin
   libgamepad:
     plugin: cmake

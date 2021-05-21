@@ -214,6 +214,7 @@ parts:
     build-packages:
       - libssl-dev
 
+  # NOTE! StreamFX requires FFmpeg 4.3
   ffmpeg:
     plugin: autotools
     after:

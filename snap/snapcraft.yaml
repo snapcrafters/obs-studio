@@ -673,6 +673,20 @@ parts:
       - libxtst6
     stage:
       - -usr/lib/*.la
+  # Required by Input Overlay if it's added as a 3rd party plugin
+  libgamepad:
+    plugin: cmake
+    source: https://github.com/univrsal/libgamepad.git
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE=-s
+      - -DCMAKE_CXX_FLAGS_RELEASE=-s
+      - -DGAMEPAD_ENABLE_TESTS=FALSE
+      - -DGAMEPAD_ENABLE_STATIC=FALSE
+      - -DGAMEPAD_ENABLE_SHARED=TRUE
+    prime:
+      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libgamepad.so
 
   # Required by Input Overlay if it's added as a 3rd party plugin
   netlib:

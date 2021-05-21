@@ -155,8 +155,8 @@ plugin looks when correctly installed:
 
 ### Input Overlay
 
-This snap of OBS Studio comes with `libuihook` and `netlib` pre-installed so
-that if you want to use the [Input Overlay](https://github.com/univrsal/input-overlay)
+The OBS Studio snap bundles `libgamepad`, `libuihook` and `netlib` so that if
+you want to use the [Input Overlay](https://github.com/univrsal/input-overlay)
 plugin, you can install it as outlined above then connect the joystick
 interface as follows.
 

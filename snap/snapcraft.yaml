@@ -863,7 +863,6 @@ parts:
     prime:
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-ndi.so
 
-  # Vulkan support add ad per: https://forum.snapcraft.io/t/correct-way-to-do-nvidia-vulkan/20361
   obs-nvfbc:
     plugin: meson
     after: [ obs ]
@@ -872,11 +871,30 @@ parts:
       - --prefix=/usr
       - --buildtype=release
       - --strip
+    organize:
+      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/nvfbc.so: usr/lib/obs-plugins/
+
+  # Vulkan support added as per: https://forum.snapcraft.io/t/correct-way-to-do-nvidia-vulkan/20361
+  obs-vkcapture:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/nowrep/obs-vkcapture.git
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE=-s
+      - -DCMAKE_CXX_FLAGS_RELEASE=-s
+    build-packages:
+      - libvulkan-dev
     stage-packages:
       - libvulkan1
       - mesa-vulkan-drivers
     organize:
-      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/nvfbc.so: usr/lib/obs-plugins/
+      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/linux-vkcapture.so: usr/lib/obs-plugins/
+    # Confinement prevents these from running external apps, so remove them
+    prime:
+      - -usr/bin/obs-glcapture
+      - -usr/bin/obs-vkcapture
 
   obs-rgb-levels:
     plugin: cmake
@@ -983,6 +1001,7 @@ parts:
       - obs-rgb-levels
       - obs-text-pango
       - obs-spectralizer
+      - obs-vkcapture
       - obs-vnc
       - obs-websocket
     source: snap/local/

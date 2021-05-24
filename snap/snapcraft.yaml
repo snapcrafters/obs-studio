@@ -363,6 +363,7 @@ parts:
       - --enable-version3
       - --enable-xlib
 
+  # Reference: https://pad.lv/1849478
   pipewire:
     after:
       - ffmpeg
@@ -374,6 +375,7 @@ parts:
       - --buildtype=release
       - --strip
       - -Dauto_features=enabled
+      - -Dalsa=disabled
       - -Davahi=disabled
       - -Dbluez5=disabled
       - -Dbluez5-codec-aac=disabled
@@ -386,6 +388,7 @@ parts:
       - -Djack=disabled
       - -Dlibcamera=disabled
       - -Dman=disabled
+      - -Dpipewire-alsa=disabled
       - -Dpipewire-jack=disabled
       - -Dpw-cat=disabled
       - -Dsystemd=disabled

@@ -33,6 +33,10 @@ layout:
     symlink: $SNAP/usr/local/lib
   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
     symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_intel.so:
+    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_intel.so
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_radeon.so:
+    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_radeon.so
   /usr/share/alsa:
     symlink: $SNAP/usr/share/alsa
   /usr/share/libdrm/amdgpu.ids:

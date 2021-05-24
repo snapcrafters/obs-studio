@@ -1031,6 +1031,7 @@ parts:
         usr/include \
         usr/lib/cmake \
         usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig \
+        usr/lib/pkgconfig \
         usr/share/GConf \
         usr/share/apport \
         usr/share/bug \

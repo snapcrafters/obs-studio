@@ -56,10 +56,13 @@ apps:
     desktop: usr/share/applications/com.obsproject.Studio.desktop
     environment:
       LD_LIBRARY_PATH: $SNAP/opt/qt515/lib:$LD_LIBRARY_PATH
+      PIPEWIRE_CONFIG_NAME: $SNAP/etc/pipewire/pipewire.conf
+      PIPEWIRE_MODULE_DIR: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pipewire-0.3
       PYTHONPATH: $PYTHONPATH:$SNAP/usr/lib/python3/dist-packages
-      SNAP_DESKTOP_RUNTIME: $SNAP
       QTDIR: $SNAP/opt/qt515
       QT_PLUGIN_PATH: $SNAP/opt/qt515/plugins:$QT_PLUGIN_PATH
+      SNAP_DESKTOP_RUNTIME: $SNAP
+      SPA_PLUGIN_DIR: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/spa-0.2
     plugs: &plugs
       - alsa
       - audio-playback

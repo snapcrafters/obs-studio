@@ -229,12 +229,29 @@ parts:
     build-packages:
       - libssl-dev
 
+  x264:
+    plugin: autotools
+    source: https://code.videolan.org/videolan/x264.git
+    source-branch: 'stable'
+    autotools-configure-parameters:
+      - --prefix=/usr
+      - --disable-cli
+      - --enable-shared
+      - --enable-strip
+    build-packages:
+      - libva-dev
+      - nasm
+    prime:
+      - usr/lib
+      - -usr/lib/pkgconfig
+
   # NOTE! StreamFX requires FFmpeg 4.3
   ffmpeg:
     plugin: autotools
     after:
       - nv-codec-headers
       - srt
+      - x264
     source: https://github.com/FFmpeg/FFmpeg.git
     source-branch: release/4.3
     build-packages:
@@ -262,7 +279,6 @@ parts:
       - libvorbis-dev
       - libvpx-dev
       - libwebp-dev
-      - libx264-dev
       - libx265-dev
       - libxcb-shape0-dev
       - libxcb-shm0-dev
@@ -301,7 +317,6 @@ parts:
       - libwebp6
       - libwebpmux3
       - libx11-6
-      - libx264-155
       - libx265-179
       - libxau6
       - libxcb-shape0
@@ -491,6 +506,7 @@ parts:
       - pipewire
       - qt5
       - rnnoise
+      - x264
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
@@ -615,7 +631,6 @@ parts:
       - libwayland-dev
       - libx11-dev
       - libx11-xcb-dev
-      - libx264-dev
       - libxcb-randr0-dev
       - libxcb-shm0-dev
       - libxcb-xfixes0-dev
@@ -656,7 +671,6 @@ parts:
       - libvlccore9
       - libx11-6
       - libx11-xcb1
-      - libx264-155
       - libxcb-randr0
       - libxcb-shm0
       - libxcb-xfixes0
@@ -777,6 +791,7 @@ parts:
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libpostproc.*    # Provided by the ffmpeg part
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libswresample.*  # Provided by the ffmpeg part
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libswscale.*     # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libx264.*        # Provided by the x264 part
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/vlc/lua
       - -usr/share/vlc
 
@@ -1049,6 +1064,7 @@ parts:
       - qt5
       - rnnoise
       - vlc-plugins
+      - x264
     override-prime: |
       for CRUFT in \
         CEF \

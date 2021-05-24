@@ -891,8 +891,8 @@ parts:
       - mesa-vulkan-drivers
     organize:
       usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/linux-vkcapture.so: usr/lib/obs-plugins/
-    # Confinement prevents these from running external apps, so remove them
     prime:
+      # Confinement prevents these from running external apps, so remove them
       - -usr/bin/obs-glcapture
       - -usr/bin/obs-vkcapture
 

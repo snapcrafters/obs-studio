@@ -55,8 +55,11 @@ apps:
     common-id: com.obsproject.Studio
     desktop: usr/share/applications/com.obsproject.Studio.desktop
     environment:
+      LD_LIBRARY_PATH: $SNAP/opt/qt515/lib:$LD_LIBRARY_PATH
       PYTHONPATH: $PYTHONPATH:$SNAP/usr/lib/python3/dist-packages
       SNAP_DESKTOP_RUNTIME: $SNAP
+      QTDIR: $SNAP/opt/qt515
+      QT_PLUGIN_PATH: $SNAP/opt/qt515/plugins:$QT_PLUGIN_PATH
     plugs: &plugs
       - alsa
       - audio-playback
@@ -181,6 +184,10 @@ apps:
     environment:
       SNAP_DESKTOP_RUNTIME: $SNAP
     plugs: *plugs
+
+package-repositories:
+  - type: apt
+    ppa: beineri/opt-qt-5.15.2-focal
 
 parts:
   desktop-launch:
@@ -445,6 +452,26 @@ parts:
     stage:
       - -usr/lib/*.la
 
+  qt5:
+    plugin: nil
+    stage-packages:
+      - qt515base
+      - qt515svg
+      - qt515wayland
+    prime:
+      - -opt/qt515/bin
+      - -opt/qt515/doc
+      - -opt/qt515/examples
+      - -opt/qt515/include
+      - -opt/qt515/lib/cmake
+      - -opt/qt515/lib/*.a
+      - -opt/qt515/lib/*.la
+      - -opt/qt515/lib/*.prl
+      - -opt/qt515/lib/pkgconfig
+      - -opt/qt515/mkspecs
+      - -opt/qt515/plugins/qmltooling
+      - -opt/qt515/qml
+
   # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
   obs:
     plugin: cmake
@@ -452,6 +479,7 @@ parts:
       - cef
       - ffmpeg
       - pipewire
+      - qt5
       - rnnoise
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
@@ -554,6 +582,7 @@ parts:
     build-environment:
       - CMAKE_INCLUDE_PATH: $CMAKE_INCLUDE_PATH:$SNAPCRAFT_STAGE/include:$SNAPCRAFT_STAGE/usr/include:$SNAPCRAFT_STAGE/include/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/include/$SNAPCRAFT_ARCH_TRIPLET
       - CMAKE_LIBRARY_PATH: $CMAKE_LIBRARY_PATH:$SNAPCRAFT_STAGE/lib:$SNAPCRAFT_STAGE/usr/lib:$SNAPCRAFT_STAGE/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
+      - CMAKE_PREFIX_PATH: CMAKE_PREFIX_PATH:$SNAPCRAFT_STAGE/opt/qt515
       - LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAPCRAFT_STAGE/lib:$SNAPCRAFT_STAGE/usr/lib:$SNAPCRAFT_STAGE/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
     build-packages:
       - clang-tidy
@@ -573,8 +602,6 @@ parts:
       - libluajit-5.1-dev
       - libmbedtls-dev
       - libpulse-dev
-      - libqt5svg5-dev
-      - libqt5waylandclient5-dev
       - libsndio-dev
       - libspeexdsp-dev
       #- libswresample-dev    # comes via the FFmpeg part
@@ -597,8 +624,6 @@ parts:
       - libxinerama-dev
       - pkg-config
       - python3-dev
-      - qtbase5-dev
-      - qtbase5-private-dev
       - re2c
       - swig
       # Required by StreamFX
@@ -626,9 +651,6 @@ parts:
       - libmbedtls12
       - libpulse0
       - libpython3.8
-      - libqt5svg5
-      - libqt5waylandclient5
-      - libqt5xml5
       - libsndio7.0
       - libspeexdsp1
       #- libswresample3       # comes via the FFmpeg part
@@ -647,8 +669,6 @@ parts:
       - libxcb-xinput0
       - libxcomposite1
       - libxinerama1
-      - qt5-gtk-platformtheme
-      - qtwayland5
       # Required by Advanced Scene Switcher
       - libxss1
 
@@ -768,6 +788,8 @@ parts:
     after: [ obs ]
     source: https://github.com/norihiro/obs-audio-pan-filter.git
     source-tag: '0.1.0'
+    build-environment:
+      - Qt5_DIR: $SNAPCRAFT_STAGE/opt/qt515
     override-build: |
       mkdir -p $SNAPCRAFT_PART_SRC/build
       cd $SNAPCRAFT_PART_SRC/build
@@ -853,6 +875,8 @@ parts:
       - obs
     source: https://github.com/Palakis/obs-ndi.git
     source-tag: '4.9.1'
+    build-environment:
+      - Qt5_DIR: $SNAPCRAFT_STAGE/opt/qt515
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
@@ -976,6 +1000,8 @@ parts:
     after: [ obs ]
     source: https://github.com/Palakis/obs-websocket.git
     source-branch: '4.9.0'
+    build-environment:
+      - Qt5_DIR: $SNAPCRAFT_STAGE/opt/qt515
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
@@ -1023,6 +1049,7 @@ parts:
       - libuiohook
       - netlib
       - obs-wrapper
+      - qt5
       - rnnoise
       - vlc-plugins
     override-prime: |

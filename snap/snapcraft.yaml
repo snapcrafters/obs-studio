@@ -568,14 +568,13 @@ parts:
       git clone --recursive https://github.com/iamscottxu/obs-rtspserver.git ${SNAPCRAFT_PART_SRC}/plugins/obs-rtspserver --branch v2.0.3
       echo "add_subdirectory(obs-rtspserver)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
     override-build: |
-      # Make sure the libcaption headers are discoverable
+      # Stage libcaption headers required to build OBS and some out of tree plugins
       [ -d ${SNAPCRAFT_STAGE}/usr/include/caption/ ] || mkdir -p ${SNAPCRAFT_STAGE}/usr/include/caption/
       cp ${SNAPCRAFT_PART_SRC}/deps/libcaption/caption/*.h ${SNAPCRAFT_STAGE}/usr/include/caption/
+
       snapcraftctl build
-    override-stage: |
-      snapcraftctl stage
-      # Stage headers required for out of tree plugins to build
-      cp ${SNAPCRAFT_PART_SRC}/UI/obs-frontend-api/*.h ${SNAPCRAFT_STAGE}/usr/include/obs/
+
+      # Stage cmake files required to build out of tree plugins
       [ -d ${SNAPCRAFT_STAGE}/usr/include/cmake/external ] || mkdir -p ${SNAPCRAFT_STAGE}/usr/include/cmake/external
       cp ${SNAPCRAFT_PART_SRC}/cmake/external/*.cmake ${SNAPCRAFT_STAGE}/usr/include/cmake/external/
     build-environment:

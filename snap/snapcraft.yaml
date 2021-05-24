@@ -411,6 +411,9 @@ parts:
       - libsdl2-2.0-0
       - libsndfile1
       - libv4l-0
+    prime:
+      - -usr/bin/pw-*
+      - -usr/bin/spa-*
 
   cef:
     plugin: cmake

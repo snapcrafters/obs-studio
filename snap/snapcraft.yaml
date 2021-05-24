@@ -726,6 +726,8 @@ parts:
       - libxinerama1
       - libxt6
       - libxtst6
+    prime:
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/cmake
 
   # Required by Input Overlay if it's added as a 3rd party plugin
   libgamepad:

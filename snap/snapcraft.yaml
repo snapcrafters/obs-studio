@@ -835,6 +835,7 @@ parts:
       - --strip
     build-packages:
       - libgstreamer1.0-dev
+      - libgstreamer-plugins-base1.0-dev
       - libgstreamer-plugins-good1.0-dev
       - libjack-dev
       - ninja-build
@@ -842,6 +843,7 @@ parts:
       - freeglut3
       - gstreamer1.0-plugins-good
       - libglu1-mesa
+      - libgstreamer-plugins-base1.0-0
       - libjack0
     organize:
       usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-gstreamer.so: usr/lib/obs-plugins/

@@ -18,19 +18,21 @@ elif [ "$SNAP_ARCH" = "arm64" ]; then
   export VK_ICD_FILENAMES="/var/lib/snapd/lib/vulkan/icd.d/nvidia_icd.json:$SNAP/usr/share/vulkan/icd.d/radeon_icd.aarch64.json"
 fi
 
-# Make sure the user plugins folder exists.
-[ -d "${SNAP_USER_DATA}/.config/obs-studio/plugins" ] || mkdir -p "${SNAP_USER_DATA}/.config/obs-studio/plugins"
+# Enviroonment coercions that should only be made when wrapping OBS Studio
+if [[ ${@} == *"usr/bin/obs"* ]]; then
+  # Make sure the user plugins folder exists.
+  [ -d "${SNAP_USER_DATA}/.config/obs-studio/plugins" ] || mkdir -p "${SNAP_USER_DATA}/.config/obs-studio/plugins"
 
-# If the current session is Wayland then use EGL
-echo -n "Checking display server:"
-if [ "${XDG_SESSION_TYPE}" == "wayland" ] && [[ ${WAYLAND_DISPLAY} == *"wayland"* ]]; then
-  echo " Wayland detected, enabling EGL."
-  export OBS_USE_EGL=1
-elif [ "${XDG_SESSION_TYPE}" == "x11" ]; then
-  echo " X11 detected."
-else
-  echo " No display server found."
+  # If the current session is Wayland then use EGL
+  if [ "${XDG_SESSION_TYPE}" == "wayland" ] && [[ ${WAYLAND_DISPLAY} == *"wayland"* ]]; then
+    export OBS_USE_EGL=1
+    # https://bugreports.qt.io/browse/QTBUG-81504?focusedCommentId=562115&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-562115
+    #export QT_WAYLAND_FORCE_NONBLOCKING_SWAP_SUPPORT=0
+    export QT_QPA_PLATFORM="wayland-egl"
+  elif [ "${XDG_SESSION_TYPE}" == "x11" ]; then
+    export QT_QPA_PLATFORM="xcb"
+  fi
 fi
 
 unset SESSION_MANAGER
-exec "$@"
+exec "${@}"

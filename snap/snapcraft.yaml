@@ -584,13 +584,9 @@ parts:
       - CMAKE_PREFIX_PATH: CMAKE_PREFIX_PATH:$SNAPCRAFT_STAGE/opt/qt515
       - LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAPCRAFT_STAGE/lib:$SNAPCRAFT_STAGE/usr/lib:$SNAPCRAFT_STAGE/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
     build-packages:
+      # FFmpeg and Qt5 packages are not listed as they're provided by the 'ffmpeg' and 'qt5' parts
       - clang-tidy
       - libasound2-dev
-      #- libavcodec-dev       # comes via the FFmpeg part
-      #- libavdevice-dev      # comes via the FFmpeg part
-      #- libavfilter-dev      # comes via the FFmpeg part
-      #- libavformat-dev      # comes via the FFmpeg part
-      #- libavutil-dev        # comes via the FFmpeg part
       - libcurl4-openssl-dev
       - libfdk-aac-dev
       - libfontconfig1-dev
@@ -603,8 +599,6 @@ parts:
       - libpulse-dev
       - libsndio-dev
       - libspeexdsp-dev
-      #- libswresample-dev    # comes via the FFmpeg part
-      #- libswscale-dev       # comes via the FFmpeg part
       - libudev-dev
       - libv4l-dev
       - libvlc-dev
@@ -632,13 +626,8 @@ parts:
       # Required to get patches
       - wget
     stage-packages:
+      # FFmpeg and Qt5 packages are not listed as they're provided by the 'ffmpeg' and 'qt5' parts
       - libasound2
-      #- libavcodec58         # comes via the FFmpeg part
-      #- libavdevice58        # comes via the FFmpeg part
-      #- libavfilter7         # comes via the FFmpeg part
-      #- libavformat58        # comes via the FFmpeg part
-      #- libavutil56          # comes via the FFmpeg part
-      #- libavresample4       # comes via the FFmpeg part
       - libcurl4
       - libfdk-aac1
       - libfreetype6
@@ -652,8 +641,6 @@ parts:
       - libpython3.8
       - libsndio7.0
       - libspeexdsp1
-      #- libswresample3       # comes via the FFmpeg part
-      #- libswscale5          # comes via the FFmpeg part
       - libv4l-0
       - libv4l2rds0
       - libvlc5

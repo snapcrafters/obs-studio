@@ -436,7 +436,7 @@ parts:
 
   rnnoise:
     plugin: autotools
-    source: https://github.com/xiph/rnnoise.git
+    source: https://gitlab.xiph.org/xiph/rnnoise.git
     autotools-configure-parameters:
       - --prefix=/usr
       - --disable-doc

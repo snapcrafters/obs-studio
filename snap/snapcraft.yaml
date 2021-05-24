@@ -421,6 +421,10 @@ parts:
       - --enable-vdpau
       - --enable-version3
       - --enable-xlib
+    prime:
+      - -usr/include
+      - -usr/lib/pkgconfig
+      - -usr/share/ffmpeg/examples
 
   # Reference: https://pad.lv/1849478
   pipewire:
@@ -470,6 +474,8 @@ parts:
     prime:
       - -usr/bin/pw-*
       - -usr/bin/spa-*
+      - -usr/include
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig
 
   cef:
     plugin: cmake
@@ -505,6 +511,8 @@ parts:
       # Put the binary assets somewhere where the obs part can access them
       mkdir -p ${SNAPCRAFT_STAGE}/CEF
       cp -R ${SNAPCRAFT_PART_SRC}/* ${SNAPCRAFT_STAGE}/CEF
+    prime:
+      - -CEF
 
   rnnoise:
     plugin: autotools
@@ -721,6 +729,10 @@ parts:
       - libxinerama1
       # Required by Advanced Scene Switcher
       - libxss1
+    prime:
+      - -usr/include
+      - -usr/lib/cmake
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig
 
   # Required for VirtualCam; stage the minimum required binaries
   kmod:
@@ -756,6 +768,8 @@ parts:
       cd "${SNAPCRAFT_PART_INSTALL}/usr/local/lib"
       ln -s "libndi.so.4".*.* "libndi.so.4"
       ln -s "libndi.so.4".*.*  libndi.so
+    prime:
+      - usr/local/lib
 
   # Required by Input Overlay if it's added as a 3rd party plugin
   libuiohook:
@@ -1111,15 +1125,9 @@ parts:
       - x264
     override-prime: |
       for CRUFT in \
-        CEF \
-        usr/include \
-        usr/lib/cmake \
-        usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig \
-        usr/lib/pkgconfig \
         usr/share/GConf \
         usr/share/apport \
         usr/share/bug \
-        usr/share/ffmpeg/examples \
         usr/share/fonts \
         usr/share/icons/Adwaita \
         usr/share/icons/Humanity* \

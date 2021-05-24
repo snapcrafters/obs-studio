@@ -245,10 +245,48 @@ parts:
       - usr/lib
       - -usr/lib/pkgconfig
 
+  aom:
+    plugin: cmake
+    source: https://aomedia.googlesource.com/aom.git
+    source-tag: 'v3.1.0'
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE=-s
+      - -DCMAKE_CXX_FLAGS_RELEASE=-s
+      - -DCONFIG_MULTITHREAD=1
+      - -DBUILD_SHARED_LIBS=1
+      - -DENABLE_DOCS=0
+      - -DENABLE_EXAMPLES=0
+      - -DENABLE_TESTS=0
+    build-packages:
+      - ninja-build
+      - yasm
+    prime:
+      - -usr/include
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libaom.a
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig
+
+  dav1d:
+    plugin: meson
+    source: https://code.videolan.org/videolan/dav1d.git
+    source-tag: '0.9.0'
+    meson-parameters:
+      - --prefix=/usr
+      - --buildtype=release
+      - --strip
+      - -Denable_tools=false
+      - -Denable_tests=false
+    prime:
+      - -usr/include
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig
+
   # NOTE! StreamFX requires FFmpeg 4.3
   ffmpeg:
     plugin: autotools
     after:
+      - aom
+      - dav1d
       - nv-codec-headers
       - srt
       - x264
@@ -336,8 +374,10 @@ parts:
         - mesa-va-drivers
     autotools-configure-parameters:
       - --prefix=/usr
+      - --enable-libaom
       - --disable-avisynth
       - --disable-crystalhd
+      - --enable-libdav1d
       - --disable-debug
       - --disable-doc
       - --disable-static
@@ -1053,7 +1093,9 @@ parts:
   cleanup:
     plugin: nil
     after:
+      - aom
       - cef
+      - dav1d
       - desktop-launch
       - ffmpeg
       - kmod

@@ -18,7 +18,7 @@ elif [ "$SNAP_ARCH" = "arm64" ]; then
   export VK_ICD_FILENAMES="/var/lib/snapd/lib/vulkan/icd.d/nvidia_icd.json:$SNAP/usr/share/vulkan/icd.d/radeon_icd.aarch64.json"
 fi
 
-# Enviroonment coercions that should only be made when wrapping OBS Studio
+# Environment coercions that should only be made when wrapping OBS Studio
 if [[ ${@} == *"usr/bin/obs"* ]]; then
   # Make sure the user plugins folder exists.
   [ -d "${SNAP_USER_DATA}/.config/obs-studio/plugins" ] || mkdir -p "${SNAP_USER_DATA}/.config/obs-studio/plugins"

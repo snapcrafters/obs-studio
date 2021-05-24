@@ -25,10 +25,9 @@ if [[ ${@} == *"usr/bin/obs"* ]]; then
 
   # If the current session is Wayland then use EGL
   if [ "${XDG_SESSION_TYPE}" == "wayland" ] && [[ ${WAYLAND_DISPLAY} == *"wayland"* ]]; then
-    export OBS_USE_EGL=1
     # https://bugreports.qt.io/browse/QTBUG-81504?focusedCommentId=562115&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-562115
     #export QT_WAYLAND_FORCE_NONBLOCKING_SWAP_SUPPORT=0
-    export QT_QPA_PLATFORM="wayland-egl"
+    export QT_QPA_PLATFORM="wayland"
   elif [ "${XDG_SESSION_TYPE}" == "x11" ]; then
     export QT_QPA_PLATFORM="xcb"
   fi

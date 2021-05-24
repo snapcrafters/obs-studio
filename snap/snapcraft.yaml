@@ -224,6 +224,7 @@ parts:
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_C_FLAGS_RELEASE=-s
       - -DCMAKE_CXX_FLAGS_RELEASE=-s
+      - -DENABLE_LOGGING=OFF
       - -DENABLE_STATIC=OFF
     build-packages:
       - libssl-dev

@@ -366,24 +366,38 @@ parts:
       - --prefix=/usr
       - --buildtype=release
       - --strip
+      - -Dauto_features=enabled
+      - -Davahi=disabled
       - -Dbluez5=disabled
+      - -Dbluez5-codec-aac=disabled
+      - -Dbluez5-codec-aptx=disabled
+      - -Dbluez5-codec-ldac=disabled
+      - -Ddocs=disabled
       - -Dexamples=disabled
+      - -Dffmpeg=disabled
+      - -Dgstreamer-device-provider=disabled
       - -Djack=disabled
+      - -Dlibcamera=disabled
       - -Dman=disabled
       - -Dpipewire-jack=disabled
+      - -Dpw-cat=disabled
       - -Dsystemd=disabled
+      - -Dudev=disabled
+      - -Dvulkan=disabled
     build-packages:
+      - libdbus-1-dev
+      - libglib2.0-dev
       - libgstreamer1.0-dev
       - libgstreamer-plugins-base1.0-dev
-      - libsbc-dev
       - libsdl2-dev
       - libsndfile1-dev
+      - libv4l-dev
     stage-packages:
       - libgstreamer1.0-0
       - libgstreamer-plugins-base1.0-0
       - libsdl2-2.0-0
-      - libsbc1
       - libsndfile1
+      - libv4l-0
 
   cef:
     plugin: cmake

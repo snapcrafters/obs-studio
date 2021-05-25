@@ -64,12 +64,7 @@ The snap of OBS studio comes pre-loaded with some additional features and plugin
 ## Wayland
 
 Screen and Window capture in a Wayland session is supported in OBS 27.0.0 or
-newer (currently only available in the edge channel). The `screencast-legacy`
-interface also need manually connecting.
-
-```
-snap connect obs-studio:screencast-legacy
-```
+newer (currently only available in the edge channel).
 
 ## Removable Storage
 

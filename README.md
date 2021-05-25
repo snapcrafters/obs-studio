@@ -22,6 +22,7 @@
     sudo snap install obs-studio
     sudo snap connect obs-studio:avahi-control
     sudo snap connect obs-studio:kernel-module-observe
+    sudo snap connect obs-studio:screencast-legacy
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/obs-studio)
 
@@ -59,6 +60,16 @@ The snap of OBS studio comes pre-loaded with some additional features and plugin
   * **[Transition Table](https://github.com/exeldro/obs-transition-table)** plugin; customize scene transitions.
   * **[VNC Source](https://github.com/norihiro/obs-vnc)** plugin; VNC viewer that works as a source.
   * **[Websockets](https://github.com/Palakis/obs-websocket)** plugin; remote-control OBS Studio through WebSockets, compatible with [StreamControl](https://play.google.com/store/apps/details?id=dev.t4ils.obs_remote&hl=en).
+
+## Wayland
+
+Screen and Window capture in a Wayland session is supported in OBS 27.0.0 or
+newer (currently only available in the edge channel). The `screencast-legacy`
+interface also need manually connecting.
+
+```
+snap connect obs-studio:screencast-legacy
+```
 
 ## Removable Storage
 

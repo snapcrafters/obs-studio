@@ -1055,7 +1055,7 @@ parts:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/norihiro/obs-vnc.git
-    source-tag: '0.3.0'
+    source-tag: '0.3.1'
     build-packages:
       - libvncserver-dev
     stage-packages:

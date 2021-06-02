@@ -577,7 +577,7 @@ parts:
       - -DENABLE_WAYLAND=TRUE
       - -DWITH_RTMPS=TRUE
     source: https://github.com/obsproject/obs-studio.git
-    source-tag: '27.0.0-rc6'
+    source-tag: '27.0.0'
     parse-info: [usr/share/metainfo/com.obsproject.Studio.appdata.xml]
     override-pull: |
       snapcraftctl pull

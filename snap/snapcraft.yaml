@@ -983,11 +983,15 @@ parts:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/nowrep/obs-vkcapture.git
+    source-tag: 'v0.8.1'
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_C_FLAGS_RELEASE=-s
       - -DCMAKE_CXX_FLAGS_RELEASE=-s
+    override-pull: |
+      snapcraftctl pull
+      sed -i 's|VERSION 3\.19|VERSION 3\.16|' CMakeLists.txt
     build-packages:
       - libvulkan-dev
     stage-packages:

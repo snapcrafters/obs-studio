@@ -619,7 +619,7 @@ parts:
       git clone --recursive https://github.com/exeldro/obs-gradient-source.git ${SNAPCRAFT_PART_SRC}/plugins/obs-gradient-source
       echo "add_subdirectory(obs-gradient-source)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
-      git clone --recursive https://github.com/exeldro/obs-move-transition.git ${SNAPCRAFT_PART_SRC}/plugins/obs-move-transition --branch 2.4.1
+      git clone --recursive https://github.com/exeldro/obs-move-transition.git ${SNAPCRAFT_PART_SRC}/plugins/obs-move-transition --branch 2.4.3
       echo "add_subdirectory(obs-move-transition)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
       git clone --recursive https://github.com/exeldro/obs-recursion-effect.git ${SNAPCRAFT_PART_SRC}/plugins/obs-recursion-effect

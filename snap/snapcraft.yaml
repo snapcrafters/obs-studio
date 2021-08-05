@@ -1079,7 +1079,7 @@ parts:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/Palakis/obs-websocket.git
-    source-branch: '4.9.0'
+    source-branch: '4.9.1'
     build-environment:
       - Qt5_DIR: $SNAPCRAFT_STAGE/opt/qt515
     cmake-parameters:

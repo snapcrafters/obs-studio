@@ -867,7 +867,7 @@ parts:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/norihiro/obs-audio-pan-filter.git
-    source-tag: '0.1.0'
+    source-tag: '0.1.2'
     build-environment:
       - Qt5_DIR: $SNAPCRAFT_STAGE/opt/qt515
     override-build: |

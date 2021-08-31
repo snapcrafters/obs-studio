@@ -1096,6 +1096,27 @@ parts:
     prime:
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins
 
+  obs-backscrub:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/ali1234/obs-backscrub.git
+    source-branch: 'snap'
+    build-packages:
+      - libopencv-dev
+    stage-packages:
+      - libopencv-core4.2
+      - libopencv-highgui4.2
+      - libblas3
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_C_FLAGS_RELEASE=-s
+      - -DCMAKE_CXX_FLAGS_RELEASE=-s
+      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
+      - -DUSE_UBUNTU_FIX=TRUE
+    organize:
+      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-backscrub.so: usr/lib/obs-plugins/
+
   obs-wrapper:
     plugin: dump
     after:

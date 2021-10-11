@@ -628,7 +628,7 @@ parts:
       git clone --recursive https://github.com/exeldro/obs-recursion-effect.git ${SNAPCRAFT_PART_SRC}/plugins/obs-recursion-effect
       echo "add_subdirectory(obs-recursion-effect)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
-      git clone --recursive https://github.com/exeldro/obs-replay-source.git ${SNAPCRAFT_PART_SRC}/plugins/obs-replay-source
+      git clone --recursive https://github.com/exeldro/obs-replay-source.git ${SNAPCRAFT_PART_SRC}/plugins/obs-replay-source --branch 1.6.9
       echo "add_subdirectory(obs-replay-source)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
       git clone --recursive https://github.com/iamscottxu/obs-rtspserver.git ${SNAPCRAFT_PART_SRC}/plugins/obs-rtspserver --branch v2.1.0

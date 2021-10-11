@@ -973,11 +973,6 @@ parts:
     prime:
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-ndi.so
 
-  # pthread_mutex_init_recursive() helper was added in OBS 27.1.0-rc2
-  # https://github.com/obsproject/obs-studio/commit/b9657f6239b7757cceaf0a80a3b2c96f6190923d#diff-701374e75078e1c1e3a02a2c3104a1d11b525b22d4310b74c7de60371613f12a
-  # It uses the PTHREAD_MUTEX_RECURSIVE define which is guarded by __USE_UNIX98
-  # Override meson.build c_std=c99 with c_std=gnu99 (the default for Linux) to
-  # prevent FTBFS
   obs-nvfbc:
     plugin: meson
     after: [ obs ]
@@ -986,7 +981,6 @@ parts:
       - --prefix=/usr
       - --buildtype=release
       - --strip
-      - -Dc_std=gnu99
     organize:
       usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/nvfbc.so: usr/lib/obs-plugins/
 

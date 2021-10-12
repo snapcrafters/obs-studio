@@ -33,6 +33,10 @@ layout:
     symlink: $SNAP/usr/local/lib
   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
     symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libgphoto2:
+    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libgphoto2
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libgphoto2_port:
+    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libgphoto2_port
   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_intel.so:
     symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_intel.so
   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_radeon.so:
@@ -74,6 +78,7 @@ apps:
       - desktop-legacy
       - gsettings
       - home
+      - hardware-observe
       - jack1
       - joystick
       - kernel-module-observe

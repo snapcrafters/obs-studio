@@ -598,7 +598,11 @@ parts:
       wget -q "https://patch-diff.githubusercontent.com/raw/obsproject/obs-studio/pull/5188.diff" -O ${SNAPCRAFT_PART_SRC}/5188.diff
       patch -p1 < ${SNAPCRAFT_PART_SRC}/5188.diff
 
-      # Apply the "Fix button states for VST plugins" patch https://github.com/obsproject/obs-vst/pull/83
+      # Clear unused pointers for obs_source_output_audio()
+      wget -q "https://github.com/obsproject/obs-studio/commit/9ef76e1f9bd984332d1c04f515be5ee7cb403b4d.diff" -O ${SNAPCRAFT_PART_SRC}/3744.diff
+      patch -p1 < ${SNAPCRAFT_PART_SRC}/3744.diff
+
+      # Fix button states for VST plugins
       wget -q "https://patch-diff.githubusercontent.com/raw/obsproject/obs-vst/pull/83.diff" -O ${SNAPCRAFT_PART_SRC}/plugins/obs-vst/83.diff
       cd ${SNAPCRAFT_PART_SRC}/plugins/obs-vst
       patch -p1 < 83.diff

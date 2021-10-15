@@ -1127,6 +1127,43 @@ parts:
     prime:
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins
 
+  onnxruntime:
+    plugin: dump
+    source: https://github.com/microsoft/onnxruntime/releases/download/v1.9.0/onnxruntime-linux-x64-gpu-1.9.0.tgz
+    organize:
+      include/*.h: usr/include/
+      lib/*.so*: usr/lib/
+    prime:
+      - usr/lib
+
+  obs-backgroundremoval:
+    plugin: cmake
+    after: [ obs, onnxruntime ]
+    source: https://github.com/royshil/obs-backgroundremoval.git
+    build-packages:
+      - libopencv-dev
+      - language-pack-en
+      - build-essential
+    stage-packages:
+      - libopencv-core4.2
+      - libopencv-highgui4.2
+    override-build: |
+      cd "${SNAPCRAFT_PART_SRC}"
+      mkdir -p "${SNAPCRAFT_PART_SRC}/build"
+      cd "${SNAPCRAFT_PART_SRC}/build"
+      cmake \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_MODULE_LINKER_FLAGS=-L"${SNAPCRAFT_STAGE}"/usr/lib/ -lonnxruntime \
+        -DLIBOBS_INCLUDE_DIR="${SNAPCRAFT_STAGE}"/usr/include/obs/ \
+        -DOnnxruntime_INCLUDE_DIR="${SNAPCRAFT_STAGE}"/usr/include/ \
+        -DOnnxruntime_LIBRARIES="${SNAPCRAFT_STAGE}"/usr/lib/libonnxruntime.so \
+        "${SNAPCRAFT_PART_SRC}"
+      make -j $(nproc)
+      make install DESTDIR="${SNAPCRAFT_PART_INSTALL}"
+    organize:
+      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-backgroundremoval.so: usr/lib/obs-plugins/
+
   obs-wrapper:
     plugin: dump
     after:

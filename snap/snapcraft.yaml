@@ -59,7 +59,7 @@ apps:
     common-id: com.obsproject.Studio
     desktop: usr/share/applications/com.obsproject.Studio.desktop
     environment:
-      LD_LIBRARY_PATH: $SNAP/opt/qt515/lib:$LD_LIBRARY_PATH
+      LD_LIBRARY_PATH: $SNAP/opt/qt515/lib
       PIPEWIRE_CONFIG_NAME: $SNAP/usr/share/pipewire/pipewire.conf
       PIPEWIRE_MODULE_DIR: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pipewire-0.3
       PYTHONPATH: $PYTHONPATH:$SNAP/usr/lib/python3/dist-packages

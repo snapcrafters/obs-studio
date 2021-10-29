@@ -444,7 +444,7 @@ parts:
       - ffmpeg
     plugin: meson
     source: https://gitlab.freedesktop.org/pipewire/pipewire.git
-    source-tag: '0.3.34'
+    source-tag: '0.3.32'
     meson-parameters:
       - --prefix=/usr
       - --buildtype=release

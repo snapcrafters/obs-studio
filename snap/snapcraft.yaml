@@ -260,7 +260,7 @@ parts:
   aom:
     plugin: cmake
     source: https://aomedia.googlesource.com/aom.git
-    source-tag: 'v3.1.2'
+    source-tag: 'v3.2.0'
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release

@@ -640,7 +640,7 @@ parts:
       git clone --recursive https://github.com/exeldro/obs-replay-source.git ${SNAPCRAFT_PART_SRC}/plugins/obs-replay-source --branch 1.6.9
       echo "add_subdirectory(obs-replay-source)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
-      git clone --recursive https://github.com/iamscottxu/obs-rtspserver.git ${SNAPCRAFT_PART_SRC}/plugins/obs-rtspserver --branch v2.1.0
+      git clone --recursive https://github.com/iamscottxu/obs-rtspserver.git ${SNAPCRAFT_PART_SRC}/plugins/obs-rtspserver --branch v2.1.2
       echo "add_subdirectory(obs-rtspserver)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
       git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/SceneSwitcher --branch 1.16.1

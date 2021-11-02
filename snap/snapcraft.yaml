@@ -963,6 +963,22 @@ parts:
     organize:
       usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-gstreamer.so: usr/lib/obs-plugins/
 
+  liblooking-glass-obs:
+    plugin: cmake
+    after: [ obs ]
+    source: https://github.com/gnif/LookingGlass.git
+    source-branch: 'Release/B4'
+    build-packages:
+      - binutils-dev
+    override-build: |
+      mkdir -p $SNAPCRAFT_PART_SRC/obs/build
+      cd $SNAPCRAFT_PART_SRC/obs/build
+      cmake $SNAPCRAFT_PART_SRC/obs
+      make -j $(nproc)
+      make install DESTDIR=$SNAPCRAFT_PART_INSTALL
+    organize:
+      usr/local/share/obs/obs-plugins/looking-glass-obs/bin/64bit: usr/lib/obs-plugins/
+
   obs-ndi:
     plugin: cmake
     after:

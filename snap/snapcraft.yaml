@@ -658,7 +658,7 @@ parts:
       git clone --recursive https://github.com/exeldro/obs-source-switcher.git ${SNAPCRAFT_PART_SRC}/plugins/obs-source-switcher
       echo "add_subdirectory(obs-source-switcher)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
-      git clone --recursive https://github.com/Xaymar/obs-StreamFX.git ${SNAPCRAFT_PART_SRC}/plugins/obs-StreamFX --branch 0.10.1
+      git clone --recursive https://github.com/Xaymar/obs-StreamFX.git ${SNAPCRAFT_PART_SRC}/plugins/obs-StreamFX --branch 0.11.0c1
       echo "add_subdirectory(obs-StreamFX)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
       git clone --recursive https://github.com/exeldro/obs-time-warp-scan.git ${SNAPCRAFT_PART_SRC}/plugins/obs-time-warp-scan
@@ -676,6 +676,13 @@ parts:
       # Stage cmake files required to build out of tree plugins
       [ -d ${SNAPCRAFT_STAGE}/usr/include/cmake/external ] || mkdir -p ${SNAPCRAFT_STAGE}/usr/include/cmake/external
       cp ${SNAPCRAFT_PART_SRC}/cmake/external/*.cmake ${SNAPCRAFT_STAGE}/usr/include/cmake/external/
+
+    override-prime: |
+      snapcraftctl prime
+      # Symlink libaom.so to where StreamFX expects to find it
+      rm ${SNAPCRAFT_PRIME}/usr/share/obs/obs-plugins/StreamFX/libaom.so
+      cd ${SNAPCRAFT_PRIME}/usr/share/obs/obs-plugins/StreamFX/
+      ln -s ../../../../lib/${SNAPCRAFT_ARCH_TRIPLET}/libaom.so .
     build-environment:
       - CMAKE_INCLUDE_PATH: $CMAKE_INCLUDE_PATH:$SNAPCRAFT_STAGE/include:$SNAPCRAFT_STAGE/usr/include:$SNAPCRAFT_STAGE/include/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/include/$SNAPCRAFT_ARCH_TRIPLET
       - CMAKE_LIBRARY_PATH: $CMAKE_LIBRARY_PATH:$SNAPCRAFT_STAGE/lib:$SNAPCRAFT_STAGE/usr/lib:$SNAPCRAFT_STAGE/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
@@ -717,6 +724,7 @@ parts:
       - re2c
       - swig
       # Required by StreamFX
+      - libprocps-dev
       - ninja-build
       # Required by Advanced Scene Switcher
       - libxss-dev

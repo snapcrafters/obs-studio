@@ -1139,13 +1139,9 @@ parts:
     plugin: cmake
     after: [ obs, onnxruntime ]
     source: https://github.com/royshil/obs-backgroundremoval.git
+    source-tag: 'v0.4.0'
     build-packages:
       - libopencv-dev
-      - language-pack-en
-      - build-essential
-    stage-packages:
-      - libopencv-core4.2
-      - libopencv-highgui4.2
     override-build: |
       cd "${SNAPCRAFT_PART_SRC}"
       mkdir -p "${SNAPCRAFT_PART_SRC}/build"
@@ -1167,6 +1163,7 @@ parts:
     plugin: dump
     after:
       - obs-audio-pan
+      - obs-backgroundremoval
       - obs-dvd-screensaver
       - obs-gphoto
       - obs-gstreamer

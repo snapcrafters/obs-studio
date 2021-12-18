@@ -961,7 +961,7 @@ parts:
     organize:
       usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-gstreamer.so: usr/lib/obs-plugins/
 
-  liblooking-glass-obs:
+  obs-looking-glass:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/gnif/LookingGlass.git
@@ -1167,6 +1167,7 @@ parts:
       - obs-dvd-screensaver
       - obs-gphoto
       - obs-gstreamer
+      - obs-looking-glass
       - obs-ndi
       - obs-nvfbc
       - obs-rgb-levels

@@ -1014,7 +1014,7 @@ parts:
     plugin: cmake
     after: [ obs ]
     source: https://github.com/nowrep/obs-vkcapture.git
-    source-tag: 'v1.0.1'
+    source-tag: 'v1.1'
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release

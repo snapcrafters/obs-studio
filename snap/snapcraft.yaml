@@ -693,7 +693,6 @@ parts:
       - libmbedtls-dev
       - libopencv-dev
       - libpulse-dev
-      - libsndio-dev
       - libspeexdsp-dev
       - libudev-dev
       - libv4l-dev
@@ -736,7 +735,6 @@ parts:
       - libopencv-objdetect4.2
       - libpulse0
       - libpython3.8
-      - libsndio7.0
       - libspeexdsp1
       - libv4l-0
       - libv4l2rds0

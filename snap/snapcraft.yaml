@@ -943,7 +943,7 @@ parts:
     plugin: meson
     after: [ obs ]
     source: https://github.com/fzwoch/obs-gstreamer.git
-    source-tag: 'v0.3.2'
+    source-tag: 'v0.3.3'
     meson-parameters:
       - --prefix=/usr
       - --buildtype=release

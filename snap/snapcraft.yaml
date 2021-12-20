@@ -703,7 +703,6 @@ parts:
       - libjansson-dev
       - libluajit-5.1-dev
       - libmbedtls-dev
-      - libopencv-dev
       - libpulse-dev
       - libspeexdsp-dev
       - libudev-dev
@@ -729,6 +728,7 @@ parts:
       - libprocps-dev
       - ninja-build
       # Required by Advanced Scene Switcher
+      - libopencv-dev
       - libxss-dev
       # Required to get patches
       - wget
@@ -744,8 +744,6 @@ parts:
       - libjansson4
       - libluajit-5.1-2
       - libmbedtls12
-      - libopencv-imgproc4.2
-      - libopencv-objdetect4.2
       - libpulse0
       - libpython3.8
       - libspeexdsp1
@@ -763,10 +761,21 @@ parts:
       - libxcomposite1
       - libxinerama1
       # Required by Advanced Scene Switcher
+      - libopencv-imgproc4.2
+      - libopencv-objdetect4.2
       - libxss1
     prime:
       - -usr/include
       - -usr/lib/cmake
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavcodec.*     # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavdevice.*    # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavfilter.*    # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavformat.*    # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavutil.*      # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libpostproc.*    # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libswresample.*  # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libswscale.*     # Provided by the ffmpeg part
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libx264.*        # Provided by the x264 part
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig
 
   # Required for VirtualCam; stage the minimum required binaries

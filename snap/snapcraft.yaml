@@ -680,7 +680,9 @@ parts:
     override-prime: |
       snapcraftctl prime
       # Symlink libaom.so to where StreamFX expects to find it
-      rm ${SNAPCRAFT_PRIME}/usr/share/obs/obs-plugins/StreamFX/libaom.so
+      if [ -e ${SNAPCRAFT_PRIME}/usr/share/obs/obs-plugins/StreamFX/libaom.so ]; then
+        rm ${SNAPCRAFT_PRIME}/usr/share/obs/obs-plugins/StreamFX/libaom.so
+      fi
       cd ${SNAPCRAFT_PRIME}/usr/share/obs/obs-plugins/StreamFX/
       ln -s ../../../../lib/${SNAPCRAFT_ARCH_TRIPLET}/libaom.so .
     build-environment:

@@ -495,8 +495,7 @@ parts:
   cef:
     plugin: cmake
     source:
-      - on amd64: https://cef-builds.spotifycdn.com/cef_binary_87.1.14%2Bga29e9a3%2Bchromium-87.0.4280.141_linux64_minimal.tar.bz2
-      - on arm64: https://cef-builds.spotifycdn.com/cef_binary_87.1.14%2Bga29e9a3%2Bchromium-87.0.4280.141_linuxarm64_minimal.tar.bz2
+      - on amd64: https://cef-builds.spotifycdn.com/cef_binary_95.7.18%2Bg0d6005e%2Bchromium-95.0.4638.69_linux64_minimal.tar.bz2
     build-packages:
       - libatk1.0-dev
       - libatk-bridge2.0-dev
@@ -511,6 +510,7 @@ parts:
       - libxtst6
     override-pull: |
       snapcraftctl pull
+      sed -i 's|VERSION 3\.19|VERSION 3\.16|' CMakeLists.txt
       strip --strip-unneeded ${SNAPCRAFT_PART_SRC}/Release/*.so
       strip --strip-unneeded ${SNAPCRAFT_PART_SRC}/Release/swiftshader/*.so
       strip --strip-unneeded ${SNAPCRAFT_PART_SRC}/Release/chrome-sandbox
@@ -585,7 +585,7 @@ parts:
       - -DENABLE_WAYLAND=TRUE
       - -DWITH_RTMPS=TRUE
     source: https://github.com/obsproject/obs-studio.git
-    source-tag: '27.1.3'
+    source-tag: '27.2.1'
     parse-info: [usr/share/metainfo/com.obsproject.Studio.appdata.xml]
     override-pull: |
       snapcraftctl pull
@@ -593,19 +593,6 @@ parts:
 
       # Update the icon path
       sed -i 's|Icon=com\.obsproject\.Studio|Icon=/usr/share/icons/hicolor/256x256/apps/com\.obsproject\.Studio\.png|' UI/xdg-data/com.obsproject.Studio.desktop
-
-      # Change search strategy for v4l2loopback devices
-      wget -q "https://patch-diff.githubusercontent.com/raw/obsproject/obs-studio/pull/5188.diff" -O ${SNAPCRAFT_PART_SRC}/5188.diff
-      patch -p1 < ${SNAPCRAFT_PART_SRC}/5188.diff
-
-      # Clear unused pointers for obs_source_output_audio()
-      wget -q "https://github.com/obsproject/obs-studio/commit/9ef76e1f9bd984332d1c04f515be5ee7cb403b4d.diff" -O ${SNAPCRAFT_PART_SRC}/3744.diff
-      patch -p1 < ${SNAPCRAFT_PART_SRC}/3744.diff
-
-      # Fix button states for VST plugins
-      wget -q "https://patch-diff.githubusercontent.com/raw/obsproject/obs-vst/pull/83.diff" -O ${SNAPCRAFT_PART_SRC}/plugins/obs-vst/83.diff
-      cd ${SNAPCRAFT_PART_SRC}/plugins/obs-vst
-      patch -p1 < 83.diff
 
       cd "${SNAPCRAFT_PART_SRC}"
 
@@ -631,7 +618,7 @@ parts:
       git clone --recursive https://github.com/exeldro/obs-gradient-source.git ${SNAPCRAFT_PART_SRC}/plugins/obs-gradient-source
       echo "add_subdirectory(obs-gradient-source)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
-      git clone --recursive https://github.com/exeldro/obs-move-transition.git ${SNAPCRAFT_PART_SRC}/plugins/obs-move-transition --branch 2.5.2
+      git clone --recursive https://github.com/exeldro/obs-move-transition.git ${SNAPCRAFT_PART_SRC}/plugins/obs-move-transition --branch 2.5.7
       echo "add_subdirectory(obs-move-transition)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
       git clone --recursive https://github.com/exeldro/obs-recursion-effect.git ${SNAPCRAFT_PART_SRC}/plugins/obs-recursion-effect
@@ -640,13 +627,13 @@ parts:
       git clone --recursive https://github.com/exeldro/obs-replay-source.git ${SNAPCRAFT_PART_SRC}/plugins/obs-replay-source --branch 1.6.9
       echo "add_subdirectory(obs-replay-source)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
-      git clone --recursive https://github.com/iamscottxu/obs-rtspserver.git ${SNAPCRAFT_PART_SRC}/plugins/obs-rtspserver --branch v2.1.2
+      git clone --recursive https://github.com/iamscottxu/obs-rtspserver.git ${SNAPCRAFT_PART_SRC}/plugins/obs-rtspserver --branch v2.2.0
       echo "add_subdirectory(obs-rtspserver)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
-      git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/SceneSwitcher --branch 1.16.5
+      git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/SceneSwitcher --branch 1.17.2
       echo "add_subdirectory(SceneSwitcher)" >> ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/CMakeLists.txt
 
-      git clone --recursive https://github.com/Qufyy/obs-scale-to-sound.git ${SNAPCRAFT_PART_SRC}/plugins/obs-scale-to-sound --branch 1.1.0
+      git clone --recursive https://github.com/Qufyy/obs-scale-to-sound.git ${SNAPCRAFT_PART_SRC}/plugins/obs-scale-to-sound --branch 1.2.0
       echo "add_subdirectory(obs-scale-to-sound)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
       git clone --recursive https://github.com/exeldro/obs-source-copy.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/obs-source-copy
@@ -658,13 +645,14 @@ parts:
       git clone --recursive https://github.com/exeldro/obs-source-switcher.git ${SNAPCRAFT_PART_SRC}/plugins/obs-source-switcher
       echo "add_subdirectory(obs-source-switcher)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
-      git clone --recursive https://github.com/Xaymar/obs-StreamFX.git ${SNAPCRAFT_PART_SRC}/plugins/obs-StreamFX --branch 0.11.0c1
+      git clone --recursive https://github.com/Xaymar/obs-StreamFX.git ${SNAPCRAFT_PART_SRC}/plugins/obs-StreamFX --branch 0.11.0
       echo "add_subdirectory(obs-StreamFX)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
       git clone --recursive https://github.com/exeldro/obs-time-warp-scan.git ${SNAPCRAFT_PART_SRC}/plugins/obs-time-warp-scan
       echo "add_subdirectory(obs-time-warp-scan)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
 
-      git clone --recursive https://github.com/exeldro/obs-transition-table.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/obs-transition-table
+      git clone --recursive https://github.com/exeldro/obs-transition-table.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/obs-transition-table  --branch 0.2.3
+      sed -i 's|VERSION 3\.18|VERSION 3\.16|' ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/obs-transition-table/CMakeLists.txt
       echo "add_subdirectory(obs-transition-table)" >> ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/CMakeLists.txt
     override-build: |
       # Stage libcaption headers required to build OBS and some out of tree plugins
@@ -703,6 +691,7 @@ parts:
       - libjansson-dev
       - libluajit-5.1-dev
       - libmbedtls-dev
+      - libpci-dev
       - libpulse-dev
       - libspeexdsp-dev
       - libudev-dev
@@ -744,6 +733,7 @@ parts:
       - libjansson4
       - libluajit-5.1-2
       - libmbedtls12
+      - libpci3
       - libpulse0
       - libpython3.8
       - libspeexdsp1
@@ -1022,6 +1012,7 @@ parts:
     plugin: meson
     after: [ obs ]
     source: https://gitlab.com/fzwoch/obs-nvfbc.git
+    source-tag: 'v0.0.5'
     meson-parameters:
       - --prefix=/usr
       - --buildtype=release
@@ -1131,19 +1122,9 @@ parts:
       usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-vnc.so: usr/lib/obs-plugins/
 
   obs-websocket:
-    plugin: cmake
+    plugin: dump
     after: [ obs ]
-    source: https://github.com/Palakis/obs-websocket.git
-    source-branch: '4.9.1'
-    build-environment:
-      - Qt5_DIR: $SNAPCRAFT_STAGE/opt/qt515
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
-      - -DUSE_UBUNTU_FIX=TRUE
+    source: https://github.com/obsproject/obs-websocket/releases/download/4.9.1/obs-websocket_4.9.1-1_amd64.deb
     prime:
       - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins
 

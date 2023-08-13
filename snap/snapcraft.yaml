@@ -215,7 +215,7 @@ parts:
   nv-codec-headers:
     plugin: make
     source: https://github.com/FFmpeg/nv-codec-headers.git
-    source-branch: 'sdk/10.0'
+    source-branch: 'sdk/12.0'
     make-parameters:
       - PREFIX=/usr
     build-packages:
@@ -303,7 +303,7 @@ parts:
       - srt
       - x264
     source: https://github.com/FFmpeg/FFmpeg.git
-    source-branch: release/4.3
+    source-branch: release/4.4
     build-packages:
       - libass-dev
       - libbz2-dev
@@ -585,7 +585,7 @@ parts:
       - -DENABLE_WAYLAND=TRUE
       - -DWITH_RTMPS=TRUE
     source: https://github.com/obsproject/obs-studio.git
-    source-tag: '27.2.1'
+    source-tag: '29.1.3'
     parse-info: [usr/share/metainfo/com.obsproject.Studio.appdata.xml]
     override-pull: |
       snapcraftctl pull

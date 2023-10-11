@@ -1,6 +1,9 @@
 name: obs-studio
-adopt-info: obs
-base: core20
+summary: Live streaming and video recording software
+description: Free and open source software for video capturing, recording, and live
+  streaming.
+version: "29.1.3"
+base: core22
 grade: stable
 confinement: strict
 license: GPL-2.0
@@ -8,66 +11,318 @@ architectures:
   - build-on: amd64
 compression: lzo
 
-plugs:
-  # Support for common GTK themes
-  # https://forum.snapcraft.io/t/how-to-use-the-system-gtk-theme-via-the-gtk-common-themes-snap/6235
-  gtk-3-themes:
-    interface: content
-    target: $SNAP/data-dir/themes
-    default-provider: gtk-common-themes
-  icon-themes:
-    interface: content
-    target: $SNAP/data-dir/icons
-    default-provider: gtk-common-themes
-  sound-themes:
-    interface: content
-    target: $SNAP/data-dir/sounds
-    default-provider: gtk-common-themes
+# Takes too long to lint during build
+lint:
+  ignore:
+    - classic 
+    - library
+
+# layout:
+#   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_intel.so:
+#     symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_intel.so
+#   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_radeon.so:
+#     symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_radeon.so
+#   /usr/share/X11:
+#     symlink: $SNAP/usr/share/X11
 
 layout:
-  /usr/lib/obs-plugins:
-    symlink: $SNAP/usr/lib/obs-plugins
-  /usr/lib/obs-scripting:
-    symlink: $SNAP/usr/lib/obs-scripting
-  /usr/local/lib:
-    symlink: $SNAP/usr/local/lib
-  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
-    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
-  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libgphoto2:
-    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libgphoto2
-  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libgphoto2_port:
-    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libgphoto2_port
-  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_intel.so:
-    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_intel.so
-  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_radeon.so:
-    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_radeon.so
-  /usr/share/alsa:
-    symlink: $SNAP/usr/share/alsa
-  /usr/share/libdrm/amdgpu.ids:
-    symlink: $SNAP/usr/share/libdrm/amdgpu.ids
-  /usr/share/obs:
-    symlink: $SNAP/usr/share/obs
-  /usr/share/X11:
-    symlink: $SNAP/usr/share/X11
+  /usr/lib/libndi.so.5:
+    symlink: $SNAP/usr/lib/libndi.so.5
+  # /usr/share/libdrm/amdgpu.ids:
+  #   symlink: $SNAP/usr/share/libdrm/amdgpu.ids
 
+parts:
+  ndi: # might need to organise into usr/local
+    plugin: dump
+    source: https://github.com/obs-ndi/obs-ndi/releases/download/4.11.1/libndi5_5.5.3-1_amd64.deb
+    source-type: deb
+  launcher:
+    plugin: dump
+    source: snap/local
+  obs:
+    plugin: dump
+    source: https://github.com/wimpysworld/obs-studio-portable/releases/download/r23278/obs-portable-29.1.3-r23278-ubuntu-22.04.tar.bz2
+    stage-packages:
+      - lib32gcc-s1 
+      - lib32stdc++6 
+      - libaom3 
+      - libapparmor1 
+      - libasound2 
+      - libass9 
+      - libasyncns0 
+      - libatk-bridge2.0-0 
+      - libatk1.0-0 
+      - libatlas3-base 
+      - libatspi2.0-0 
+      - libavahi-client3 
+      - libavahi-common3 
+      - libavc1394-0 
+      - libavcodec58 
+      - libavdevice58 
+      - libavfilter7 
+      - libavformat58 
+      - libavutil56 
+      - libb2-1 
+      - libblas3 
+      - libblkid1 
+      - libbluray2 
+      - libbrotli1 
+      - libbs2b0 
+      - libbsd0 
+      - libbz2-1.0 
+      - libc6 
+      - libcaca0 
+      - libcairo-gobject2 
+      - libcairo2 
+      - libcap2 
+      - libcdio-cdda2 
+      - libcdio-paranoia2 
+      - libcdio19 
+      - libchromaprint1 
+      - libcodec2-1.0 
+      - libcom-err2 
+      - libcups2 
+      - libcurl4 
+      - libdatrie1 
+      - libdav1d5 
+      - libdb5.3 
+      - libdbus-1-3 
+      - libdc1394-25 
+      - libdecor-0-0 
+      - libdouble-conversion3 
+      - libdrm2 
+      - libdw1 
+      - libegl1 
+      - libelf1 
+      - libexpat1 
+      - libfdk-aac2 
+      - libffi8 
+      - libfftw3-single3 
+      - libflac8 
+      - libflite1 
+      - libfontconfig1 
+      - libfreetype6 
+      - libfribidi0 
+      - libgbm1 
+      - libgcc-s1 
+      - libgcrypt20 
+      - libgdk-pixbuf-2.0-0 
+      - libgfortran5 
+      - libgl1 
+      - libglib2.0-0 
+      - libglvnd0 
+      - libglx0 
+      - libgme0 
+      - libgmp10 
+      - libgnutls30 
+      - libgomp1 
+      - libgpg-error0 
+      - libgraphite2-3 
+      - libgsm1 
+      - libgssapi-krb5-2 
+      - libgstreamer-plugins-base1.0-0 
+      - libgstreamer1.0-0 
+      - libharfbuzz0b 
+      - libhogweed6 
+      - libicu70 
+      - libidn2-0 
+      - libiec61883-0 
+      - libjack-jackd2-0 
+      - libjansson4 
+      - libjpeg-turbo8 
+      - libk5crypto3 
+      - libkeyutils1 
+      - libkrb5-3 
+      - libkrb5support0 
+      - liblapack3 
+      - libldap-2.5-0 
+      - liblilv-0-0 
+      - libluajit-5.1-2 
+      - liblz4-1 
+      - liblzma5 
+      - libmbedcrypto7 
+      - libmbedtls14 
+      - libmbedx509-1 
+      - libmd0 
+      - libmd4c0 
+      - libmfx1 
+      - libmount1 
+      - libmp3lame0 
+      - libmpg123-0 
+      - libmysofa1 
+      - libncursesw6 
+      - libnettle8 
+      - libnghttp2-14 
+      - libnorm1 
+      - libnspr4 
+      - libnss3 
+      - libnuma1 
+      - libogg0 
+      - libopenal1 
+      - libopenblas0-pthread 
+      - libopencv-calib3d4.5d 
+      - libopencv-core4.5d 
+      - libopencv-dnn4.5d 
+      - libopencv-features2d4.5d 
+      - libopencv-flann4.5d 
+      - libopencv-imgproc4.5d 
+      - libopencv-objdetect4.5d 
+      - libopengl0 
+      - libopenjp2-7 
+      - libopenmpt0 
+      - libopus0 
+      - liborc-0.4-0 
+      - libp11-kit0 
+      - libpango-1.0-0 
+      - libpangocairo-1.0-0 
+      - libpangoft2-1.0-0 
+      - libpci3 
+      - libpcre2-16-0 
+      - libpcre2-8-0 
+      - libpcre3 
+      - libpgm-5.3-0 
+      - libpipewire-0.3-0 
+      - libpixman-1-0 
+      - libpng16-16 
+      - libpocketsphinx3 
+      - libpostproc55 
+      - libprocps8 
+      - libprotobuf23 
+      - libproxy1v5 
+      - libpsl5 
+      - libpugixml1v5 
+      - libpulse0 
+      - libpython3.10 
+      - libqt6core6 
+      - libqt6dbus6 
+      - libqt6gui6 
+      - libqt6network6 
+      - libqt6svg6 
+      - libqt6widgets6 
+      - libqt6xml6 
+      - libquadmath0 
+      - librabbitmq4 
+      - libraw1394-11 
+      - librsvg2-2 
+      - librtmp1 
+      - librubberband2 
+      - libsamplerate0 
+      - libsasl2-2 
+      - libsdl2-2.0-0 
+      - libselinux1 
+      - libserd-0-0 
+      - libshine3 
+      - libslang2 
+      - libsnappy1v5 
+      - libsndfile1 
+      - libsndio7.0 
+      - libsodium23 
+      - libsord-0-0 
+      - libsoxr0 
+      - libspeex1 
+      - libspeexdsp1 
+      - libsphinxbase3 
+      - libsratom-0-0 
+      - libsrt1.4-gnutls 
+      - libssh-4 
+      - libssh-gcrypt-4 
+      - libssl3 
+      - libstdc++6 
+      - libswresample3 
+      - libswscale5 
+      - libsystemd0 
+      - libtasn1-6 
+      - libtbb2 
+      - libthai0 
+      - libtheora0 
+      - libtinfo6 
+      - libtwolame0 
+      - libudev1 
+      - libudfread0 
+      - libunistring2 
+      - libunwind8 
+      - libusb-1.0-0 
+      - libuuid1 
+      - libv4l-0 
+      - libv4lconvert0 
+      - libva-drm2 
+      - libva-x11-2 
+      - libva2 
+      - libvdpau1 
+      - libvidstab1.1 
+      - libvorbis0a 
+      - libvorbisenc2 
+      - libvorbisfile3 
+      - libvpx7 
+      - libwayland-client0 
+      - libwayland-cursor0 
+      - libwayland-egl1 
+      - libwayland-server0 
+      - libwebp7 
+      - libwebpmux3 
+      - libx11-6 
+      - libx11-xcb1 
+      - libx264-163 
+      - libx265-199 
+      - libxau6 
+      - libxcb-composite0 
+      - libxcb-randr0 
+      - libxcb-render0 
+      - libxcb-shape0 
+      - libxcb-shm0 
+      - libxcb-xfixes0 
+      - libxcb-xinerama0 
+      - libxcb1 
+      - libxcomposite1 
+      - libxcursor1 
+      - libxdamage1 
+      - libxdmcp6 
+      - libxext6 
+      - libxfixes3 
+      - libxi6 
+      - libxinerama1 
+      - libxkbcommon0 
+      - libxml2 
+      - libxrandr2 
+      - libxrender1 
+      - libxss1 
+      - libxv1 
+      - libxvidcore4 
+      - libxxf86vm1 
+      - libzimg2 
+      - libzmq5 
+      - libzstd1 
+      - libzvbi0 
+      - ocl-icd-libopencl1 
+      - zlib1g 
+      - qt6-image-formats-plugins 
+      - qt6-qpa-plugins 
+      - qt6-wayland 
+      - gstreamer1.0-plugins-good 
+      - gstreamer1.0-plugins-bad 
+      - gstreamer1.0-plugins-ugly 
+      - gstreamer1.0-x 
+      - libgles2-mesa 
+      - libvlc5 
+      - vlc-plugin-base 
+      - stterm      
+  cleanup:
+    after: [obs,ndi,launcher]
+    plugin: nil
+    build-snaps: [ gnome-42-2204 ]
+    override-prime: |
+      set -eux
+      cd /snap/gnome-42-2204/current
+      find . -type f,l -exec rm -f $CRAFT_PRIME/{} \;
 apps:
   obs-studio:
-    command: usr/bin/obs --multi
-    command-chain:
-      - snap/command-chain/desktop-launch
-      - bin/obs-wrapper
     common-id: com.obsproject.Studio
-    desktop: usr/share/applications/com.obsproject.Studio.desktop
+    extensions: [ gnome ]
+    command: obs-wrapper
     environment:
-      LD_LIBRARY_PATH: $SNAP/opt/qt515/lib
-      PIPEWIRE_CONFIG_NAME: $SNAP/usr/share/pipewire/pipewire.conf
-      PIPEWIRE_MODULE_DIR: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pipewire-0.3
-      PYTHONPATH: $PYTHONPATH:$SNAP/usr/lib/python3/dist-packages
-      QTDIR: $SNAP/opt/qt515
-      QT_PLUGIN_PATH: $SNAP/opt/qt515/plugins:$QT_PLUGIN_PATH
-      SNAP_DESKTOP_RUNTIME: $SNAP
-      SPA_PLUGIN_DIR: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/spa-0.2
-    plugs: &plugs
+      QT_PLUGIN_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt6/plugins:$QT_PLUGIN_PATH
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/lapack:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/openblas-pthread:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/blas:$SNAP/bin/64bit:$SNAP/obs-plugins/64bit:$SNAP/data/obs-scripting/64bit:$SNAP/cef:$SNAP/lib
+    plugs:
       - alsa
       - audio-playback
       - audio-record
@@ -97,1133 +352,3 @@ apps:
       - upower-observe
       - wayland
       - x11
-  eglinfo:
-    command: usr/bin/eglinfo
-    command-chain:
-      - snap/command-chain/desktop-launch
-      - bin/obs-wrapper
-    environment:
-      SNAP_DESKTOP_RUNTIME: $SNAP
-    plugs: *plugs
-  glxinfo:
-    command: usr/bin/glxinfo
-    command-chain:
-      - snap/command-chain/desktop-launch
-      - bin/obs-wrapper
-    environment:
-      SNAP_DESKTOP_RUNTIME: $SNAP
-    plugs: *plugs
-  ffmpeg:
-    command: usr/bin/ffmpeg
-    command-chain:
-      - snap/command-chain/desktop-launch
-      - bin/obs-wrapper
-    environment:
-      SNAP_DESKTOP_RUNTIME: $SNAP
-    plugs: *plugs
-  ffplay:
-    command: usr/bin/ffplay
-    command-chain:
-      - snap/command-chain/desktop-launch
-      - bin/obs-wrapper
-    environment:
-      SNAP_DESKTOP_RUNTIME: $SNAP
-    plugs: *plugs
-  ffprobe:
-    command: usr/bin/ffprobe
-    command-chain:
-      - snap/command-chain/desktop-launch
-      - bin/obs-wrapper
-    environment:
-      SNAP_DESKTOP_RUNTIME: $SNAP
-    plugs: *plugs
-  srt-ffplay:
-    command: usr/bin/srt-ffplay
-    command-chain:
-      - snap/command-chain/desktop-launch
-      - bin/obs-wrapper
-    environment:
-      SNAP_DESKTOP_RUNTIME: $SNAP
-    plugs: *plugs
-  srt-file-transmit:
-    command: usr/bin/srt-file-transmit
-    command-chain:
-      - snap/command-chain/desktop-launch
-      - bin/obs-wrapper
-    environment:
-      SNAP_DESKTOP_RUNTIME: $SNAP
-    plugs: *plugs
-  srt-live-transmit:
-    command: usr/bin/srt-live-transmit
-    command-chain:
-      - snap/command-chain/desktop-launch
-      - bin/obs-wrapper
-    environment:
-      SNAP_DESKTOP_RUNTIME: $SNAP
-    plugs: *plugs
-  srt-tunnel:
-    command: usr/bin/srt-tunnel
-    command-chain:
-      - snap/command-chain/desktop-launch
-      - bin/obs-wrapper
-    environment:
-      SNAP_DESKTOP_RUNTIME: $SNAP
-    plugs: *plugs
-  vainfo:
-    command: usr/bin/vainfo
-    command-chain:
-      - snap/command-chain/desktop-launch
-      - bin/obs-wrapper
-    environment:
-      SNAP_DESKTOP_RUNTIME: $SNAP
-    plugs: *plugs
-  vdpauinfo:
-    command: usr/bin/vdpauinfo
-    command-chain:
-      - snap/command-chain/desktop-launch
-      - bin/obs-wrapper
-    environment:
-      SNAP_DESKTOP_RUNTIME: $SNAP
-    plugs: *plugs
-  vulkaninfo:
-    command: usr/bin/vulkaninfo
-    command-chain:
-      - snap/command-chain/desktop-launch
-      - bin/obs-wrapper
-    environment:
-      SNAP_DESKTOP_RUNTIME: $SNAP
-    plugs: *plugs
-
-package-repositories:
-  - type: apt
-    ppa: beineri/opt-qt-5.15.2-focal
-
-parts:
-  desktop-launch:
-    plugin: make
-    source: $SNAPCRAFT_EXTENSIONS_DIR/desktop
-    source-subdir: kde-neon
-    make-parameters:
-      - PLATFORM_PLUG="gtk-3-themes"
-    stage-packages:
-      - libglib2.0-0
-      - libgdk-pixbuf2.0-0
-      - gsettings-desktop-schemas
-      - gtk-update-icon-cache
-      - shared-mime-info
-
-  nv-codec-headers:
-    plugin: make
-    source: https://github.com/FFmpeg/nv-codec-headers.git
-    source-branch: 'sdk/10.0'
-    make-parameters:
-      - PREFIX=/usr
-    build-packages:
-      - pkg-config
-    prime:
-      - -usr/include
-      - -usr/lib/pkgconfig
-
-  srt:
-    plugin: cmake
-    source: https://github.com/Haivision/srt.git
-    source-tag: 'v1.4.4'
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DENABLE_LOGGING=OFF
-      - -DENABLE_STATIC=OFF
-    build-packages:
-      - libssl-dev
-    prime:
-      - -usr/include
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig
-
-  x264:
-    plugin: autotools
-    source: https://code.videolan.org/videolan/x264.git
-    source-branch: 'stable'
-    autotools-configure-parameters:
-      - --prefix=/usr
-      - --disable-cli
-      - --enable-shared
-      - --enable-strip
-    build-packages:
-      - libva-dev
-      - nasm
-    prime:
-      - usr/lib
-      - -usr/lib/pkgconfig
-
-  aom:
-    plugin: cmake
-    source: https://aomedia.googlesource.com/aom.git
-    source-tag: 'v3.2.0'
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DCONFIG_MULTITHREAD=1
-      - -DBUILD_SHARED_LIBS=1
-      - -DENABLE_DOCS=0
-      - -DENABLE_EXAMPLES=0
-      - -DENABLE_TESTS=0
-    build-packages:
-      - ninja-build
-      - yasm
-    prime:
-      - -usr/include
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libaom.a
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig
-
-  dav1d:
-    plugin: meson
-    source: https://code.videolan.org/videolan/dav1d.git
-    source-tag: '0.9.2'
-    meson-parameters:
-      - --prefix=/usr
-      - --buildtype=release
-      - --strip
-      - -Denable_tools=false
-      - -Denable_tests=false
-    prime:
-      - -usr/include
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig
-
-  # NOTE! StreamFX requires FFmpeg 4.3
-  ffmpeg:
-    plugin: autotools
-    after:
-      - aom
-      - dav1d
-      - nv-codec-headers
-      - srt
-      - x264
-    source: https://github.com/FFmpeg/FFmpeg.git
-    source-branch: release/4.3
-    build-packages:
-      - libass-dev
-      - libbz2-dev
-      - libdrm-dev
-      - libfdk-aac-dev
-      - liblzma-dev
-      - libmp3lame-dev
-      - libomxil-bellagio-dev
-      - libopenal-dev
-      - libopenjp2-7-dev
-      - libopus-dev
-      - libpulse-dev
-      - librsvg2-dev
-      - libsctp-dev
-      - libsdl2-dev
-      - libspeex-dev
-      - libssl-dev
-      - libtheora-dev
-      - libtwolame-dev
-      - libva-dev
-      - libv4l-dev
-      - libvdpau-dev
-      - libvorbis-dev
-      - libvpx-dev
-      - libwebp-dev
-      - libx265-dev
-      - libxcb-shape0-dev
-      - libxcb-shm0-dev
-      - libxcb-xfixes0-dev
-      - libxml2-dev
-      - libxv-dev
-      - libxvidcore-dev
-      - ocl-icd-opencl-dev
-      - opencl-headers
-      - pkg-config
-      - yasm
-    stage-packages:
-      - libass9
-      - libdrm2
-      - libfdk-aac1
-      - libmp3lame0
-      - libopenal1
-      - libopenjp2-7
-      - libopus0
-      - libpulse0
-      - librsvg2-2
-      - libsdl2-2.0-0
-      - libspeex1
-      - libssl1.1
-      - libtheora0
-      - libtwolame0
-      - libv4l-0
-      - libv4l2rds0
-      - libva-drm2
-      - libva-glx2
-      - libva-wayland2
-      - libvdpau-va-gl1
-      - libvorbis0a
-      - libvorbisenc2
-      - libvpx6
-      - libwebp6
-      - libwebpmux3
-      - libx11-6
-      - libx265-179
-      - libxau6
-      - libxcb-shape0
-      - libxcb-shm0
-      - libxcb-xfixes0
-      - libxcb1
-      - libxdmcp6
-      - libxext6
-      - libxml2
-      - libxv1
-      - libxvidcore4
-      - mesa-vdpau-drivers
-      - ocl-icd-libopencl1
-      # Only available for amd64 and i386
-      - try:
-        - i965-va-driver
-        - mesa-va-drivers
-    autotools-configure-parameters:
-      - --prefix=/usr
-      - --enable-libaom
-      - --disable-avisynth
-      - --disable-crystalhd
-      - --enable-libdav1d
-      - --disable-debug
-      - --disable-doc
-      - --disable-static
-      - --enable-cuda
-      - --enable-cuvid
-      - --enable-gpl
-      - --enable-libass
-      - --enable-libdrm
-      - --enable-libfdk-aac
-      - --enable-libfontconfig
-      - --enable-libfreetype
-      - --enable-libmp3lame
-      - --enable-libopenjpeg
-      - --enable-libopus
-      - --enable-libpulse
-      - --enable-librsvg
-      - --enable-libspeex
-      - --enable-libsrt
-      - --enable-libtheora
-      - --enable-libtwolame
-      - --enable-libv4l2
-      - --enable-libvorbis
-      - --enable-libvpx
-      - --enable-libwebp
-      - --enable-libx264
-      - --enable-libx265
-      - --enable-libxcb
-      - --enable-libxml2
-      - --enable-libxvid
-      - --enable-nonfree
-      - --enable-nvenc
-      - --enable-omx
-      - --enable-openal
-      - --enable-opencl
-      - --enable-opengl
-      - --enable-openssl
-      - --enable-runtime-cpudetect
-      - --enable-sdl2
-      - --enable-shared
-      - --enable-vaapi
-      - --enable-vdpau
-      - --enable-version3
-      - --enable-xlib
-    prime:
-      - -usr/include
-      - -usr/lib/pkgconfig
-      - -usr/share/ffmpeg/examples
-
-  # Reference: https://pad.lv/1849478
-  pipewire:
-    after:
-      - ffmpeg
-    plugin: meson
-    source: https://gitlab.freedesktop.org/pipewire/pipewire.git
-    source-tag: '0.3.32'
-    meson-parameters:
-      - --prefix=/usr
-      - --buildtype=release
-      - --strip
-      - -Dauto_features=enabled
-      - -Dalsa=disabled
-      - -Davahi=disabled
-      - -Dbluez5=disabled
-      - -Dbluez5-codec-aac=disabled
-      - -Dbluez5-codec-aptx=disabled
-      - -Dbluez5-codec-ldac=disabled
-      - -Ddocs=disabled
-      - -Decho-cancel-webrtc=disabled
-      - -Dexamples=disabled
-      - -Dffmpeg=disabled
-      - -Dgstreamer-device-provider=disabled
-      - -Djack=disabled
-      - -Dlibcamera=disabled
-      - -Dlibusb=disabled
-      - -Dman=disabled
-      - -Dpipewire-alsa=disabled
-      - -Dpipewire-jack=disabled
-      - -Dpw-cat=disabled
-      - -Droc=disabled
-      - -Dsystemd=disabled
-      - -Dudev=disabled
-      - -Dvulkan=disabled
-    build-packages:
-      - libdbus-1-dev
-      - libglib2.0-dev
-      - libgstreamer1.0-dev
-      - libgstreamer-plugins-base1.0-dev
-      - libsdl2-dev
-      - libsndfile1-dev
-      - libv4l-dev
-    stage-packages:
-      - libgstreamer1.0-0
-      - libgstreamer-plugins-base1.0-0
-      - libsdl2-2.0-0
-      - libsndfile1
-      - libv4l-0
-    prime:
-      - -usr/bin/pw-*
-      - -usr/bin/spa-*
-      - -usr/include
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig
-
-  cef:
-    plugin: cmake
-    source:
-      - on amd64: https://cef-builds.spotifycdn.com/cef_binary_95.7.18%2Bg0d6005e%2Bchromium-95.0.4638.69_linux64_minimal.tar.bz2
-    build-packages:
-      - libatk1.0-dev
-      - libatk-bridge2.0-dev
-      - libnss3-dev
-      - libnspr4-dev
-      - libxtst-dev
-    stage-packages:
-      - libatk-bridge2.0-0
-      - libcups2
-      - libnspr4
-      - libnss3
-      - libxtst6
-    override-pull: |
-      snapcraftctl pull
-      sed -i 's|VERSION 3\.19|VERSION 3\.16|' CMakeLists.txt
-      strip --strip-unneeded ${SNAPCRAFT_PART_SRC}/Release/*.so
-      strip --strip-unneeded ${SNAPCRAFT_PART_SRC}/Release/swiftshader/*.so
-      strip --strip-unneeded ${SNAPCRAFT_PART_SRC}/Release/chrome-sandbox
-    override-build: |
-      cd ${SNAPCRAFT_PART_SRC}
-      cmake \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_C_FLAGS_RELEASE=-s \
-        -DCMAKE_CXX_FLAGS_RELEASE=-s \
-        ${SNAPCRAFT_PART_SRC}
-      make -j $(nproc) libcef_dll_wrapper
-
-      # Put the binary assets somewhere where the obs part can access them
-      mkdir -p ${SNAPCRAFT_STAGE}/CEF
-      cp -R ${SNAPCRAFT_PART_SRC}/* ${SNAPCRAFT_STAGE}/CEF
-    prime:
-      - -CEF
-
-  rnnoise:
-    plugin: autotools
-    source: https://gitlab.xiph.org/xiph/rnnoise.git
-    autotools-configure-parameters:
-      - --prefix=/usr
-      - --disable-doc
-      - --disable-examples
-      - --disable-static
-    prime:
-      - -usr/include
-      - -usr/lib/pkgconfig
-      - -usr/lib/*.la
-
-  qt5:
-    plugin: nil
-    stage-packages:
-      - qt515base
-      - qt515svg
-      - qt515wayland
-    prime:
-      - -opt/qt515/bin
-      - -opt/qt515/doc
-      - -opt/qt515/examples
-      - -opt/qt515/include
-      - -opt/qt515/lib/cmake
-      - -opt/qt515/lib/*.a
-      - -opt/qt515/lib/*.la
-      - -opt/qt515/lib/*.prl
-      - -opt/qt515/lib/pkgconfig
-      - -opt/qt515/mkspecs
-      - -opt/qt515/plugins/qmltooling
-      - -opt/qt515/qml
-
-  # Based on https://obsproject.com/wiki/install-instructions#debian-based-build-directions
-  obs:
-    plugin: cmake
-    after:
-      - cef
-      - ffmpeg
-      - pipewire
-      - qt5
-      - rnnoise
-      - x264
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DUNIX_STRUCTURE=TRUE
-      - -DDISABLE_UPDATE_MODULE=TRUE
-      - -DBUILD_BROWSER=TRUE
-      - -DCEF_ROOT_DIR=$SNAPCRAFT_STAGE/CEF
-      - -DBROWSER_PANEL_SUPPORT_ENABLED=TRUE
-      - -DENABLE_WAYLAND=TRUE
-      - -DWITH_RTMPS=TRUE
-    source: https://github.com/obsproject/obs-studio.git
-    source-tag: '27.2.1'
-    parse-info: [usr/share/metainfo/com.obsproject.Studio.appdata.xml]
-    override-pull: |
-      snapcraftctl pull
-      snapcraftctl set-version "$(git describe --tags)"
-
-      # Update the icon path
-      sed -i 's|Icon=com\.obsproject\.Studio|Icon=/usr/share/icons/hicolor/256x256/apps/com\.obsproject\.Studio\.png|' UI/xdg-data/com.obsproject.Studio.desktop
-
-      cd "${SNAPCRAFT_PART_SRC}"
-
-      # Work around for https://github.com/obsproject/obs-browser/issues/239
-      if [ -d plugins/obs-browser/obs-browser-page ]; then
-        mv -v plugins/obs-browser/obs-browser-page plugins/obs-browser/obs-browser-page-main
-        sed -i 's|obs-browser-page/obs-browser-page-main.cpp|obs-browser-page-main/obs-browser-page-main.cpp|g' plugins/obs-browser/CMakeLists.txt
-      fi
-
-      #  The following plugins are all intended to be built in tree
-      git clone --recursive https://github.com/exeldro/obs-dir-watch-media.git ${SNAPCRAFT_PART_SRC}/plugins/obs-dir-watch-media
-      echo "add_subdirectory(obs-dir-watch-media)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
-
-      git clone --recursive https://github.com/exeldro/obs-downstream-keyer.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/obs-downstream-keyer
-      echo "add_subdirectory(obs-downstream-keyer)" >> ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/CMakeLists.txt
-
-      git clone --recursive https://github.com/exeldro/obs-dynamic-delay.git ${SNAPCRAFT_PART_SRC}/plugins/obs-dynamic-delay
-      echo "add_subdirectory(obs-dynamic-delay)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
-
-      git clone --recursive https://github.com/exeldro/obs-freeze-filter.git ${SNAPCRAFT_PART_SRC}/plugins/obs-freeze-filter
-      echo "add_subdirectory(obs-freeze-filter)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
-
-      git clone --recursive https://github.com/exeldro/obs-gradient-source.git ${SNAPCRAFT_PART_SRC}/plugins/obs-gradient-source
-      echo "add_subdirectory(obs-gradient-source)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
-
-      git clone --recursive https://github.com/exeldro/obs-move-transition.git ${SNAPCRAFT_PART_SRC}/plugins/obs-move-transition --branch 2.5.7
-      echo "add_subdirectory(obs-move-transition)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
-
-      git clone --recursive https://github.com/exeldro/obs-recursion-effect.git ${SNAPCRAFT_PART_SRC}/plugins/obs-recursion-effect
-      echo "add_subdirectory(obs-recursion-effect)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
-
-      git clone --recursive https://github.com/exeldro/obs-replay-source.git ${SNAPCRAFT_PART_SRC}/plugins/obs-replay-source --branch 1.6.9
-      echo "add_subdirectory(obs-replay-source)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
-
-      git clone --recursive https://github.com/iamscottxu/obs-rtspserver.git ${SNAPCRAFT_PART_SRC}/plugins/obs-rtspserver --branch v2.2.0
-      echo "add_subdirectory(obs-rtspserver)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
-
-      git clone --recursive https://github.com/WarmUpTill/SceneSwitcher.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/SceneSwitcher --branch 1.17.2
-      echo "add_subdirectory(SceneSwitcher)" >> ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/CMakeLists.txt
-
-      git clone --recursive https://github.com/Qufyy/obs-scale-to-sound.git ${SNAPCRAFT_PART_SRC}/plugins/obs-scale-to-sound --branch 1.2.0
-      echo "add_subdirectory(obs-scale-to-sound)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
-
-      git clone --recursive https://github.com/exeldro/obs-source-copy.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/obs-source-copy
-      echo "add_subdirectory(obs-source-copy)" >> ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/CMakeLists.txt
-
-      git clone --recursive https://github.com/exeldro/obs-source-record.git ${SNAPCRAFT_PART_SRC}/plugins/obs-source-record
-      echo "add_subdirectory(obs-source-record)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
-
-      git clone --recursive https://github.com/exeldro/obs-source-switcher.git ${SNAPCRAFT_PART_SRC}/plugins/obs-source-switcher
-      echo "add_subdirectory(obs-source-switcher)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
-
-      git clone --recursive https://github.com/Xaymar/obs-StreamFX.git ${SNAPCRAFT_PART_SRC}/plugins/obs-StreamFX --branch 0.11.0
-      echo "add_subdirectory(obs-StreamFX)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
-
-      git clone --recursive https://github.com/exeldro/obs-time-warp-scan.git ${SNAPCRAFT_PART_SRC}/plugins/obs-time-warp-scan
-      echo "add_subdirectory(obs-time-warp-scan)" >> ${SNAPCRAFT_PART_SRC}/plugins/CMakeLists.txt
-
-      git clone --recursive https://github.com/exeldro/obs-transition-table.git ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/obs-transition-table  --branch 0.2.3
-      sed -i 's|VERSION 3\.18|VERSION 3\.16|' ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/obs-transition-table/CMakeLists.txt
-      echo "add_subdirectory(obs-transition-table)" >> ${SNAPCRAFT_PART_SRC}/UI/frontend-plugins/CMakeLists.txt
-    override-build: |
-      # Stage libcaption headers required to build OBS and some out of tree plugins
-      [ -d ${SNAPCRAFT_STAGE}/usr/include/caption/ ] || mkdir -p ${SNAPCRAFT_STAGE}/usr/include/caption/
-      cp ${SNAPCRAFT_PART_SRC}/deps/libcaption/caption/*.h ${SNAPCRAFT_STAGE}/usr/include/caption/
-
-      snapcraftctl build
-
-      # Stage cmake files required to build out of tree plugins
-      [ -d ${SNAPCRAFT_STAGE}/usr/include/cmake/external ] || mkdir -p ${SNAPCRAFT_STAGE}/usr/include/cmake/external
-      cp ${SNAPCRAFT_PART_SRC}/cmake/external/*.cmake ${SNAPCRAFT_STAGE}/usr/include/cmake/external/
-
-    override-prime: |
-      snapcraftctl prime
-      # Symlink libaom.so to where StreamFX expects to find it
-      if [ -e ${SNAPCRAFT_PRIME}/usr/share/obs/obs-plugins/StreamFX/libaom.so ]; then
-        rm ${SNAPCRAFT_PRIME}/usr/share/obs/obs-plugins/StreamFX/libaom.so
-      fi
-      cd ${SNAPCRAFT_PRIME}/usr/share/obs/obs-plugins/StreamFX/
-      ln -s ../../../../lib/${SNAPCRAFT_ARCH_TRIPLET}/libaom.so .
-    build-environment:
-      - CMAKE_INCLUDE_PATH: $CMAKE_INCLUDE_PATH:$SNAPCRAFT_STAGE/include:$SNAPCRAFT_STAGE/usr/include:$SNAPCRAFT_STAGE/include/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/include/$SNAPCRAFT_ARCH_TRIPLET
-      - CMAKE_LIBRARY_PATH: $CMAKE_LIBRARY_PATH:$SNAPCRAFT_STAGE/lib:$SNAPCRAFT_STAGE/usr/lib:$SNAPCRAFT_STAGE/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
-      - CMAKE_PREFIX_PATH: CMAKE_PREFIX_PATH:$SNAPCRAFT_STAGE/opt/qt515
-      - LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAPCRAFT_STAGE/lib:$SNAPCRAFT_STAGE/usr/lib:$SNAPCRAFT_STAGE/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
-    build-packages:
-      # FFmpeg and Qt5 packages are not listed as they're provided by the 'ffmpeg' and 'qt5' parts
-      - clang-tidy
-      - libasound2-dev
-      - libcurl4-openssl-dev
-      - libfdk-aac-dev
-      - libfontconfig1-dev
-      - libfreetype6-dev
-      - libgl1-mesa-dev
-      - libjack-dev           # not libjack-jackd2-dev as upstream suggests; snapd currently supports jack1
-      - libjansson-dev
-      - libluajit-5.1-dev
-      - libmbedtls-dev
-      - libpci-dev
-      - libpulse-dev
-      - libspeexdsp-dev
-      - libudev-dev
-      - libv4l-dev
-      - libvlc-dev
-      - libvlccore-dev
-      - libwayland-dev
-      - libx11-dev
-      - libx11-xcb-dev
-      - libxcb-randr0-dev
-      - libxcb-shm0-dev
-      - libxcb-xfixes0-dev
-      - libxcb-xinerama0-dev
-      - libxcb-xinput-dev
-      - libxcb1-dev
-      - libxcomposite-dev
-      - libxinerama-dev
-      - pkg-config
-      - python3-dev
-      - re2c
-      - swig
-      # Required by StreamFX
-      - libprocps-dev
-      - ninja-build
-      # Required by Advanced Scene Switcher
-      - libopencv-dev
-      - libxss-dev
-      # Required to get patches
-      - wget
-    stage-packages:
-      # FFmpeg and Qt5 packages are not listed as they're provided by the 'ffmpeg' and 'qt5' parts
-      - libasound2
-      - libcurl4
-      - libfdk-aac1
-      - libfreetype6
-      - libgl1
-      - libglvnd0
-      - jackd1                # not libjack-jackd2-0 as upstream suggests; snapd currently supports jack1
-      - libjansson4
-      - libluajit-5.1-2
-      - libmbedtls12
-      - libpci3
-      - libpulse0
-      - libpython3.8
-      - libspeexdsp1
-      - libv4l-0
-      - libv4l2rds0
-      - libvlc5
-      - libvlccore9
-      - libx11-6
-      - libx11-xcb1
-      - libxcb-randr0
-      - libxcb-shm0
-      - libxcb-xfixes0
-      - libxcb-xinerama0
-      - libxcb-xinput0
-      - libxcomposite1
-      - libxinerama1
-      # Required by Advanced Scene Switcher
-      - libopencv-imgproc4.2
-      - libopencv-objdetect4.2
-      - libxss1
-    prime:
-      - -usr/include
-      - -usr/lib/cmake
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavcodec.*     # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavdevice.*    # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavfilter.*    # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavformat.*    # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavutil.*      # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libpostproc.*    # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libswresample.*  # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libswscale.*     # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libx264.*        # Provided by the x264 part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig
-
-  # Required for VirtualCam; stage the minimum required binaries
-  kmod:
-    plugin: nil
-    stage-packages:
-      - kmod
-    prime:
-      - bin
-      - sbin
-
-  # The Advanced Scene Switcher looks in hardcoded paths for libcurl.so.4
-  # So, copy libcurl.so.4 to a location referenced by the snap layouts
-  libcurl:
-    plugin: nil
-    stage-packages:
-      - libcurl4
-    organize:
-      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libcurl.so.4: /usr/local/lib/
-    prime:
-      - usr/local/lib
-
-  libndi:
-    plugin: nil
-    source: http://514f211588de67e4fdcf-437b8dd50f60b69cf0974b538e50585b.r63.cf1.rackcdn.com/Utilities/SDK/NDI_SDK_Linux_v2/InstallNDISDK_v4_Linux.tar.gz
-    source-checksum: "sha256/45621d7e70e73d5e6b8d07cc8d55a920fac979508de65db705eff7a188222e71"
-    stage-packages:
-      - libavahi-client3
-    override-build: |
-      yes | env PAGER=cat ./InstallNDISDK_v4_Linux.sh || true
-      SDK="${SNAPCRAFT_PART_BUILD}/NDI SDK for Linux"
-      install -D -m644 "${SDK}/include/"*.h -t "${SNAPCRAFT_PART_INSTALL}/usr/include"
-      install -D -m755 "${SDK}/lib/${SNAPCRAFT_ARCH_TRIPLET}/libndi.so.4".*.* -t "${SNAPCRAFT_PART_INSTALL}/usr/local/lib/"
-      cd "${SNAPCRAFT_PART_INSTALL}/usr/local/lib"
-      ln -s "libndi.so.4".*.* "libndi.so.4"
-      ln -s "libndi.so.4".*.*  libndi.so
-    prime:
-      - usr/local/lib
-
-  # Required by Input Overlay if it's added as a 3rd party plugin
-  libuiohook:
-    plugin: cmake
-    source: https://github.com/kwhat/libuiohook.git
-    source-branch: '1.2'
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DBUILD_SHARED_LIBS=TRUE
-    build-packages:
-      - libxinerama-dev
-      - libxkbcommon-x11-dev
-      - libxkbfile-dev
-      - libxt-dev
-      - libxtst-dev
-      - pkg-config
-    stage-packages:
-      - libice6
-      - libsm6
-      - libxcb-xkb1
-      - libxkbcommon-x11-0
-      - libxkbfile1
-      - libxinerama1
-      - libxt6
-      - libxtst6
-    prime:
-      - -usr/include
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/cmake
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig
-
-  # Required by Input Overlay if it's added as a 3rd party plugin
-  libgamepad:
-    plugin: cmake
-    source: https://github.com/univrsal/libgamepad.git
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DGAMEPAD_ENABLE_TESTS=FALSE
-      - -DGAMEPAD_ENABLE_STATIC=FALSE
-      - -DGAMEPAD_ENABLE_SHARED=TRUE
-    prime:
-      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libgamepad.so
-
-  # Required by Input Overlay if it's added as a 3rd party plugin
-  netlib:
-    plugin: cmake
-    source: https://github.com/univrsal/netlib.git
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DNETLIB_ENABLE_TESTS=FALSE
-      - -DNETLIB_ENABLE_STATIC=FALSE
-      - -DNETLIB_ENABLE_SHARED=TRUE
-    prime:
-      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libnetlib.so
-
-  vlc-plugins:
-    after:
-      - srt
-    plugin: nil
-    stage-packages:
-      - freeglut3
-      - libglu1-mesa
-      - libslang2
-      - vlc-plugin-base
-    prime:
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libsrt.*         # Provided by the srt part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavcodec.*     # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavdevice.*    # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavfilter.*    # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavformat.*    # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libavutil.*      # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libpostproc.*    # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libswresample.*  # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libswscale.*     # Provided by the ffmpeg part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libx264.*        # Provided by the x264 part
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/vlc/lua
-      - -usr/share/icons
-      - -usr/share/vlc
-
-  obs-audio-pan:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/norihiro/obs-audio-pan-filter.git
-    source-tag: '0.1.2'
-    build-environment:
-      - Qt5_DIR: $SNAPCRAFT_STAGE/opt/qt515
-    override-build: |
-      mkdir -p $SNAPCRAFT_PART_SRC/build
-      cd $SNAPCRAFT_PART_SRC/build
-      cmake \
-        -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_C_FLAGS_RELEASE=-s \
-        -DCMAKE_CXX_FLAGS_RELEASE=-s \
-        -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/ \
-        $SNAPCRAFT_PART_SRC
-      make -j $(nproc)
-      make install DESTDIR=$SNAPCRAFT_PART_INSTALL
-    organize:
-      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-audio-pan-filter.so: usr/lib/obs-plugins/
-
-  obs-dvd-screensaver:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/univrsal/dvds3.git
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DGLOBAL_INSTALLATION=TRUE
-    override-pull: |
-      snapcraftctl pull
-      sed -i 's|VERSION 3\.17|VERSION 3\.16|' CMakeLists.txt
-
-  obs-gphoto:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/adlerweb/obs-gphoto.git
-    source-branch: 'adlerweb'
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DSYSTEM_INSTALL=TRUE
-    build-packages:
-      - libgphoto2-dev
-      - libjpeg-turbo8-dev
-      - libudev-dev
-    stage-packages:
-      - libgphoto2-6
-      - libjpeg-turbo8
-      - libudev1
-      - libusb-1.0-0
-    organize:
-      root/stage/usr/lib/obs-plugins/obs-gphoto.so: usr/lib/obs-plugins/
-    prime:
-      - -root
-
-  obs-gstreamer:
-    plugin: meson
-    after: [ obs ]
-    source: https://github.com/fzwoch/obs-gstreamer.git
-    source-tag: 'v0.3.3'
-    meson-parameters:
-      - --prefix=/usr
-      - --buildtype=release
-      - --strip
-    build-packages:
-      - libgstreamer1.0-dev
-      - libgstreamer-plugins-base1.0-dev
-      - libgstreamer-plugins-good1.0-dev
-      - libjack-dev
-      - ninja-build
-    stage-packages:
-      - freeglut3
-      - gstreamer1.0-plugins-good
-      - libglu1-mesa
-      - libgstreamer-plugins-base1.0-0
-      - libjack0
-    organize:
-      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-gstreamer.so: usr/lib/obs-plugins/
-
-  obs-looking-glass:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/gnif/LookingGlass.git
-    source-branch: 'Release/B4'
-    build-packages:
-      - binutils-dev
-    override-build: |
-      mkdir -p $SNAPCRAFT_PART_SRC/obs/build
-      cd $SNAPCRAFT_PART_SRC/obs/build
-      cmake $SNAPCRAFT_PART_SRC/obs
-      make -j $(nproc)
-      make install DESTDIR=$SNAPCRAFT_PART_INSTALL
-    organize:
-      usr/local/share/obs/obs-plugins/looking-glass-obs/bin/64bit: usr/lib/obs-plugins/
-
-  obs-ndi:
-    plugin: cmake
-    after:
-      - libndi
-      - obs
-    source: https://github.com/Palakis/obs-ndi.git
-    source-tag: '4.9.1'
-    build-environment:
-      - Qt5_DIR: $SNAPCRAFT_STAGE/opt/qt515
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
-      - -DUSE_UBUNTU_FIX=TRUE
-    prime:
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-ndi.so
-
-  obs-nvfbc:
-    plugin: meson
-    after: [ obs ]
-    source: https://gitlab.com/fzwoch/obs-nvfbc.git
-    source-tag: 'v0.0.5'
-    meson-parameters:
-      - --prefix=/usr
-      - --buildtype=release
-      - --strip
-    organize:
-      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/nvfbc.so: usr/lib/obs-plugins/
-
-  # Vulkan support added as per: https://forum.snapcraft.io/t/correct-way-to-do-nvidia-vulkan/20361
-  obs-vkcapture:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/nowrep/obs-vkcapture.git
-    source-tag: 'v1.1'
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-    override-pull: |
-      snapcraftctl pull
-      sed -i 's|VERSION 3\.19|VERSION 3\.16|' CMakeLists.txt
-    build-packages:
-      - libvulkan-dev
-    stage-packages:
-      - libvulkan1
-      - mesa-vulkan-drivers
-    organize:
-      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/linux-vkcapture.so: usr/lib/obs-plugins/
-    prime:
-      # Confinement prevents these from running external apps, so remove them
-      - -usr/bin/obs-glcapture
-      - -usr/bin/obs-vkcapture
-
-  obs-rgb-levels:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/petrifiedpenguin/obs-rgb-levels-filter.git
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
-      - -DLIBOBS_LIB=$SNAPCRAFT_STAGE/usr/lib/
-
-  obs-spectralizer:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/univrsal/spectralizer.git
-    source-tag: 'v1.3.4'
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/
-      - -DGLOBAL_INSTALLATION=TRUE
-    build-packages:
-      - libfftw3-dev
-    stage-packages:
-      - libfftw3-3
-
-  obs-text-pango:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/kkartaltepe/obs-text-pango.git
-    source-tag: 'v1.0'
-    cmake-parameters:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_C_FLAGS_RELEASE=-s
-      - -DCMAKE_CXX_FLAGS_RELEASE=-s
-      - -DOBS_INCLUDE_DIRS=$SNAPCRAFT_STAGE/usr/include/obs/
-      - -DOBS_LIBRARIES=$SNAPCRAFT_STAGE/usr/lib/
-    build-packages:
-      - libpango1.0-dev
-    stage-packages:
-      - libpango-1.0-0
-      - libpangocairo-1.0-0
-      - libpangoft2-1.0-0
-    organize:
-      usr/data/obs-plugins/text-pango/locale/*.ini: usr/share/obs/obs-plugins/text-pango/locale/
-      usr/obs-plugins/*bit/libtext-pango.so: usr/lib/obs-plugins/
-
-  obs-vnc:
-    plugin: cmake
-    after: [ obs ]
-    source: https://github.com/norihiro/obs-vnc.git
-    source-tag: '0.4.0'
-    build-packages:
-      - libvncserver-dev
-    stage-packages:
-      - libvncclient1
-    override-build: |
-      mkdir -p $SNAPCRAFT_PART_SRC/build
-      cd $SNAPCRAFT_PART_SRC/build
-      cmake \
-        -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_C_FLAGS_RELEASE=-s \
-        -DCMAKE_CXX_FLAGS_RELEASE=-s \
-        -DLIBOBS_INCLUDE_DIR=$SNAPCRAFT_STAGE/usr/include/obs/ \
-        $SNAPCRAFT_PART_SRC
-      make -j $(nproc)
-      make install DESTDIR=$SNAPCRAFT_PART_INSTALL
-    organize:
-      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-vnc.so: usr/lib/obs-plugins/
-
-  obs-websocket:
-    plugin: dump
-    after: [ obs ]
-    source: https://github.com/obsproject/obs-websocket/releases/download/4.9.1/obs-websocket_4.9.1-1_amd64.deb
-    prime:
-      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins
-
-  # Using the CPU runtime, it is not possible to satisify all the GPU runtime requirements.
-  onnxruntime:
-    plugin: dump
-    source: https://github.com/microsoft/onnxruntime/releases/download/v1.10.0/onnxruntime-linux-x64-1.10.0.tgz
-    organize:
-      include/*.h: usr/include/
-      lib/*.so*: usr/lib/
-    prime:
-      - usr/lib
-
-  obs-backgroundremoval:
-    plugin: cmake
-    after: [ obs, onnxruntime ]
-    source: https://github.com/royshil/obs-backgroundremoval.git
-    source-tag: 'v0.4.0'
-    build-packages:
-      - libopencv-dev
-    override-build: |
-      cd "${SNAPCRAFT_PART_SRC}"
-      mkdir -p "${SNAPCRAFT_PART_SRC}/build"
-      cd "${SNAPCRAFT_PART_SRC}/build"
-      cmake \
-        -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_MODULE_LINKER_FLAGS=-L"${SNAPCRAFT_STAGE}"/usr/lib/ -lonnxruntime \
-        -DLIBOBS_INCLUDE_DIR="${SNAPCRAFT_STAGE}"/usr/include/obs/ \
-        -DOnnxruntime_INCLUDE_DIR="${SNAPCRAFT_STAGE}"/usr/include/ \
-        -DOnnxruntime_LIBRARIES="${SNAPCRAFT_STAGE}"/usr/lib/libonnxruntime.so \
-        "${SNAPCRAFT_PART_SRC}"
-      make -j $(nproc)
-      make install DESTDIR="${SNAPCRAFT_PART_INSTALL}"
-    organize:
-      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/obs-plugins/obs-backgroundremoval.so: usr/lib/obs-plugins/
-
-  obs-wrapper:
-    plugin: dump
-    after:
-      - obs-audio-pan
-      - obs-backgroundremoval
-      - obs-dvd-screensaver
-      - obs-gphoto
-      - obs-gstreamer
-      - obs-looking-glass
-      - obs-ndi
-      - obs-nvfbc
-      - obs-rgb-levels
-      - obs-text-pango
-      - obs-spectralizer
-      - obs-vkcapture
-      - obs-vnc
-      - obs-websocket
-    source: snap/local/
-    stage-packages:
-      - mesa-utils
-      - mesa-utils-extra
-      - vainfo
-      - vdpauinfo
-      - vulkan-tools
-    organize:
-      obs-wrapper: bin/
-
-  cleanup:
-    plugin: nil
-    after:
-      - aom
-      - cef
-      - dav1d
-      - desktop-launch
-      - ffmpeg
-      - kmod
-      - libcurl
-      - libgamepad
-      - libuiohook
-      - netlib
-      - obs-wrapper
-      - qt5
-      - rnnoise
-      - vlc-plugins
-      - x264
-    override-prime: |
-      for CRUFT in \
-        usr/share/GConf \
-        usr/share/apport \
-        usr/share/bug \
-        usr/share/fonts \
-        usr/share/icons/Adwaita \
-        usr/share/icons/Humanity* \
-        usr/share/icons/LoginIcons \
-        usr/share/icons/ubuntu-mono-* \
-        usr/share/lintian \
-        usr/share/man \
-        usr/share/pkgconfig; do
-        rm -rf ${SNAPCRAFT_PRIME}/${CRUFT}
-      done
-      find ${SNAPCRAFT_PRIME}/usr/share/doc/ -type f -not -name 'copyright' -delete || true
-      rm ${SNAPCRAFT_PRIME}/usr/share/doc/*/*.gz 2>/dev/null || true
-      rm -rf ${SNAPCRAFT_PRIME}/usr/share/doc/*/examples || true
-      rm ${SNAPCRAFT_PRIME}/usr/share/doc/*/README* 2>/dev/null || true
-      find ${SNAPCRAFT_PRIME}/usr -type d -empty -delete || true

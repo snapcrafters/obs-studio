@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
-if [ -d "${SNAP}/usr/lib/alsa-lib" ]; then
-  export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${SNAP}/usr/lib/alsa-lib"
-elif [ -d "${SNAP}/usr/lib/${SNAP_LAUNCHER_ARCH_TRIPLET}/alsa-lib" ]; then
-  export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${SNAP}/usr/lib/${SNAP_LAUNCHER_ARCH_TRIPLET}/alsa-lib"
-fi
-
 # Export the Vulkan ICD filename paths
 #  - There is no Intel ICD for ARM
 if [ "$SNAP_ARCH" = "amd64" ]; then
@@ -18,25 +12,19 @@ elif [ "$SNAP_ARCH" = "arm64" ]; then
   export VK_ICD_FILENAMES="/var/lib/snapd/lib/vulkan/icd.d/nvidia_icd.json:$SNAP/usr/share/vulkan/icd.d/radeon_icd.aarch64.json"
 fi
 
-# Environment coercions that should only be made when wrapping OBS Studio
-if [[ ${@} == *"usr/bin/obs"* ]]; then
-  # Make sure the user plugins folder exists.
-  [ -d "${SNAP_USER_DATA}/.config/obs-studio/plugins" ] || mkdir -p "${SNAP_USER_DATA}/.config/obs-studio/plugins"
-
-  # If the current session is Wayland then use EGL
-  if [ "${XDG_SESSION_TYPE}" == "wayland" ] && [[ ${WAYLAND_DISPLAY} == *"wayland"* ]]; then
-    # https://bugreports.qt.io/browse/QTBUG-81504?focusedCommentId=562115&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-562115
-    #export QT_WAYLAND_FORCE_NONBLOCKING_SWAP_SUPPORT=0
-    export QT_QPA_PLATFORM="wayland"
-  elif [ "${XDG_SESSION_TYPE}" == "x11" ]; then
-    export QT_QPA_PLATFORM="xcb"
-  fi
+# If the current session is Wayland then use EGL
+if [ "${XDG_SESSION_TYPE}" == "wayland" ] && [[ ${WAYLAND_DISPLAY} == *"wayland"* ]]; then
+  # https://bugreports.qt.io/browse/QTBUG-81504?focusedCommentId=562115&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-562115
+  #export QT_WAYLAND_FORCE_NONBLOCKING_SWAP_SUPPORT=0
+  export QT_QPA_PLATFORM="wayland"
+elif [ "${XDG_SESSION_TYPE}" == "x11" ]; then
+  export QT_QPA_PLATFORM="xcb"
 fi
 
-# As discussed here:
-#  - https://forum.snapcraft.io/t/egl-using-snaps-on-impish-seem-to-be-broken-when-using-the-nvidia-proprietary-driver/25715
-export LD_LIBRARY_PATH="${LD_LIBRARY_PATH#$SNAP_LIBRARY_PATH:}"
-export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${SNAP_LIBRARY_PATH}"
+# # As discussed here:
+# #  - https://forum.snapcraft.io/t/egl-using-snaps-on-impish-seem-to-be-broken-when-using-the-nvidia-proprietary-driver/25715
+# export LD_LIBRARY_PATH="${LD_LIBRARY_PATH#$SNAP_LIBRARY_PATH:}"
+# export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${SNAP_LIBRARY_PATH}"
 
-unset SESSION_MANAGER
-exec "${@}"
+cd "${SNAP}/bin/64bit" || exit 1
+exec ./obs --multi  "${@}"

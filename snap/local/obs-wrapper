@@ -19,5 +19,6 @@ elif [ "${XDG_SESSION_TYPE}" == "x11" ]; then
   export QT_QPA_PLATFORM="xcb"
 fi
 
+unset SESSION_MANAGER
 cd "${SNAP}/bin/64bit" || exit 1
 exec ./obs --multi  "${@}"

@@ -6,8 +6,8 @@
 
 <p align="center"><b>This is the snap of <a href="https://obsproject.com/" target=_blank">OBS Studio</a></b>, pre-loaded with extra features and a curated collection of 3rd party OBS Studio plugins for live streaming and screen recording.</p>
 <p align="center">
-<a href="https://snapcraft.io/obs-studio"><img alt="obs-studio" src="https://snapcraft.io/obs-studio/badge.svg" /></a>
-<a href="https://snapcraft.io/obs-studio"><img alt="obs-studio" src="https://snapcraft.io/obs-studio/trending.svg?name=0" /></a>
+<a href="https://snapcraft.io/obs-studio"><img alt="Snap Badge" src="https://snapcraft.io/obs-studio/badge.svg" /></a>
+<a href="https://snapcraft.io/obs-studio"><img alt="Snap Installs" src="https://img.shields.io/badge/Installs-89.1k-2E7725?logo=snapcraft"></a>
 </p>
 
 <!-- Uncomment and modify this when you have a screenshot

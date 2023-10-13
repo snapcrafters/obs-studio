@@ -17,22 +17,12 @@ lint:
     - classic 
     - library
 
-# layout:
-#   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_intel.so:
-#     symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_intel.so
-#   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_radeon.so:
-#     symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libvulkan_radeon.so
-#   /usr/share/X11:
-#     symlink: $SNAP/usr/share/X11
-
 layout:
   /usr/lib/libndi.so.5:
     symlink: $SNAP/usr/lib/libndi.so.5
-  # /usr/share/libdrm/amdgpu.ids:
-  #   symlink: $SNAP/usr/share/libdrm/amdgpu.ids
 
 parts:
-  ndi: # might need to organise into usr/local
+  ndi:
     plugin: dump
     source: https://github.com/obs-ndi/obs-ndi/releases/download/4.11.1/libndi5_5.5.3-1_amd64.deb
     source-type: deb
@@ -41,7 +31,7 @@ parts:
     source: snap/local
   obs:
     plugin: dump
-    source: https://github.com/wimpysworld/obs-studio-portable/releases/download/r23278/obs-portable-29.1.3-r23278-ubuntu-22.04.tar.bz2
+    source: https://github.com/wimpysworld/obs-studio-portable/releases/download/r23285/obs-portable-29.1.3-r23285-ubuntu-22.04.tar.bz2
     stage-packages:
       - lib32gcc-s1 
       - lib32stdc++6 
@@ -305,7 +295,7 @@ parts:
       - libgles2-mesa 
       - libvlc5 
       - vlc-plugin-base 
-      - stterm      
+      - stterm
   cleanup:
     after: [obs,ndi,launcher]
     plugin: nil

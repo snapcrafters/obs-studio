@@ -283,6 +283,7 @@ parts:
       - libzmq5 
       - libzstd1 
       - libzvbi0 
+      - pipewire-bin
       - ocl-icd-libopencl1 
       - zlib1g 
       - qt6-image-formats-plugins 
@@ -312,6 +313,9 @@ apps:
     environment:
       QT_PLUGIN_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt6/plugins:$QT_PLUGIN_PATH
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/lapack:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/openblas-pthread:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/blas:$SNAP/bin/64bit:$SNAP/obs-plugins/64bit:$SNAP/data/obs-scripting/64bit:$SNAP/cef:$SNAP/lib
+      PIPEWIRE_CONFIG_NAME: $SNAP/usr/share/pipewire/pipewire.conf
+      PIPEWIRE_MODULE_DIR: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pipewire-0.3
+      SPA_PLUGIN_DIR: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/spa-0.2
     plugs:
       - alsa
       - audio-playback

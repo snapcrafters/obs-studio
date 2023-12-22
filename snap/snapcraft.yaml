@@ -31,7 +31,7 @@ parts:
     source: snap/local
   obs:
     plugin: dump
-    source: https://github.com/wimpysworld/obs-studio-portable/releases/download/r23344/obs-portable-30.0.0-r23344-ubuntu-22.04.tar.bz2
+    source: https://github.com/wimpysworld/obs-studio-portable/releases/download/r23356/obs-portable-30.0.2-r23356-ubuntu-22.04.tar.bz2
     stage-packages:
       - lib32gcc-s1 
       - lib32stdc++6 

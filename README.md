@@ -8,6 +8,9 @@
 <p align="center">
 <a href="https://snapcraft.io/obs-studio"><img alt="Snap Badge" src="https://snapcraft.io/obs-studio/badge.svg" /></a>
 <a href="https://snapcraft.io/obs-studio"><img alt="Snap Installs" src="https://img.shields.io/badge/Installs-89.1k-2E7725?logo=snapcraft"></a>
+<a href="https://github.com/snapcrafters/obs-studio/actions/workflows/sync-upstream.yml"><img src="https://github.com/snapcrafters/obs-studio/actions/workflows/sync-upstream.yml/badge.svg"></a>
+<a href="https://github.com/snapcrafters/obs-studio/actions/workflows/release-to-candidate.yml"><img src="https://github.com/snapcrafters/obs-studio/actions/workflows/release-to-candidate.yml/badge.svg"></a>
+<a href="https://github.com/snapcrafters/obs-studio/actions/workflows/promote-to-stable.yml"><img src="https://github.com/snapcrafters/obs-studio/actions/workflows/promote-to-stable.yml/badge.svg"></a>
 </p>
 
 <!-- Uncomment and modify this when you have a screenshot
@@ -54,7 +57,7 @@ Here are the 3rd party plugins that come bundled with the OBS Studio snap:
 ### Audio 🔉
 
 - **[Audio Pan](https://github.com/norihiro/obs-audio-pan-filter)** plugin; control stereo pan of audio sources.
-- **[Local Vocal](https://github.com/obs-ai/obs-localvocal)** plugin; local speech and text AI processing routines and  AI transcription.
+- **[Local Vocal](https://github.com/obs-ai/obs-localvocal)** plugin; local speech and text AI processing routines and AI transcription.
 - **[Mute Filter](https://github.com/norihiro/obs-mute-filter)** plugin; to mute audio from a source.
 - **[PipeWire Audio Capture](https://github.com/dimtpap/obs-pipewire-audio-capture)** plugin; capture application audio from PipeWire.
 - **[Scale to Sound](https://github.com/Qufyy/obs-scale-to-sound)** plugin; adds a filter which makes a source scale based on the audio levels of any audio source you choose
@@ -91,7 +94,7 @@ Here are the 3rd party plugins that come bundled with the OBS Studio snap:
 - **[Scene as Transition](https://github.com/andilippi/obs-scene-as-transition)** plugin; use scenes as transitions.
 - **[Shader Filter](https://github.com/exeldro/obs-shaderfilter)** plugin; for applying an arbitrary shader to a source.
 - **[Stroke Glow Shadow](https://github.com/FiniteSingularity/obs-stroke-glow-shadow)** plugin; provide efficient Stroke, Glow, and Shadow effects on masked sources.
-- **[Time Shift](https://github.com/exeldro/obs-time-shift)** plugin;  time shift a source using a filter.
+- **[Time Shift](https://github.com/exeldro/obs-time-shift)** plugin; time shift a source using a filter.
 - **[Time Warp Scan](https://github.com/exeldro/obs-time-warp-scan)** plugin; a time warp scan filter.
 - **[Vintage Filter](https://github.com/cg2121/obs-vintage-filter)** plugin; a filter to make source black & white or sepia.
 
@@ -102,8 +105,8 @@ Here are the 3rd party plugins that come bundled with the OBS Studio snap:
 - **[NDI](https://github.com/obs-ndi/obs-ndi)** plugin; Network A/V in OBS Studio with NewTek's NDI technology.
 - **[Source Record](https://github.com/exeldro/obs-source-record)** plugin; make sources available to record via a filter.
 - **[StreamFX](https://github.com/Xaymar/obs-StreamFX)** plugin; unlocks the full potential of NVENC along with encoders for Avid DNxHR, Apple ProRes and CineForm.
-  - **Only the *stable* StreamFX encoders, Color Grading and Dynamic Mask filters are enabled in OBS Studio Portable for Linux**.
-- **[Teleport](https://github.com/fzwoch/obs-teleport)** plugin; open NDI-like replacement. (*not NDI compatible*)
+  - **Only the _stable_ StreamFX encoders, Color Grading and Dynamic Mask filters are enabled in OBS Studio Portable for Linux**.
+- **[Teleport](https://github.com/fzwoch/obs-teleport)** plugin; open NDI-like replacement. (_not NDI compatible_)
 - **[VA-API](https://github.com/exeldro/obs-transition-table)** plugin; GStreamer-based VA-API encoder implementation.
 - **[Vertical Canvas](https://github.com/Aitum/obs-vertical-canvas)** plugin; make content for TikTok, YouTube Shorts, Instagram Live, and more without the fuss.
 
@@ -153,10 +156,10 @@ interface as follows.
 snap connect obs-studio:joystick
 ```
 
-*The Input Overlay plugin is not shipped by default in the OBS Studio snap
+_The Input Overlay plugin is not shipped by default in the OBS Studio snap
 because it introduced excessive CPU utilisation when bundled, although
 works fine as a user-installed plugin. So we've made it as easy as possible
-to add it yourself should you need it.*
+to add it yourself should you need it._
 
 ## Wayland
 

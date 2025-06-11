@@ -210,8 +210,46 @@ layout:
   /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libdatrie.so.1:
     bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libdatrie.so.1.4.0
 
+components:
+  openvino-plugins:
+    type: standard
+    summary: OpenVINO AI plugins
+    description: OpenVINO based plugins that add AI features to OBS Studio
 
 parts:
+  openvino-plugins:
+    source: https://github.com/intel/openvino-plugins-for-obs-studio.git
+    source-type: git
+    plugin: dump
+    after: [ 'obs-studio' ]
+    build-environment:
+      - OpenVINO_DIR: /snap/openvino-toolkit-2404/current/usr/lib/x86_64-linux-gnu/cmake/openvino2025.1.0/
+    build-packages:
+      - libopencv-dev
+    build-snaps:
+      - openvino-toolkit-2404
+    override-build: |
+      set -eux
+      cd $CRAFT_PART_BUILD
+      cmake .
+      CORES="$(nproc)"
+      make -j$CORES
+      cp $CRAFT_PART_BUILD/intel64/Release/lib/*.so $CRAFT_PART_INSTALL/
+      mkdir $CRAFT_PART_INSTALL/{obs-smart-framing-ov,obs-face-mesh-ov,obs-backgroundconcealment-ov}
+      cp -R openvino-models/ $CRAFT_PART_INSTALL/
+    organize: 
+      libobs-backgroundconcealment-ov.so: (component/openvino-plugins)
+      libobs-face-mesh-ov.so: (component/openvino-plugins)
+      libobs-smart-framing-ov.so: (component/openvino-plugins)
+      obs-smart-framing-ov: (component/openvino-plugins)/obs-smart-framing-ov
+      obs-face-mesh-ov: (component/openvino-plugins)/obs-face-mesh-ov
+      obs-backgroundconcealment-ov: (component/openvino-plugins)/obs-backgroundconcealment-ov
+      openvino-models: (component/openvino-plugins)/openvino-models
+    stage-packages:
+      - libopencv-imgproc406t64
+      - libopencv-imgcodecs406t64
+      - libopencv-core406t64
+      - libtbb12
   obs-studio:
     source: https://ppa.launchpadcontent.net/obsproject/obs-studio/ubuntu/pool/main/o/obs-studio/obs-studio_31.0.3-0obsproject1~noble_amd64.deb
     source-type: deb
@@ -219,14 +257,12 @@ parts:
   deps:
     plugin: nil
     stage-packages:
-      - strace
       - ffmpeg
       - libavfilter9
       - libswresample4
       - libpostproc57
       - liblapack3
       - libblas3
-      - libvlc5
       - vlc-plugin-base
       - stterm
       - libfdk-aac2
@@ -293,6 +329,8 @@ apps:
       QT_QPA_PLATFORM_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins/platforms
       LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-plugins:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-scripting:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack:$LD_LIBRARY_PATH
       PATH: $SNAP/ffmpeg-platform/usr/bin:$PATH
+      OBS_PLUGINS_PATH: $SNAP/../components/$SNAP_REVISION/openvino-plugins
+      OBS_PLUGINS_DATA_PATH: $SNAP/../components/$SNAP_REVISION/openvino-plugins
     plugs:
       - alsa
       - audio-playback

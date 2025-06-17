@@ -3,315 +3,306 @@ summary: Live streaming and video recording software
 description: Free and open source software for video capturing, recording, and live
   streaming.
 version: "31.0.3"
-base: core22
+base: core24
 grade: stable
 confinement: strict
 license: GPL-2.0
-architectures:
-  - build-on: amd64
 compression: lzo
 
+platforms:
+  amd64:
+
+# FIXME: remove all of these binds once the snap is updated to 31.1 or later
+#   (These binds are necessary for obs-ffmpeg-mux because obs-studio currently
+#   does not pass envioronment variables to subprocesses and that causes
+#   recording files not to be created at all without any error being shown. This
+#   is fixed for next release so once 31.1 is released, these should be safe to
+#   remove.)
 layout:
-  /usr/lib/libndi.so.5:
-    symlink: $SNAP/usr/lib/libndi.so.5
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libobs.so.30:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libobs.so.30
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libavcodec.so.60:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libavcodec.so.60.31.102
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libavutil.so.58:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libavutil.so.58.29.100
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libavformat.so.60:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libavformat.so.60.16.100
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libswscale.so.7:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libswscale.so.7.5.100
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libswresample.so.4:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libswresample.so.4.12.100
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libjansson.so.4:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libjansson.so.4.14.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libX11.so.6:
+   bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libX11.so.6.4.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libX11-xcb.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libX11-xcb.so.1.0.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libxcb.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libxcb.so.1.1.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpulse.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpulse.so.0.24.2
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libwayland-client.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libwayland-client.so.0.22.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/bindtextdomain.so:
+    bind-file: $SNAP/gnome-platform/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/bindtextdomain.so
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libvpx.so.9:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libvpx.so.9.0.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libwebpmux.so.3:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libwebpmux.so.3.0.13
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libdav1d.so.7:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libdav1d.so.7.0.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/librsvg-2.so.2:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/librsvg-2.so.2.50.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libcairo.so.2:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libcairo.so.2.11800.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libzvbi.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libzvbi.so.0.13.2
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libsnappy.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libsnappy.so.1.1.10
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libaom.so.3:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libaom.so.3.8.2
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libcodec2.so.1.2:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libcodec2.so.1.2
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libgsm.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libgsm.so.1.0.19
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libjxl.so.0.7:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libjxl.so.0.7.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libjxl_threads.so.0.7:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libjxl_threads.so.0.7.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libmp3lame.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libmp3lame.so.0.0.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libopenjp2.so.7:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libopenjp2.so.2.5.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libopus.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libopus.so.0.9.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/librav1e.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/librav1e.so.0.7.1
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libshine.so.3:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libshine.so.3.0.1
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libspeex.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libspeex.so.1.5.2
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libSvtAv1Enc.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libSvtAv1Enc.so.1.7.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libtheoraenc.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libtheoraenc.so.1.1.2
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libtheoradec.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libtheoradec.so.1.1.4
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libtwolame.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libtwolame.so.0.0.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libvorbis.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libvorbis.so.0.4.9
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libvorbisenc.so.2:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libvorbisenc.so.2.0.12
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libwebp.so.7:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libwebp.so.7.1.8
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libx264.so.164:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libx264.so.164
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libx265.so.199:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libx265.so.199
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libxvidcore.so.4:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libxvidcore.so.4.3
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libva.so.2:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libva.so.2.2000.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libvpl.so.2:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libvpl.so.2.9
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libva-drm.so.2:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libva-drm.so.2.2000.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libva-x11.so.2:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libva-x11.so.2.2000.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libvdpau.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libvdpau.so.1.0.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libOpenCL.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libOpenCL.so.1.0.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libxml2.so.2:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libxml2.so.2.9.14
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libgme.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libgme.so.0.6.3
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libopenmpt.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libopenmpt.so.0.4.4
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libchromaprint.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libchromaprint.so.1.5.1
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libbluray.so.2:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libbluray.so.2.4.3
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/librabbitmq.so.4:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/librabbitmq.so.4.5.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/librist.so.4:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/librist.so.4.3.1
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libsrt-gnutls.so.1.5:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libsrt-gnutls.so.1.5.3
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libssh-gcrypt.so.4:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libssh-gcrypt.so.4.9.6
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libzmq.so.5:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libzmq.so.5.2.5
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libsoxr.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libsoxr.so.0.1.2
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libXau.so.6:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libXau.so.6.0.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libXdmcp.so.6:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libXdmcp.so.6.0.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpulsecommon-16.1.so:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio/libpulsecommon-16.1.so
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libcairo-gobject.so.2:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libcairo-gobject.so.2.11800.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libgdk_pixbuf-2.0.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libgdk_pixbuf-2.0.so.0.4200.10
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpangocairo-1.0.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpangocairo-1.0.so.0.5200.1
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpango-1.0.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpango-1.0.so.0.5200.1
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libfontconfig.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libfontconfig.so.1.12.1
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libXext.so.6:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libXext.so.6.4.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libXrender.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libXrender.so.1.3.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libxcb-render.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libxcb-render.so.0.0.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libxcb-shm.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libxcb-shm.so.0.0.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpixman-1.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpixman-1.so.0.42.2
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libhwy.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libhwy.so.1.0.7
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/liblcms2.so.2:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/liblcms2.so.2.0.14
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libogg.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libogg.so.0.8.5
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libsharpyuv.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libsharpyuv.so.0.0.1
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libnuma.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libnuma.so.1.0.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libXfixes.so.3:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libXfixes.so.3.1.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libxcb-dri3.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libxcb-dri3.so.0.1.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libicuuc.so.74:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libicuuc.so.74.2
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libmpg123.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libmpg123.so.0.48.2
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libvorbisfile.so.3:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libvorbisfile.so.3.3.8
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libudfread.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libudfread.so.0.1.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libmbedcrypto.so.7:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libmbedcrypto.so.2.28.8
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libcjson.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libcjson.so.1.7.17
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libsodium.so.23:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libsodium.so.23.3.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpgm-5.3.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpgm-5.3.so.0.0.128
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libnorm.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libnorm.so.1
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libgomp.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libgomp.so.1.0.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libsndfile.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libsndfile.so.1.0.37
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libasyncns.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libasyncns.so.0.3.1
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libjpeg.so.8:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libjpeg.so.8.2.2
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpangoft2-1.0.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpangoft2-1.0.so.0.5200.1
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libharfbuzz.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libharfbuzz.so.0.60830.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libfribidi.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libfribidi.so.0.4.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libthai.so.0:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libthai.so.0.3.1
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libicudata.so.74:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libicudata.so.74.2
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libFLAC.so.12:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libFLAC.so.12.1.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libgraphite2.so.3:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libgraphite2.so.3.2.1
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libdatrie.so.1:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libdatrie.so.1.4.0
 
 parts:
-  ndi:
-    plugin: dump
-    source: https://github.com/obs-ndi/obs-ndi/releases/download/4.11.1/libndi5_5.5.3-1_amd64.deb
+  obs-studio:
+    source: https://ppa.launchpadcontent.net/obsproject/obs-studio/ubuntu/pool/main/o/obs-studio/obs-studio_31.0.3-0obsproject1~noble_amd64.deb
     source-type: deb
-  launcher:
     plugin: dump
-    source: snap/local
-  obs:
-    plugin: dump
-    source: https://github.com/wimpysworld/obs-studio-portable/releases/download/r23356/obs-portable-30.0.2-r23356-ubuntu-22.04.tar.bz2
+  deps:
+    plugin: nil
     stage-packages:
-      - lib32gcc-s1
-      - lib32stdc++6
-      - libaom3
-      - libapparmor1
-      - libasound2
-      - libass9
-      - libasyncns0
-      - libatk-bridge2.0-0
-      - libatk1.0-0
-      - libatlas3-base
-      - libatspi2.0-0
-      - libavahi-client3
-      - libavahi-common3
-      - libavc1394-0
-      - libavcodec58
-      - libavdevice58
-      - libavfilter7
-      - libavformat58
-      - libavutil56
-      - libb2-1
+      - ffmpeg
+      - libavfilter9
+      - libswresample4
+      - libpostproc57
+      - liblapack3
       - libblas3
-      - libblkid1
-      - libbluray2
-      - libbrotli1
-      - libbs2b0
-      - libbsd0
-      - libbz2-1.0
-      - libc6
-      - libcaca0
-      - libcairo-gobject2
-      - libcairo2
-      - libcap2
-      - libcdio-cdda2
-      - libcdio-paranoia2
-      - libcdio19
-      - libchromaprint1
-      - libcodec2-1.0
-      - libcom-err2
-      - libcups2
-      - libcurl4
-      - libdatrie1
-      - libdav1d5
-      - libdb5.3
-      - libdbus-1-3
-      - libdc1394-25
-      - libdecor-0-0
-      - libdouble-conversion3
-      - libdrm2
-      - libdw1
-      - libegl1
-      - libelf1
-      - libexpat1
+      - libvlc5
+      - vlc-plugin-base
+      - stterm
       - libfdk-aac2
-      - libffi8
-      - libfftw3-single3
-      - libflac8
-      - libflite1
+      - libvlc5
+      - qt6-qpa-plugins
+      - librsvg2-common
+      - libgdk-pixbuf-2.0-0
+      - libcurl4
+      - pulseaudio
+      - qt6-image-formats-plugins
+      - qt6-wayland
+      - python3
+      - python3.12
+      - libavcodec60
+      - libavdevice60
+      - libavformat60
+      - libavutil58
+      - libc6
       - libfontconfig1
       - libfreetype6
-      - libfribidi0
-      - libgbm1
       - libgcc-s1
-      - libgcrypt20
-      - libgdk-pixbuf-2.0-0
-      - libgfortran5
-      - libgl1
-      - libglib2.0-0
-      - libglvnd0
       - libglx0
-      - libgme0
-      - libgmp10
-      - libgnutls30
-      - libgomp1
-      - libgpg-error0
-      - libgraphite2-3
-      - libgsm1
-      - libgssapi-krb5-2
-      - libgstreamer-plugins-base1.0-0
-      - libgstreamer1.0-0
-      - libharfbuzz0b
-      - libhogweed6
-      - libicu70
-      - libidn2-0
-      - libiec61883-0
-      - libjack-jackd2-0
       - libjansson4
-      - libjpeg-turbo8
-      - libk5crypto3
-      - libkeyutils1
-      - libkrb5-3
-      - libkrb5support0
-      - liblapack3
-      - libldap-2.5-0
-      - liblilv-0-0
       - libluajit-5.1-2
-      - liblz4-1
-      - liblzma5
-      - libmbedcrypto7
-      - libmbedtls14
-      - libmbedx509-1
-      - libmd0
-      - libmd4c0
-      - libmfx1
-      - libmount1
-      - libmp3lame0
-      - libmpg123-0
-      - libmysofa1
-      - libncursesw6
-      - libnettle8
-      - libnghttp2-14
-      - libnorm1
-      - libnspr4
-      - libnss3
-      - libnuma1
-      - libogg0
-      - libopenal1
-      - libopenblas0-pthread
-      - libopencv-calib3d4.5d
-      - libopencv-core4.5d
-      - libopencv-dnn4.5d
-      - libopencv-features2d4.5d
-      - libopencv-flann4.5d
-      - libopencv-imgproc4.5d
-      - libopencv-objdetect4.5d
+      - libmbedcrypto7t64
+      - libmbedtls14t64
+      - libmbedx509-1t64
       - libopengl0
-      - libopenjp2-7
-      - libopenmpt0
-      - libopus0
-      - liborc-0.4-0
-      - libp11-kit0
-      - libpango-1.0-0
-      - libpangocairo-1.0-0
-      - libpangoft2-1.0-0
       - libpci3
-      - libpcre2-16-0
-      - libpcre2-8-0
-      - libpcre3
-      - libpgm-5.3-0
-      - libpipewire-0.3-0
-      - libpixman-1-0
-      - libpng16-16
-      - libpocketsphinx3
-      - libpostproc55
-      - libprocps8
-      - libprotobuf23
-      - libproxy1v5
-      - libpsl5
-      - libpugixml1v5
       - libpulse0
-      - libpython3.10
+      - libpython3.12t64
       - libqrcodegencpp1
-      - libqt6core6
-      - libqt6dbus6
-      - libqt6gui6
-      - libqt6network6
+      - libqt6core6t64
+      - libqt6gui6t64
+      - libqt6network6t64
       - libqt6svg6
-      - libqt6widgets6
-      - libqt6xml6
-      - libquadmath0
-      - librabbitmq4
-      - libraw1394-11
-      - librsvg2-2
-      - librtmp1
-      - librubberband2
-      - libsamplerate0
-      - libsasl2-2
-      - libsdl2-2.0-0
-      - libselinux1
-      - libserd-0-0
-      - libshine3
-      - libslang2
-      - libsnappy1v5
-      - libsndfile1
-      - libsndio7.0
-      - libsodium23
-      - libsord-0-0
-      - libsoxr0
-      - libspeex1
+      - libqt6widgets6t64
+      - libqt6xml6t64
+      - librist4
       - libspeexdsp1
-      - libsphinxbase3
-      - libsratom-0-0
-      - libsrt1.4-gnutls
-      - libssh-4
-      - libssh-gcrypt-4
-      - libssl3
+      - libsrt1.5-openssl
       - libstdc++6
-      - libswresample3
-      - libswscale5
-      - libsystemd0
-      - libtasn1-6
-      - libtbb2
-      - libthai0
-      - libtheora0
-      - libtinfo6
-      - libtwolame0
+      - libswscale7
       - libudev1
-      - libudfread0
-      - libunistring2
-      - libunwind8
-      - libusb-1.0-0
-      - libuuid1
-      - libv4l-0
-      - libv4lconvert0
+      - libv4l-0t64
       - libva-drm2
-      - libva-x11-2
       - libva2
-      - libvdpau1
-      - libvidstab1.1
-      - libvorbis0a
-      - libvorbisenc2
-      - libvorbisfile3
-      - libvpl2
-      - libvpx7
-      - libwayland-client0
-      - libwayland-cursor0
-      - libwayland-egl1
-      - libwayland-server0
-      - libwebp7
-      - libwebpmux3
       - libx11-6
-      - libx11-xcb1
-      - libx264-163
-      - libx265-199
-      - libxau6
+      - libx264-164
       - libxcb-composite0
       - libxcb-randr0
-      - libxcb-render0
-      - libxcb-shape0
       - libxcb-shm0
       - libxcb-xfixes0
       - libxcb-xinerama0
       - libxcb1
-      - libxcomposite1
-      - libxcursor1
-      - libxdamage1
-      - libxdmcp6
-      - libxext6
-      - libxfixes3
-      - libxi6
-      - libxinerama1
       - libxkbcommon0
-      - libxml2
-      - libxrandr2
-      - libxrender1
-      - libxss1
-      - libxv1
-      - libxvidcore4
-      - libxxf86vm1
-      - libzimg2
-      - libzmq5
-      - libzstd1
-      - libzvbi0
-      - pipewire-bin
-      - ocl-icd-libopencl1
-      - zlib1g
-      - qt6-image-formats-plugins
-      - qt6-qpa-plugins
-      - qt6-wayland
-      - gstreamer1.0-plugins-good
-      - gstreamer1.0-plugins-bad
-      - gstreamer1.0-plugins-ugly
-      - gstreamer1.0-x
-      - libgles2-mesa
-      - libvlc5
-      - vlc-plugin-base
-      - stterm
-  cleanup:
-    after: [obs, ndi, launcher]
-    plugin: nil
-    build-snaps: [gnome-42-2204]
-    override-prime: |
-      set -eux
-      cd /snap/gnome-42-2204/current
-      find . -type f,l -exec rm -f $CRAFT_PRIME/{} \;
+
 apps:
   obs-studio:
-    common-id: com.obsproject.Studio
+    # obs is run with --multi because it tries to bind a UNIX socket as lock
+    # file but it's not namespaced as would be necessary for a snap in strict
+    # confinement, without --multi it shows a warning at every startup that obs
+    # is already running
+    command: usr/bin/obs --multi
     extensions: [gnome]
-    command: obs-wrapper
     environment:
-      QT_PLUGIN_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt6/plugins:$QT_PLUGIN_PATH
-      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/lapack:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/openblas-pthread:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/blas:$SNAP/bin/64bit:$SNAP/obs-plugins/64bit:$SNAP/data/obs-scripting/64bit:$SNAP/cef:$SNAP/lib
-      PIPEWIRE_CONFIG_NAME: $SNAP/usr/share/pipewire/pipewire.conf
-      PIPEWIRE_MODULE_DIR: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pipewire-0.3
-      SPA_PLUGIN_DIR: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/spa-0.2
+      QT_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins:$QT_PLUGIN_PATH
+      QT_QPA_PLATFORM_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins/platforms
+      LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-plugins:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-scripting:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack:$LD_LIBRARY_PATH
+      PATH: $SNAP/ffmpeg-platform/usr/bin:$PATH
     plugs:
       - alsa
       - audio-playback

@@ -1,0 +1,13 @@
+#!/bin/bash
+set -eux
+
+for SRC_DIR in $SNAP_DATA/obs-plugins-mounts/plug*; do
+	for DIR in $(find $SRC_DIR -type d -printf '%P\n'); do
+		TARGET_DIR="$SNAP_DATA/obs-plugins/$DIR"
+		mkdir -p "$TARGET_DIR"
+
+		for FILE in $(find $SRC_DIR/$DIR -maxdepth 1 -not -type d -printf '%P\n'); do
+			ln -sf "$SRC_DIR/$DIR/$FILE" "$TARGET_DIR/"
+		done
+	done
+done

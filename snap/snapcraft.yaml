@@ -4,12 +4,32 @@ version: '31.0.3'
 summary: Live streaming and video recording software.
 description: OBS Studio is software designed for capturing, compositing, encoding, recording, and streaming video content, efficiently.
 
-grade: devel
+grade: stable
 confinement: strict
 
 platforms:
   amd64:
 
+plugs:
+  intel-npu:
+    interface: custom-device
+    custom-device: intel-npu-device
+  npu-libs:
+    interface: content
+    content: npu-libs-2404
+    target: $SNAP/npu-libs
+  openvino-libs:
+    interface: content
+    content: openvino-libs-2404
+    target: $SNAP/openvino
+
+
+# FIXME: remove all of these binds once the snap is updated to 31.1 or later
+#   (These binds are necessary for obs-ffmpeg-mux because obs-studio currently
+#   does not pass envioronment variables to subprocesses and that causes
+#   recording files not to be created at all without any error being shown. This
+#   is fixed for next release so once 31.1 is released, these should be safe to
+#   remove.)
 layout:
   /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libobs.so.30:
     bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libobs.so.30
@@ -322,12 +342,16 @@ parts:
 
 apps:
   obs-studio:
-    command: usr/bin/obs
+    # obs is run with --multi because it tries to bind a UNIX socket as lock
+    # file but it's not namespaced as would be necessary for a snap in strict
+    # confinement, without --multi it shows a warning at every startup that obs
+    # is already running
+    command: usr/bin/obs --multi
     extensions: [gnome]
     environment:
       QT_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins:$QT_PLUGIN_PATH
       QT_QPA_PLATFORM_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins/platforms
-      LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-plugins:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-scripting:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack:$LD_LIBRARY_PATH
+      LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-plugins:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-scripting:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack:$SNAP/npu-libs:$LD_LIBRARY_PATH
       PATH: $SNAP/ffmpeg-platform/usr/bin:$PATH
       OBS_PLUGINS_PATH: $SNAP/../components/$SNAP_REVISION/openvino-plugins
       OBS_PLUGINS_DATA_PATH: $SNAP/../components/$SNAP_REVISION/openvino-plugins
@@ -361,3 +385,5 @@ apps:
       - upower-observe
       - wayland
       - x11
+      - intel-npu
+      - npu-libs

@@ -20,4 +20,9 @@ elif [ "${XDG_SESSION_TYPE}" == "x11" ]; then
 fi
 
 unset SESSION_MANAGER
+
+# obs is run with --multi because it tries to bind a UNIX socket as lock
+# file but it's not namespaced as would be necessary for a snap in strict
+# confinement, without --multi it shows a warning at every startup that obs
+# is already running
 exec obs --multi  "${@}"

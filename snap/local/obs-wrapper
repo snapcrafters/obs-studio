@@ -20,5 +20,4 @@ elif [ "${XDG_SESSION_TYPE}" == "x11" ]; then
 fi
 
 unset SESSION_MANAGER
-cd "${SNAP}/bin/64bit" || exit 1
-exec ./obs --multi  "${@}"
+exec obs --multi  "${@}"

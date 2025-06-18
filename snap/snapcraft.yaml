@@ -219,6 +219,9 @@ layout:
     bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libdatrie.so.1.4.0
 
 parts:
+  launcher:
+    plugin: dump
+    source: snap/local
   obs-studio:
     source: https://ppa.launchpadcontent.net/obsproject/obs-studio/ubuntu/pool/main/o/obs-studio/obs-studio_31.0.3-0obsproject1~noble_amd64.deb
     source-type: deb
@@ -296,7 +299,7 @@ apps:
     # file but it's not namespaced as would be necessary for a snap in strict
     # confinement, without --multi it shows a warning at every startup that obs
     # is already running
-    command: usr/bin/obs --multi
+    command: obs-wrapper
     extensions: [gnome]
     environment:
       QT_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins:$QT_PLUGIN_PATH

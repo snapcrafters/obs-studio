@@ -30,41 +30,29 @@ parts:
     plugin: nil
     stage-packages:
       - ffmpeg
-      - libavfilter9
-      - libswresample4
-      - libpostproc57
-      - liblapack3
-      - libblas3
-      - libvlc5
-      - vlc-plugin-base
-      - stterm
-      - libfdk-aac2
-      - libvlc5
-      - qt6-qpa-plugins
-      - librsvg2-common
-      - libgdk-pixbuf-2.0-0
-      - libcurl4
-      - pulseaudio
-      - qt6-image-formats-plugins
-      - qt6-wayland
-      - python3
-      - python3.12
       - libavcodec60
       - libavdevice60
+      - libavfilter9
       - libavformat60
       - libavutil58
+      - libblas3
       - libc6
+      - libcurl4
+      - libfdk-aac2
       - libfontconfig1
       - libfreetype6
       - libgcc-s1
+      - libgdk-pixbuf-2.0-0
       - libglx0
       - libjansson4
+      - liblapack3
       - libluajit-5.1-2
       - libmbedcrypto7t64
       - libmbedtls14t64
       - libmbedx509-1t64
       - libopengl0
       - libpci3
+      - libpostproc57
       - libpulse0
       - libpython3.12t64
       - libqrcodegencpp1
@@ -75,23 +63,35 @@ parts:
       - libqt6widgets6t64
       - libqt6xml6t64
       - librist4
+      - librsvg2-common
       - libspeexdsp1
       - libsrt1.5-openssl
       - libstdc++6
+      - libswresample4
       - libswscale7
       - libudev1
       - libv4l-0t64
-      - libva-drm2
       - libva2
+      - libva-drm2
+      - libvlc5
+      - libvlc5
       - libx11-6
       - libx264-164
+      - libxcb1
       - libxcb-composite0
       - libxcb-randr0
       - libxcb-shm0
       - libxcb-xfixes0
       - libxcb-xinerama0
-      - libxcb1
       - libxkbcommon0
+      - pulseaudio
+      - python3
+      - python3.12
+      - qt6-image-formats-plugins
+      - qt6-qpa-plugins
+      - qt6-wayland
+      - stterm
+      - vlc-plugin-base
 
 apps:
   obs-studio:

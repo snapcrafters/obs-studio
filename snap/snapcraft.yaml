@@ -23,6 +23,11 @@ parts:
   obs-studio:
     source: https://ppa.launchpadcontent.net/obsproject/obs-studio/ubuntu/pool/main/o/obs-studio/obs-studio_31.0.3-0obsproject1~noble_amd64.deb
     build-attributes:
+      # OBS Studio currently does not forward environment variables to
+      # subprocesses, so they don't get LD_LIBRARY_PATH. To get the right paths
+      # to libraries, patchelf is used to modify the ELF rpath.
+      # (https://github.com/obsproject/obs-studio/issues/12246)
+      # Note: this might be redundant after the 31.1 version is released
       - enable-patchelf
     source-type: deb
     plugin: dump

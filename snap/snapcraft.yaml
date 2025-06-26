@@ -54,6 +54,7 @@ parts:
     plugin: nil
     stage-packages:
       - ffmpeg
+      - libasound2t64
       - libavcodec60
       - libavdevice60
       - libavfilter9

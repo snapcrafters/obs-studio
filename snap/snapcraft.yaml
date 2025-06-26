@@ -126,6 +126,7 @@ parts:
       - OpenVINO_DIR: /snap/openvino-toolkit-2404/current/usr/lib/x86_64-linux-gnu/cmake/openvino2025.1.0/
     build-packages:
       - libopencv-dev
+      - cmake
     build-snaps:
       - openvino-toolkit-2404
     override-build: |

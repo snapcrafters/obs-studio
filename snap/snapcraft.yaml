@@ -151,6 +151,43 @@ parts:
       - libopencv-imgcodecs406t64
       - libopencv-core406t64
       - libtbb12
+  opencl:
+    # Includes all the compute runtime and OpenCL bits needed for Intel GPU support
+    plugin: nil
+    build-packages:
+      - wget
+    override-build: |
+      if [ "$CRAFT_ARCH_BUILD_FOR" == "amd64" ]; then
+        mkdir -p neo
+        cd neo
+        # Install Intel graphics compiler and compute runtime
+        # This is required to enable GPU support for OpenVINO
+        # https://docs.openvino.ai/2024/get-started/configurations/configurations-intel-gpu.html
+        intel_graphics_compiler_version="2.5.6"
+        intel_graphics_compiler_build="18417"
+        compute_runtime_version="24.52.32224.5"
+        wget https://github.com/intel/intel-graphics-compiler/releases/download/v${intel_graphics_compiler_version}/intel-igc-core-2_${intel_graphics_compiler_version}+${intel_graphics_compiler_build}_amd64.deb
+        wget https://github.com/intel/intel-graphics-compiler/releases/download/v${intel_graphics_compiler_version}/intel-igc-opencl-2_${intel_graphics_compiler_version}+${intel_graphics_compiler_build}_amd64.deb
+        wget https://github.com/intel/compute-runtime/releases/download/${compute_runtime_version}/intel-level-zero-gpu_1.6.32224.5_amd64.deb
+        wget https://github.com/intel/compute-runtime/releases/download/${compute_runtime_version}/intel-opencl-icd_${compute_runtime_version}_amd64.deb
+        wget https://github.com/intel/compute-runtime/releases/download/${compute_runtime_version}/libigdgmm12_22.5.5_amd64.deb
+        dpkg --root=$CRAFT_PART_INSTALL --force-all -i *.deb
+        # update paths to the Intel Installable Client Drivers (ICDs) for OpenCL
+        intel_icd="${CRAFT_PART_INSTALL}"/etc/OpenCL/vendors/intel.icd
+        intel_icd_so_path=$(cat ${intel_icd})
+        base_path="/snap/${SNAPCRAFT_PROJECT_NAME}/current"
+        echo "${base_path}""${intel_icd_so_path}" > "${intel_icd}"
+        intel_legacy1_icd="${CRAFT_PART_INSTALL}"/etc/OpenCL/vendors/intel_legacy1.icd
+        if [ -f ${intel_legacy1_icd} ]; then
+          intel_legacy1_icd_so_path=$(cat ${intel_legacy1_icd})
+          echo "${base_path}""${intel_legacy1_icd_so_path}" > "${intel_legacy1_icd}"
+        fi
+        # fix broken sym links
+        cd "${CRAFT_PART_INSTALL}"
+        ln -sf "${base_path}"/usr/bin/ocloc-24.39.1 etc/alternatives/ocloc
+        ln -sf "${base_path}"/etc/alternatives/ocloc usr/bin/ocloc
+        craftctl default
+      fi
 
 apps:
   obs-studio:
@@ -162,6 +199,7 @@ apps:
       LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-plugins:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-scripting:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack:$SNAP/npu-libs:$LD_LIBRARY_PATH
       OBS_PLUGINS_PATH: $SNAP/../components/$SNAP_REVISION/openvino-plugins
       OBS_PLUGINS_DATA_PATH: $SNAP/../components/$SNAP_REVISION/openvino-plugins
+      OCL_ICD_VENDORS: $SNAP/etc/OpenCL/vendors
     plugs:
       - alsa
       - audio-playback

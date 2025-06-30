@@ -30,6 +30,22 @@ sudo snap connect obs-studio:screencast-legacy
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/obs-studio)
 
+## Camera
+
+To access camera, manually connect to the camera plug:
+
+```shell
+snap connect obs-studio:camera
+```
+
+## Sound
+
+To record sound, manually connect the pulseaudio plug:
+
+```shell
+snap connect obs-studio:pulseaudio
+```
+
 ## Wayland
 
 Screen and Window capture in a Wayland session is supported in OBS 27.0.0 or
@@ -41,14 +57,6 @@ To access content on external storage, manually connect to the removable-media p
 
 ```shell
 snap connect obs-studio:removable-media
-```
-
-## Camera
-
-To access camera, manually connect to the camera plug:
-
-```shell
-snap connect obs-studio:camera
 ```
 
 ## OBS Virtual Camera

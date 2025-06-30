@@ -59,6 +59,23 @@ To access content on external storage, manually connect to the removable-media p
 snap connect obs-studio:removable-media
 ```
 
+## OpenVINO™ AI plugins
+
+If you want to use [AI-enabled plugins](https://github.com/intel/openvino-plugins-for-obs-studio)
+such as **Background Concealment**, **Face Mesh** and **Smart Framing**,
+install the `openvino-plugins` component:
+
+```shell
+sudo snap install obs-studio+openvino-plugins
+```
+
+These plugins can also take advantage of an NPU if your machine has one. To
+enable this, add your user to the `render` group and re-login to your session:
+
+```shell
+sudo usermod -a -G render $USER
+```
+
 ## OBS Virtual Camera
 
 Starting with OBS Studio 26.1, Virtual Camera support is integrated. The

@@ -63,16 +63,19 @@ snap connect obs-studio:removable-media
 
 If you want to use [AI-enabled plugins](https://github.com/intel/openvino-plugins-for-obs-studio)
 such as **Background Concealment**, **Face Mesh** and **Smart Framing**,
-install the `openvino-plugins` component:
+install the `openvino-plugins` component and the OpenVINO™ toolkit snap:
 
 ```shell
 sudo snap install obs-studio+openvino-plugins
+sudo snap install openvino-toolkit-2404
 ```
 
 These plugins can also take advantage of an NPU if your machine has one. To
-enable this, add your user to the `render` group and re-login to your session:
+enable this, install the necessary snaps and add your user to the `render`
+group and re-login to your session:
 
 ```shell
+sudo snap install intel-npu-driver
 sudo usermod -a -G render $USER
 ```
 

@@ -17,6 +17,14 @@ package-repositories:
     ppa: obsproject/obs-studio
     priority: prefer
     key-id: BC7345F522079769F5BBE987EFC71127F425E228
+  - type: apt
+    ppa: kobuk-team/intel-graphics
+    priority: prefer
+    key-id: 0C0E6AF955CE463C03FC51574D098D70AFBE5E1F
+
+layout:
+  /usr/lib/x86_64-linux-gnu/dri:
+    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/dri
 plugs:
   ffmpeg-2404:
     interface: content
@@ -97,6 +105,23 @@ parts:
       - qt6-wayland
       - stterm
       - vlc-plugin-base
+  intel-graphics:
+    plugin: nil
+    stage-packages:
+      - vainfo
+      - intel-media-va-driver-non-free
+      - libvpl2
+      - libvpl-dev
+      - libva-drm2
+      - libva-glx2
+      - libva-wayland2
+      - libva-x11-2
+      - libva-dev
+      - libmfx1
+      - libmfx-gen1
+      - libmfx-gen-dev
+      - libigdgmm12
+      - libigdgmm-dev
 
 apps:
   obs-studio:

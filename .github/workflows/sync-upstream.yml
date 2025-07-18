@@ -27,4 +27,3 @@ jobs:
             DEB_URL=${FOLDER}$(curl -s "${FOLDER}" | grep "${DISTRO_CODE}" | grep -oP 'href="[^"]+\.deb"' | cut -d'"' -f2 | sort -V | tail -n 1)
             VERSION="$(basename "$DEB_URL" | sed -E 's/^[^_]+_([0-9]+\.[0-9]+\.[0-9]+)-.*$/\1/')"
             sed -i 's/^\(version: \).*$/\1'\"$VERSION\"'/' snap/snapcraft.yaml
-            sed -Ei '/^  obs-studio:/,/^  [^ ]/{s|^( +source: ).*|\1'"$DEB_URL"'|}' snap/snapcraft.yaml

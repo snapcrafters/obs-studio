@@ -2,7 +2,7 @@ name: obs-studio
 summary: Live streaming and video recording software
 description: Free and open source software for video capturing, recording, and live
   streaming.
-version: "31.0.3"
+version: "31.1.1"
 base: core24
 grade: stable
 confinement: strict
@@ -12,9 +12,21 @@ compression: lzo
 platforms:
   amd64:
 
-layout:
-  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:
-    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio
+package-repositories:
+  - type: apt
+    ppa: obsproject/obs-studio
+    priority: prefer
+    key-id: BC7345F522079769F5BBE987EFC71127F425E228
+  - type: apt
+    ppa: kobuk-team/intel-graphics
+    priority: prefer
+    key-id: 0C0E6AF955CE463C03FC51574D098D70AFBE5E1F
+
+plugs:
+  ffmpeg-2404:
+    interface: content
+    target: ffmpeg-platform
+    default-provider: ffmpeg-2404
 
 plugs:
   intel-npu:
@@ -39,83 +51,12 @@ parts:
   launcher:
     plugin: dump
     source: snap/local
+
   obs-studio:
-    source: https://ppa.launchpadcontent.net/obsproject/obs-studio/ubuntu/pool/main/o/obs-studio/obs-studio_31.0.3-0obsproject1~noble_amd64.deb
-    build-attributes:
-      # OBS Studio currently does not forward environment variables to
-      # subprocesses, so they don't get LD_LIBRARY_PATH. To get the right paths
-      # to libraries, patchelf is used to modify the ELF rpath.
-      # (https://github.com/obsproject/obs-studio/issues/12246)
-      # Note: this might be redundant after the 31.1 version is released
-      - enable-patchelf
-    source-type: deb
-    plugin: dump
-  deps:
     plugin: nil
     stage-packages:
-      - ffmpeg
-      - libasound2t64
-      - libavcodec60
-      - libavdevice60
-      - libavfilter9
-      - libavformat60
-      - libavutil58
-      - libblas3
-      - libc6
-      - libcurl4
-      - libfdk-aac2
-      - libfontconfig1
-      - libfreetype6
-      - libgcc-s1
-      - libgdk-pixbuf-2.0-0
-      - libglx0
-      - libjansson4
-      - liblapack3
-      - libluajit-5.1-2
-      - libmbedcrypto7t64
-      - libmbedtls14t64
-      - libmbedx509-1t64
-      - libopengl0
-      - libpci3
-      - libpostproc57
-      - libpulse0
-      - libpython3.12t64
-      - libqrcodegencpp1
-      - libqt6core6t64
-      - libqt6gui6t64
-      - libqt6network6t64
-      - libqt6svg6
-      - libqt6widgets6t64
-      - libqt6xml6t64
-      - librist4
-      - librsvg2-common
-      - libspeexdsp1
-      - libsrt1.5-openssl
-      - libstdc++6
-      - libswresample4
-      - libswscale7
-      - libudev1
-      - libv4l-0t64
-      - libva2
-      - libva-drm2
+      - obs-studio
       - libvlc5
-      - libvlc5
-      - libx11-6
-      - libx264-164
-      - libxcb1
-      - libxcb-composite0
-      - libxcb-randr0
-      - libxcb-shm0
-      - libxcb-xfixes0
-      - libxcb-xinerama0
-      - libxkbcommon0
-      - pulseaudio
-      - python3
-      - python3.12
-      - qt6-image-formats-plugins
-      - qt6-qpa-plugins
-      - qt6-wayland
-      - stterm
       - vlc-plugin-base
   openvino-plugins:
     source: https://github.com/intel/openvino-plugins-for-obs-studio.git
@@ -189,6 +130,24 @@ parts:
         craftctl default
       fi
 
+  intel-graphics:
+    plugin: nil
+    stage-packages:
+      - vainfo
+      - intel-media-va-driver-non-free
+      - libvpl2
+      - libvpl-dev
+      - libva-drm2
+      - libva-glx2
+      - libva-wayland2
+      - libva-x11-2
+      - libva-dev
+      - libmfx1
+      - libmfx-gen1
+      - libmfx-gen-dev
+      - libigdgmm12
+      - libigdgmm-dev
+
 apps:
   obs-studio:
     command: obs-wrapper
@@ -196,7 +155,9 @@ apps:
     environment:
       QT_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins:$QT_PLUGIN_PATH
       QT_QPA_PLATFORM_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins/platforms
-      LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-plugins:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-scripting:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack:$SNAP/npu-libs:$LD_LIBRARY_PATH
+      LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-plugins:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-scripting:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack:$SNAP/ffmpeg-platform/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/npu-libs:$LD_LIBRARY_PATH
+      PATH: $SNAP/ffmpeg-platform/usr/bin:$PATH
+      LIBVA_DRIVERS_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/dri:$LIBVA_DRIVERS_PATH
       OBS_PLUGINS_PATH: $SNAP/../components/$SNAP_REVISION/openvino-plugins
       OBS_PLUGINS_DATA_PATH: $SNAP/../components/$SNAP_REVISION/openvino-plugins
       OCL_ICD_VENDORS: $SNAP/etc/OpenCL/vendors

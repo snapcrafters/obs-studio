@@ -27,8 +27,6 @@ plugs:
     interface: content
     target: ffmpeg-platform
     default-provider: ffmpeg-2404
-
-plugs:
   intel-npu:
     interface: custom-device
     custom-device: intel-npu-device
@@ -111,7 +109,6 @@ parts:
         wget https://github.com/intel/intel-graphics-compiler/releases/download/v${intel_graphics_compiler_version}/intel-igc-opencl-2_${intel_graphics_compiler_version}+${intel_graphics_compiler_build}_amd64.deb
         wget https://github.com/intel/compute-runtime/releases/download/${compute_runtime_version}/intel-level-zero-gpu_1.6.32224.5_amd64.deb
         wget https://github.com/intel/compute-runtime/releases/download/${compute_runtime_version}/intel-opencl-icd_${compute_runtime_version}_amd64.deb
-        wget https://github.com/intel/compute-runtime/releases/download/${compute_runtime_version}/libigdgmm12_22.5.5_amd64.deb
         dpkg --root=$CRAFT_PART_INSTALL --force-all -i *.deb
         # update paths to the Intel Installable Client Drivers (ICDs) for OpenCL
         intel_icd="${CRAFT_PART_INSTALL}"/etc/OpenCL/vendors/intel.icd

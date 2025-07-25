@@ -34,10 +34,6 @@ plugs:
     interface: content
     content: npu-libs-2404
     target: $SNAP/npu-libs
-  openvino-libs:
-    interface: content
-    content: openvino-libs-2404
-    target: $SNAP/openvino
 
 components:
   openvino-plugins:
@@ -56,18 +52,19 @@ parts:
       - obs-studio
       - libvlc5
       - vlc-plugin-base
+
   openvino-plugins:
     source: https://github.com/intel/openvino-plugins-for-obs-studio.git
     source-type: git
     plugin: dump
     after: [ 'obs-studio' ]
     build-environment:
-      - OpenVINO_DIR: /snap/openvino-toolkit-2404/current/usr/lib/x86_64-linux-gnu/cmake/openvino2025.1.0/
+      - OpenVINO_DIR: /snap/openvino-toolkit-2404/current/usr/lib/x86_64-linux-gnu/cmake/
     build-packages:
       - libopencv-dev
       - cmake
     build-snaps:
-      - openvino-toolkit-2404
+      - openvino-toolkit-2404/2025/stable
     override-build: |
       set -eux
       cd $CRAFT_PART_BUILD
@@ -78,18 +75,22 @@ parts:
       mkdir $CRAFT_PART_INSTALL/{obs-smart-framing-ov,obs-face-mesh-ov,obs-backgroundconcealment-ov}
       cp -R openvino-models/ $CRAFT_PART_INSTALL/
     organize:
-      libobs-backgroundconcealment-ov.so: (component/openvino-plugins)
-      libobs-face-mesh-ov.so: (component/openvino-plugins)
-      libobs-smart-framing-ov.so: (component/openvino-plugins)
-      obs-smart-framing-ov: (component/openvino-plugins)/obs-smart-framing-ov
-      obs-face-mesh-ov: (component/openvino-plugins)/obs-face-mesh-ov
-      obs-backgroundconcealment-ov: (component/openvino-plugins)/obs-backgroundconcealment-ov
-      openvino-models: (component/openvino-plugins)/openvino-models
+      libobs-backgroundconcealment-ov.so: (component/openvino-plugins)/obs-plugins/
+      libobs-face-mesh-ov.so: (component/openvino-plugins)/obs-plugins/
+      libobs-smart-framing-ov.so: (component/openvino-plugins)/obs-plugins/
+      obs-smart-framing-ov: (component/openvino-plugins)/obs-plugins/obs-smart-framing-ov
+      obs-face-mesh-ov: (component/openvino-plugins)/obs-plugins/obs-face-mesh-ov
+      obs-backgroundconcealment-ov: (component/openvino-plugins)/obs-plugins/obs-backgroundconcealment-ov
+      openvino-models: (component/openvino-plugins)/obs-plugins/openvino-models
+      usr: (component/openvino-plugins)/usr
     stage-packages:
       - libopencv-imgproc406t64
       - libopencv-imgcodecs406t64
       - libopencv-core406t64
       - libtbb12
+    stage-snaps:
+      - openvino-toolkit-2404/2025/stable
+
   opencl:
     # Includes all the compute runtime and OpenCL bits needed for Intel GPU support
     plugin: nil
@@ -152,11 +153,11 @@ apps:
     environment:
       QT_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins:$QT_PLUGIN_PATH
       QT_QPA_PLATFORM_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins/platforms
-      LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-plugins:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-scripting:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack:$SNAP/ffmpeg-platform/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/npu-libs:$LD_LIBRARY_PATH
+      LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-plugins:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-scripting:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack:$SNAP/ffmpeg-platform/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/npu-libs:$SNAP/../components/$SNAP_REVISION/openvino-plugins/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/../components/$SNAP_REVISION/openvino-plugins/usr/lib:$LD_LIBRARY_PATH
       PATH: $SNAP/ffmpeg-platform/usr/bin:$PATH
       LIBVA_DRIVERS_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/dri:$LIBVA_DRIVERS_PATH
-      OBS_PLUGINS_PATH: $SNAP/../components/$SNAP_REVISION/openvino-plugins
-      OBS_PLUGINS_DATA_PATH: $SNAP/../components/$SNAP_REVISION/openvino-plugins
+      OBS_PLUGINS_PATH: $SNAP/../components/$SNAP_REVISION/openvino-plugins/obs-plugins
+      OBS_PLUGINS_DATA_PATH: $SNAP/../components/$SNAP_REVISION/openvino-plugins/obs-plugins
       OCL_ICD_VENDORS: $SNAP/etc/OpenCL/vendors
     plugs:
       - alsa

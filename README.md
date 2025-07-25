@@ -67,7 +67,6 @@ install the `openvino-plugins` component and the OpenVINO™ toolkit snap:
 
 ```shell
 sudo snap install obs-studio+openvino-plugins
-sudo snap install openvino-toolkit-2404
 ```
 
 These plugins can also take advantage of an NPU if your machine has one. To

@@ -2,7 +2,7 @@ name: obs-studio
 summary: Live streaming and video recording software
 description: Free and open source software for video capturing, recording, and live
   streaming.
-version: "31.1.1"
+version: "31.1.2"
 base: core24
 grade: stable
 confinement: strict

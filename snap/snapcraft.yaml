@@ -57,18 +57,53 @@ parts:
       - libvlc5
       - vlc-plugin-base
 
+  intel-graphics:
+    plugin: nil
+    stage-packages:
+      - clinfo
+      - intel-gsc
+      - intel-level-zero-gpu
+      - intel-media-va-driver-non-free
+      - intel-metrics-discovery
+      - intel-ocloc
+      - intel-ocloc-dev
+      - intel-opencl-icd
+      - libigc2
+      - libigc-dev
+      - libigc-tools
+      - libigdfcl2
+      - libigdfcl-dev
+      - libigdgmm12
+      - libigdgmm-dev
+      - libmfx1
+      - libmfx-gen1
+      - libmfx-gen-dev
+      - libva-dev
+      - libva-drm2
+      - libva-glx2
+      - libva-wayland2
+      - libva-x11-2
+      - libvpl2
+      - libvpl-dev
+      - libze1
+      - libze-dev
+      - libze-intel-gpu1
+      - libze-intel-gpu-dev
+      - ocl-icd-libopencl1
+      - vainfo
+
   openvino-plugins:
     source: https://github.com/intel/openvino-plugins-for-obs-studio.git
     source-type: git
     plugin: dump
     after: [ 'obs-studio' ]
     build-environment:
-      - OpenVINO_DIR: /snap/openvino-toolkit-2404/current/usr/lib/x86_64-linux-gnu/cmake/
+      - OpenVINO_DIR: /snap/openvino-toolkit-2404/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/cmake/
     build-packages:
       - libopencv-dev
       - cmake
     build-snaps:
-      - openvino-toolkit-2404/2025/stable
+      - openvino-toolkit-2404/latest/stable
     override-build: |
       set -eux
       cd $CRAFT_PART_BUILD
@@ -93,39 +128,7 @@ parts:
       - libopencv-core406t64
       - libtbb12
     stage-snaps:
-      - openvino-toolkit-2404/2025/stable
-
-  opencl:
-    plugin: nil
-    stage-packages:
-      - libze-intel-gpu1
-      - libze1
-      - intel-metrics-discovery
-      - intel-opencl-icd
-      - clinfo
-      - intel-gsc
-      - ocl-icd-libopencl1
-      - intel-level-zero-gpu
-      - libze-dev
-      - intel-ocloc
-
-  intel-graphics:
-    plugin: nil
-    stage-packages:
-      - vainfo
-      - intel-media-va-driver-non-free
-      - libvpl2
-      - libvpl-dev
-      - libva-drm2
-      - libva-glx2
-      - libva-wayland2
-      - libva-x11-2
-      - libva-dev
-      - libmfx1
-      - libmfx-gen1
-      - libmfx-gen-dev
-      - libigdgmm12
-      - libigdgmm-dev
+      - openvino-toolkit-2404/latest/stable
 
 apps:
   obs-studio:

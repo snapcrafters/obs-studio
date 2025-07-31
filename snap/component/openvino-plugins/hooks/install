@@ -1,0 +1,16 @@
+#!/bin/bash
+set -eux
+
+function link_files() {
+	SRC_DIR="${SNAP_COMPONENT}/$1"
+	TARGET_DIR="${SNAP_DATA}/$1"
+	if [ -d "${SRC_DIR}" ]; then
+		mkdir -p "${TARGET_DIR}"
+		for FILE in $(find "${SRC_DIR}" -mindepth 1 -maxdepth 1); do
+			ln -sf "${FILE}" "${TARGET_DIR}/";
+		done
+	fi
+}
+
+link_files "obs-plugins"
+link_files "obs-plugins-data"

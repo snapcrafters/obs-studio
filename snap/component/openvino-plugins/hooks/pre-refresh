@@ -1,0 +1,18 @@
+#!/bin/bash
+set -eux
+
+function remove_links() {
+	SRC_DIR="${SNAP_COMPONENT}/$1"
+	TARGET_DIR="${SNAP_DATA}/$1"
+	if [ -d "${SRC_DIR}" ]; then
+		for i in $(find "$SRC_DIR/" -mindepth 1 -maxdepth 1); do
+			LINK_PATH="$TARGET_DIR/$(basename $i)"
+			if [ -L "${LINK_PATH}" ]; then
+				rm "${LINK_PATH}"
+			fi
+		done
+	fi
+}
+
+remove_links "obs-plugins"
+remove_links "obs-plugins-data"

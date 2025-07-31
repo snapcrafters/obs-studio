@@ -117,10 +117,10 @@ parts:
       libobs-backgroundconcealment-ov.so: (component/openvino-plugins)/obs-plugins/
       libobs-face-mesh-ov.so: (component/openvino-plugins)/obs-plugins/
       libobs-smart-framing-ov.so: (component/openvino-plugins)/obs-plugins/
-      obs-smart-framing-ov: (component/openvino-plugins)/obs-plugins/obs-smart-framing-ov
-      obs-face-mesh-ov: (component/openvino-plugins)/obs-plugins/obs-face-mesh-ov
-      obs-backgroundconcealment-ov: (component/openvino-plugins)/obs-plugins/obs-backgroundconcealment-ov
-      openvino-models: (component/openvino-plugins)/obs-plugins/openvino-models
+      obs-smart-framing-ov: (component/openvino-plugins)/obs-plugins-data/obs-smart-framing-ov
+      obs-face-mesh-ov: (component/openvino-plugins)/obs-plugins-data/obs-face-mesh-ov
+      obs-backgroundconcealment-ov: (component/openvino-plugins)/obs-plugins-data/obs-backgroundconcealment-ov
+      openvino-models: (component/openvino-plugins)/obs-plugins-data/openvino-models
       usr: (component/openvino-plugins)/usr
     stage-packages:
       - libopencv-imgproc406t64
@@ -140,8 +140,8 @@ apps:
       LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-plugins:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-scripting:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack:$SNAP/ffmpeg-platform/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/npu-libs:$SNAP/../components/$SNAP_REVISION/openvino-plugins/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/../components/$SNAP_REVISION/openvino-plugins/usr/lib:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/intel-opencl:$LD_LIBRARY_PATH
       PATH: $SNAP/ffmpeg-platform/usr/bin:$PATH
       LIBVA_DRIVERS_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/dri:$LIBVA_DRIVERS_PATH
-      OBS_PLUGINS_PATH: $SNAP/../components/$SNAP_REVISION/openvino-plugins/obs-plugins
-      OBS_PLUGINS_DATA_PATH: $SNAP/../components/$SNAP_REVISION/openvino-plugins/obs-plugins
+      OBS_PLUGINS_PATH: $SNAP_DATA/obs-plugins/
+      OBS_PLUGINS_DATA_PATH: $SNAP_DATA/obs-plugins-data/
       OCL_ICD_VENDORS: $SNAP/etc/OpenCL/vendors
     plugs:
       - alsa

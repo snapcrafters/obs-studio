@@ -69,13 +69,16 @@ install the `openvino-plugins` component and the OpenVINO™ toolkit snap:
 sudo snap install obs-studio+openvino-plugins
 ```
 
-These plugins can also take advantage of an NPU if your machine has one. To
-enable this, install the necessary snaps and add your user to the `render`
-group and re-login to your session:
+These plugins can also take advantage of Intel GPUs and NPUs if one or both are available on your machine. To enable either, first ensure you are in the `render` Unix group and re-login to your session:
+
+```shell
+sudo usermod -a -G render $USER
+```
+
+For Intel NPU support, you also need to install the `intel-npu-driver` snap:
 
 ```shell
 sudo snap install intel-npu-driver
-sudo usermod -a -G render $USER
 ```
 
 ## OBS Virtual Camera

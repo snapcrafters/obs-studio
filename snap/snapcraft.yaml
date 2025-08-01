@@ -126,7 +126,6 @@ parts:
       - libopencv-imgproc406t64
       - libopencv-imgcodecs406t64
       - libopencv-core406t64
-      - libtbb12
     stage-snaps:
       - openvino-toolkit-2404/latest/stable
 

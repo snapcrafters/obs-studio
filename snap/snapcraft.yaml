@@ -44,6 +44,7 @@ components:
     type: standard
     summary: OpenVINO AI plugins
     description: OpenVINO based plugins that add AI features to OBS Studio
+    version: v1.1-1-g128e
 
 parts:
   launcher:
@@ -95,6 +96,7 @@ parts:
   openvino-plugins:
     source: https://github.com/intel/openvino-plugins-for-obs-studio.git
     source-type: git
+    source-commit: v1.1-1-g128e
     plugin: dump
     after: [ 'obs-studio' ]
     build-environment:

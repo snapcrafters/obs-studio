@@ -40,7 +40,7 @@ plugs:
     target: $SNAP/npu-libs
   obs-plugins:
     interface: content
-    target: $SNAP_DATA/obs-plugins-mounts/plug
+    target: $SNAP_DATA/obs-plugins-mounts
 
 parts:
   launcher:

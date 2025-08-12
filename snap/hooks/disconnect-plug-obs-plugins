@@ -1,0 +1,27 @@
+#!/bin/bash
+set -eux
+
+SLOT_SNAP_NAME="$(snapctl get --slot :obs-plugins snapname)"
+
+PLUGINS_DIR="${SNAP_DATA}/obs-plugins"
+SLOT_MOUNTS="${SNAP_DATA}/obs-plugins-mounts"
+MOUNT_DIR="${SLOT_MOUNTS}/${SLOT_SNAP_NAME}"
+
+# Delete all symlinks that point into the directory of the plug that is being
+# disconnected and all empty directories.
+find "${PLUGINS_DIR}" -type l -lname "${MOUNT_DIR}"/'*' -delete
+find ${PLUGINS_DIR} -type d -empty -delete
+
+# Restore the symlinks and directories for the other plugs that are still
+# connected
+for BASE_DIR in ${SLOT_MOUNTS}/*; do
+	if ! [ "${BASE_DIR}" = "${MOUNT_DIR}" ]; then
+		for DIR in $(find ${BASE_DIR} -type d -printf '%P\n'); do
+			mkdir -p "${PLUGINS_DIR}/${DIR}"
+		done
+		
+		for FILE in $(find ${BASE_DIR} -not -type d -printf '%P\n'); do
+			ln -sf "${BASE_DIR}/${FILE}" "${PLUGINS_DIR}/${FILE}"
+		done
+	fi
+done

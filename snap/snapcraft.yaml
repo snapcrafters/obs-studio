@@ -27,10 +27,6 @@ package-repositories:
     key-id: 0C0E6AF955CE463C03FC51574D098D70AFBE5E1F
 
 plugs:
-  ffmpeg-2404:
-    interface: content
-    target: ffmpeg-platform
-    default-provider: ffmpeg-2404
   intel-npu:
     interface: custom-device
     custom-device: intel-npu-device
@@ -85,7 +81,6 @@ apps:
       QT_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins:$QT_PLUGIN_PATH
       QT_QPA_PLATFORM_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins/platforms
       LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-plugins:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-scripting:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack:$SNAP/ffmpeg-platform/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/npu-libs:$SNAP_DATA/obs-plugins/lib/:$SNAP_DATA/obs-plugins/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/intel-opencl:$LD_LIBRARY_PATH
-      PATH: $SNAP/ffmpeg-platform/usr/bin:$PATH
       LIBVA_DRIVERS_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/dri:$LIBVA_DRIVERS_PATH
       OBS_PLUGINS_PATH: $SNAP_DATA/obs-plugins/plugins/
       OBS_PLUGINS_DATA_PATH: $SNAP_DATA/obs-plugins/data/

@@ -14,5 +14,5 @@ for DIR in $(find ${MOUNT_DIR} -type d -printf '%P\n'); do
 done
 
 for FILE in $(find ${MOUNT_DIR} -not -type d -printf '%P\n'); do
-	ln -sf "${MOUNT_DIR}/${FILE}" "${PLUGINS_DIR}/${FILE}"
+	ln -sfr "${MOUNT_DIR}/${FILE}" "${PLUGINS_DIR}/${FILE}"
 done

@@ -21,7 +21,7 @@ for BASE_DIR in ${SLOT_MOUNTS}/*; do
 		done
 		
 		for FILE in $(find ${BASE_DIR} -not -type d -printf '%P\n'); do
-			ln -sf "${BASE_DIR}/${FILE}" "${PLUGINS_DIR}/${FILE}"
+			ln -sfr "${BASE_DIR}/${FILE}" "${PLUGINS_DIR}/${FILE}"
 		done
 	fi
 done

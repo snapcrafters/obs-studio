@@ -71,7 +71,6 @@ parts:
       - libze1
       - libze-intel-gpu1
       - ocl-icd-libopencl1
-      - vainfo
 
 apps:
   obs-studio:

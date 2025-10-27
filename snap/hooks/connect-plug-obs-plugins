@@ -1,0 +1,18 @@
+#!/bin/bash
+set -eux
+
+# If a slot doesn't define snapname it shouldn't be able to connect so this should fail.
+SLOT_SNAP_NAME="$(snapctl get --slot :obs-plugins snapname)"
+
+PLUGINS_DIR="${SNAP_DATA}/obs-plugins"
+SLOT_MOUNTS="${SNAP_DATA}/obs-plugins-mounts"
+MOUNT_DIR="${SLOT_MOUNTS}/${SLOT_SNAP_NAME}"
+
+# Create directories
+for DIR in $(find ${MOUNT_DIR} -type d -printf '%P\n'); do
+	mkdir -p "${PLUGINS_DIR}/${DIR}"
+done
+
+for FILE in $(find ${MOUNT_DIR} -not -type d -printf '%P\n'); do
+	ln -sfr "${MOUNT_DIR}/${FILE}" "${PLUGINS_DIR}/${FILE}"
+done

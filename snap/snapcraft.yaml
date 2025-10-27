@@ -12,6 +12,10 @@ compression: lzo
 platforms:
   amd64:
 
+layout:
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/intel-opencl:
+    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/intel-opencl
+
 package-repositories:
   - type: apt
     ppa: obsproject/obs-studio
@@ -23,10 +27,16 @@ package-repositories:
     key-id: 0C0E6AF955CE463C03FC51574D098D70AFBE5E1F
 
 plugs:
-  ffmpeg-2404:
+  intel-npu:
+    interface: custom-device
+    custom-device: intel-npu-device
+  npu-libs:
     interface: content
-    target: ffmpeg-platform
-    default-provider: ffmpeg-2404
+    content: npu-libs-2404
+    target: $SNAP/npu-libs
+  obs-plugins:
+    interface: content
+    target: $SNAP_DATA/obs-plugins-mounts
 
 parts:
   launcher:
@@ -43,31 +53,38 @@ parts:
   intel-graphics:
     plugin: nil
     stage-packages:
-      - vainfo
       - intel-media-va-driver-non-free
-      - libvpl2
-      - libvpl-dev
+      - intel-metrics-discovery
+      - intel-ocloc
+      - intel-opencl-icd
+      - libigc2
+      - libigc-tools
+      - libigdfcl2
+      - libigdgmm12
+      - libmfx1
+      - libmfx-gen1
       - libva-drm2
       - libva-glx2
       - libva-wayland2
       - libva-x11-2
-      - libva-dev
-      - libmfx1
-      - libmfx-gen1
-      - libmfx-gen-dev
-      - libigdgmm12
-      - libigdgmm-dev
+      - libvpl2
+      - libze1
+      - libze-intel-gpu1
+      - ocl-icd-libopencl1
 
 apps:
   obs-studio:
     command: obs-wrapper
     extensions: [gnome]
+    common-id: com.obsproject.Studio
     environment:
       QT_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins:$QT_PLUGIN_PATH
       QT_QPA_PLATFORM_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins/platforms
-      LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-plugins:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-scripting:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack:$SNAP/ffmpeg-platform/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$LD_LIBRARY_PATH
-      PATH: $SNAP/ffmpeg-platform/usr/bin:$PATH
+      LD_LIBRARY_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-plugins:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/obs-scripting:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack:$SNAP_DATA/obs-plugins/lib/:$SNAP_DATA/obs-plugins/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/intel-opencl:$SNAP/npu-libs
       LIBVA_DRIVERS_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/dri:$LIBVA_DRIVERS_PATH
+      OBS_PLUGINS_PATH: $SNAP_DATA/obs-plugins/plugins/
+      OBS_PLUGINS_DATA_PATH: $SNAP_DATA/obs-plugins/data/
+      OCL_ICD_VENDORS: $SNAP/etc/OpenCL/vendors
     plugs:
       - alsa
       - audio-playback
@@ -98,3 +115,5 @@ apps:
       - upower-observe
       - wayland
       - x11
+      - intel-npu
+      - npu-libs

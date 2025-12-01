@@ -58,7 +58,9 @@ parts:
       - intel-ocloc
       - intel-opencl-icd
       - libigc2
+      - libigc-dev
       - libigc-tools
+      - libigdfcl-dev
       - libigdfcl2
       - libigdgmm12
       - libmfx1

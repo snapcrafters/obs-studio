@@ -71,6 +71,13 @@ parts:
       - libze1
       - libze-intel-gpu1
       - ocl-icd-libopencl1
+      # Note, these -dev packages deliver development sym links that
+      # may be dynamically loaded by Intel compute runtime drivers.
+      - libigc-dev
+      - libigdfcl-dev
+    prime:
+      - -usr/include
+      - -usr/share
 
 apps:
   obs-studio:

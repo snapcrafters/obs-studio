@@ -92,6 +92,7 @@ apps:
       OBS_PLUGINS_PATH: $SNAP_DATA/obs-plugins/plugins/
       OBS_PLUGINS_DATA_PATH: $SNAP_DATA/obs-plugins/data/
       OCL_ICD_VENDORS: $SNAP/etc/OpenCL/vendors
+      HOME: $SNAP_USER_COMMON
     plugs:
       - alsa
       - audio-playback

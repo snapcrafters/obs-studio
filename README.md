@@ -8,7 +8,7 @@
 <p align="center">
 <a href="https://snapcraft.io/obs-studio"><img alt="Snap Badge" src="https://snapcraft.io/obs-studio/badge.svg" /></a>
 <a href="https://snapcraft.io/obs-studio"><img alt="Snap Installs" src="https://img.shields.io/badge/Installs-89.1k-2E7725?logo=snapcraft"></a>
-<a href="https://github.com/snapcrafters/obs-studio/actions/workflows/sync-upstream.yml"><img src="https://github.com/snapcrafters/obs-studio/actions/workflows/sync-upstream.yml/badge.svg"></a>
+<a href="https://github.com/snapcrafters/obs-studio/actions/workflows/sync-version-with-upstream.yml"><img src="https://github.com/snapcrafters/obs-studio/actions/workflows/sync-version-with-upstream.yml/badge.svg"></a>
 <a href="https://github.com/snapcrafters/obs-studio/actions/workflows/release-to-candidate.yml"><img src="https://github.com/snapcrafters/obs-studio/actions/workflows/release-to-candidate.yml/badge.svg"></a>
 <a href="https://github.com/snapcrafters/obs-studio/actions/workflows/promote-to-stable.yml"><img src="https://github.com/snapcrafters/obs-studio/actions/workflows/promote-to-stable.yml/badge.svg"></a>
 </p>

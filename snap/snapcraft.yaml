@@ -15,6 +15,8 @@ platforms:
 layout:
   /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/intel-opencl:
     bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/intel-opencl
+  /usr/share/alsa:
+    bind: $SNAP/usr/share/alsa
 
 package-repositories:
   - type: apt
@@ -49,6 +51,7 @@ parts:
       - obs-studio
       - libvlc5
       - vlc-plugin-base
+      - libasound2-data
 
   intel-graphics:
     plugin: nil

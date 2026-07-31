@@ -9,7 +9,19 @@ MOUNT_DIR="${SLOT_MOUNTS}/${SLOT_SNAP_NAME}"
 
 # Delete all symlinks that point into the directory of the plug that is being
 # disconnected and all empty directories.
-find "${PLUGINS_DIR}" -type l -lname "${MOUNT_DIR}"/'*' -delete
+#
+# Symlinks are created with `ln -sfr` by connect-plug-obs-plugins,
+# which stores *relative* targets whose number of leading `..`
+# depends on the file's depth in the provider tree.
+# An absolute `-lname` pattern would match nothing,
+# and a depth-specific relative pattern would miss top-level files.
+# Resolve each symlink and compare its real target against $MOUNT_DIR instead,
+# which is depth-agnostic.
+while IFS= read -r -d '' link; do
+	case "$(readlink -f -- "$link")" in
+		"$MOUNT_DIR"|"$MOUNT_DIR"/*) rm -f -- "$link";;
+	esac
+done < <(find "$PLUGINS_DIR" -type l -print0)
 find ${PLUGINS_DIR} -type d -empty -delete
 
 # Restore the symlinks and directories for the other plugs that are still

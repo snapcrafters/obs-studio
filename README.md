@@ -30,6 +30,51 @@ sudo snap connect obs-studio:screencast-legacy
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/obs-studio)
 
+## Recover settings after an upgrade
+
+Recent versions of this snap store OBS settings in a location that persists
+across snap refreshes. After the first upgrade to this layout, OBS may start
+with its default settings.
+
+To recover your existing profiles, scenes, and settings, first close OBS and
+list the available snap revisions:
+
+```shell
+ls "$HOME/snap/obs-studio"
+```
+
+Choose the numeric revision containing your previous configuration, then run
+the following commands. Replace `1322` with that revision number:
+
+```shell
+OLD_REVISION=1322
+
+SOURCE="$HOME/snap/obs-studio/$OLD_REVISION/.config/obs-studio"
+TARGET="$HOME/snap/obs-studio/common/.config/obs-studio"
+CONFIG_ROOT="$HOME/snap/obs-studio/common/.config"
+
+# Preserve any configuration created since the upgrade
+if [ -d "$TARGET" ]; then
+  mv "$TARGET" "$TARGET.backup-$(date +%Y%m%d-%H%M%S)"
+fi
+
+# Copy the previous configuration into persistent storage
+mkdir -p "$TARGET"
+cp -a "$SOURCE/." "$TARGET/"
+
+# Replace any revision-specific storage locations
+sed -i \
+  -e "s|^Configuration=.*$|Configuration=$CONFIG_ROOT|" \
+  -e "s|^SceneCollections=.*$|SceneCollections=$CONFIG_ROOT|" \
+  -e "s|^Profiles=.*$|Profiles=$CONFIG_ROOT|" \
+  -e "s|^PluginManagerSettings=.*$|PluginManagerSettings=$CONFIG_ROOT|" \
+  "$TARGET/global.ini"
+```
+
+Start OBS again and verify that your profiles and scene collections have been
+restored. The recovered configuration will be used for subsequent snap
+refreshes.
+
 ## Camera
 
 To access camera, manually connect to the camera plug:

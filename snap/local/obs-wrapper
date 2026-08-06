@@ -19,6 +19,11 @@ elif [ "${XDG_SESSION_TYPE}" == "x11" ]; then
   export QT_QPA_PLATFORM="xcb"
 fi
 
+# The gnome extension sets XDG_CONFIG_HOME=$SNAP_USER_DATA/.config (revision-specific)
+# in the command-chain, which OBS's os_get_config_path checks before $HOME/.config.
+# Override it here so the OBS settings survive snap refreshes
+export XDG_CONFIG_HOME="$SNAP_USER_COMMON/.config"
+
 unset SESSION_MANAGER
 
 # obs is run with --multi because it tries to bind a UNIX socket as lock

@@ -16,6 +16,8 @@ platforms:
 layout:
   /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/intel-opencl:
     bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/intel-opencl
+  /usr/share/alsa:
+    bind: $SNAP/usr/share/alsa
 
 package-repositories:
   - type: apt
@@ -215,6 +217,7 @@ parts:
       - qt6-qpa-plugins
       - qt6-wayland
       - qt6-image-formats-plugins
+      - libasound2-data
 
   intel-graphics:
     plugin: nil

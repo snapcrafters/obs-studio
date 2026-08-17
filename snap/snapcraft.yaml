@@ -2,7 +2,7 @@ name: obs-studio
 summary: Live streaming and video recording software
 description: Free and open source software for video capturing, recording, and live
   streaming.
-version: "32.2.0"
+version: &obs-version "32.2.0"
 base: core24
 grade: stable
 confinement: strict
@@ -11,16 +11,13 @@ compression: lzo
 
 platforms:
   amd64:
+  arm64:
 
 layout:
   /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/intel-opencl:
     bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/intel-opencl
 
 package-repositories:
-  - type: apt
-    ppa: obsproject/obs-studio
-    priority: prefer
-    key-id: BC7345F522079769F5BBE987EFC71127F425E228
   - type: apt
     ppa: kobuk-team/intel-graphics
     priority: prefer
@@ -43,12 +40,181 @@ parts:
     plugin: dump
     source: snap/local
 
-  obs-studio:
+  cef:
     plugin: nil
+    source: https://cdn-fastly.obsproject.com/downloads/cef_binary_6533_linux_x86_64_v6.tar.xz
+    source-type: tar
+    source-checksum: sha256/7963335519a19ccdc5233f7334c5ab023026e2f3e9a0cc417007c09d86608146
+    override-build: |
+      set -eu
+      src="$CRAFT_PART_SRC"
+      entries=$(find "$src" -mindepth 1 -maxdepth 1)
+      if [ "$(printf '%s\n' "$entries" | wc -l)" -eq 1 ] && [ -d "$entries" ]; then
+        src="$entries"
+      fi
+      mkdir -p "$CRAFT_PART_INSTALL/cef"
+      cp -a "$src"/. "$CRAFT_PART_INSTALL/cef/"
+    prime:
+      - -*
+
+  obs-studio:
+    plugin: cmake
+    after: [cef]
+    source: https://github.com/obsproject/obs-studio.git
+    source-type: git
+    source-tag: *obs-version
+    source-depth: 1
+    cmake-generator: Ninja
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_INSTALL_LIBDIR=lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DENABLE_AJA=OFF
+      - -DENABLE_VLC=ON
+      - -DENABLE_WAYLAND=ON
+      - -DENABLE_WEBRTC=OFF
+      - -DENABLE_BROWSER=ON
+      - -DCEF_ROOT_DIR=$CRAFT_STAGE/cef
+      - -DCMAKE_PREFIX_PATH="/usr;$CRAFT_STAGE/usr"
+    build-environment:
+      - PKG_CONFIG_PATH: /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:$CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig:$CRAFT_STAGE/usr/lib/pkgconfig:$CRAFT_STAGE/usr/share/pkgconfig
+    build-packages:
+      - ccache
+      - cmake
+      - git
+      - ninja-build
+      - pkg-config
+      - build-essential
+      - libglib2.0-dev
+      - extra-cmake-modules
+      - lsb-release
+      - dh-cmake
+      - libcurl4-openssl-dev
+      - libavcodec-dev
+      - libavdevice-dev
+      - libavfilter-dev
+      - libavformat-dev
+      - libavutil-dev
+      - libswresample-dev
+      - libswscale-dev
+      - libjansson-dev
+      - libx11-xcb-dev
+      - libgles2-mesa-dev
+      - libwayland-dev
+      - libpipewire-0.3-dev
+      - libpulse-dev
+      - libx264-dev
+      - libmbedtls-dev
+      - libgl1-mesa-dev
+      - uthash-dev
+      - libsimde-dev
+      - libluajit-5.1-dev
+      - python3-dev
+      - libx11-dev
+      - libxcb-randr0-dev
+      - libxcb-shm0-dev
+      - libxcb-xinerama0-dev
+      - libxcb-composite0-dev
+      - libxinerama-dev
+      - libxcb1-dev
+      - libxcb-xfixes0-dev
+      - swig
+      - libcmocka-dev
+      - libxss-dev
+      - libglvnd-dev
+      - libxkbcommon-dev
+      - libatk1.0-dev
+      - libatk-bridge2.0-dev
+      - libxcomposite-dev
+      - libxdamage-dev
+      - libasound2-dev
+      - libfdk-aac-dev
+      - libfontconfig-dev
+      - libfreetype-dev
+      - libjack-jackd2-dev
+      - libsndio-dev
+      - libspeexdsp-dev
+      - libudev-dev
+      - libv4l-dev
+      - libva-dev
+      - libvlc-dev
+      - libpci-dev
+      - libdrm-dev
+      - nlohmann-json3-dev
+      - libwebsocketpp-dev
+      - libasio-dev
+      - libqrcodegencpp-dev
+      - libffmpeg-nvenc-dev
+      - librist-dev
+      - libsrt-openssl-dev
+      - qt6-base-dev
+      - qt6-svg-dev
+      - qt6-base-private-dev
+      - libvpl-dev
     stage-packages:
-      - obs-studio
       - libvlc5
       - vlc-plugin-base
+      - libasound2t64
+      - libatk-bridge2.0-0t64
+      - libatk1.0-0t64
+      - libavcodec60
+      - libavdevice60
+      - libavfilter9
+      - libavformat60
+      - libavutil58
+      - libswresample4
+      - libswscale7
+      - libcurl4t64
+      - libdrm2
+      - libfdk-aac2
+      - libfontconfig1
+      - libfreetype6
+      - libglvnd0
+      - libjack-jackd2-0
+      - libjansson4
+      - libluajit-5.1-2
+      - libmbedcrypto7t64
+      - libmbedtls14t64
+      - libmbedx509-1t64
+      - libpci3
+      - libpipewire-0.3-0t64
+      - libpulse0
+      - libpulse-mainloop-glib0
+      - libqrcodegencpp1
+      - librist4
+      - libsndio7.0
+      - libspeexdsp1
+      - libsrt1.5-openssl
+      - libudev1
+      - libv4l-0t64
+      - libv4lconvert0t64
+      - libv4l2rds0t64
+      - libva-drm2
+      - libva-glx2
+      - libva-wayland2
+      - libva-x11-2
+      - libva2
+      - libwayland-client0
+      - libwayland-server0
+      - libwayland-cursor0
+      - libwayland-egl1
+      - libx264-164
+      - libxkbcommon0
+      - libqt6core6t64
+      - libqt6dbus6t64
+      - libqt6gui6t64
+      - libqt6network6t64
+      - libqt6widgets6t64
+      - libqt6xml6t64
+      - libqt6concurrent6t64
+      - libqt6openglwidgets6t64
+      - libqt6printsupport6t64
+      - libqt6sql6t64
+      - libqt6svg6
+      - libqt6svgwidgets6
+      - qt6-qpa-plugins
+      - qt6-wayland
+      - qt6-image-formats-plugins
 
   intel-graphics:
     plugin: nil

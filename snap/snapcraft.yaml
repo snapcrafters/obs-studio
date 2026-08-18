@@ -43,15 +43,13 @@ parts:
     source: snap/local
 
   cef:
-    plugin: nil
+    plugin: dump
     source-type: tar
     source:
       - on amd64: https://cdn-fastly.obsproject.com/downloads/cef_binary_6533_linux_x86_64_v6.tar.xz
       - on arm64: https://cdn-fastly.obsproject.com/downloads/cef_binary_6533_linux_aarch64_v6.tar.xz
-    override-build: |
-      set -eu
-      mkdir -p "$CRAFT_PART_INSTALL/cef"
-      cp -a "$CRAFT_PART_SRC"/cef_binary_*/. "$CRAFT_PART_INSTALL/cef/"
+    organize:
+      '*': cef/
     prime:
       - -*
 
@@ -77,6 +75,7 @@ parts:
       - -DENABLE_BROWSER=ON
       - -DENABLE_UNIT_TESTS=OFF
       - -DCEF_ROOT_DIR=$CRAFT_STAGE/cef
+      - -DCEF_INCLUDE_DIR=$CRAFT_STAGE/cef/include
       - -DCMAKE_PREFIX_PATH="/usr;$CRAFT_STAGE/usr"
     build-environment:
       - PKG_CONFIG_PATH: /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:$CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig:$CRAFT_STAGE/usr/lib/pkgconfig:$CRAFT_STAGE/usr/share/pkgconfig

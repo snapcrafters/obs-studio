@@ -22,8 +22,22 @@ jobs:
         with:
           token: ${{ secrets.SNAPCRAFTERS_BOT_COMMIT }}
           update-script: |
-            FOLDER=https://ppa.launchpadcontent.net/obsproject/obs-studio/ubuntu/pool/main/o/obs-studio/
-            DISTRO_CODE=noble
-            DEB_URL=${FOLDER}$(curl -s "${FOLDER}" | grep "${DISTRO_CODE}" | grep -oP 'href="[^"]+\.deb"' | cut -d'"' -f2 | sort -V | tail -n 1)
-            VERSION="$(basename "$DEB_URL" | sed -E 's/^[^_]+_([0-9]+\.[0-9]+\.[0-9]+)-.*$/\1/')"
+            VERSION="$(curl -fsSL https://api.github.com/repos/obsproject/obs-studio/releases/latest \
+              | jq -r '.tag_name')"
             sed -i 's/^\(version: \).*$/\1'\"$VERSION\"'/' snap/snapcraft.yaml
+
+            # update the CEF binary URLs based on the CMakePresets.json of the
+            # selected obs-studio release
+            CEF_JSON="$(curl -fsSL "https://raw.githubusercontent.com/obsproject/obs-studio/${VERSION}/CMakePresets.json" \
+              | jq -r '.configurePresets[] | select(.name=="dependencies") | .vendor["obsproject.com/obs-studio"].dependencies.cef')"
+            CEF_BASEURL="$(echo "$CEF_JSON" | jq -r '.baseUrl')"
+            CEF_VERSION="$(echo "$CEF_JSON" | jq -r '.version')"
+
+            CEF_REVISION_AMD64="$(echo "$CEF_JSON" | jq -r '.revision["ubuntu-x86_64"] // empty')"
+            CEF_URL_AMD64="${CEF_BASEURL}/cef_binary_${CEF_VERSION}_linux_x86_64_v${CEF_REVISION_AMD64}.tar.xz"
+
+            CEF_REVISION_ARM64="$(echo "$CEF_JSON" | jq -r '.revision["ubuntu-aarch64"] // empty')"
+            CEF_URL_ARM64="${CEF_BASEURL}/cef_binary_${CEF_VERSION}_linux_aarch64_v${CEF_REVISION_ARM64}.tar.xz"
+
+            sed -i "s|^\(      - on amd64: \).*cef_binary_.*\$|\1${CEF_URL_AMD64}|" snap/snapcraft.yaml
+            sed -i "s|^\(      - on arm64: \).*cef_binary_.*\$|\1${CEF_URL_ARM64}|" snap/snapcraft.yaml

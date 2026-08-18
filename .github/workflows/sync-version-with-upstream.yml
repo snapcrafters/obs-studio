@@ -24,17 +24,20 @@ jobs:
           update-script: |
             VERSION="$(curl -fsSL https://api.github.com/repos/obsproject/obs-studio/releases/latest \
               | jq -r '.tag_name')"
-            sed -i 's/^\(version: &obs-version \).*$/\1'\"$VERSION\"'/' snap/snapcraft.yaml
+            sed -i 's/^\(version: \).*$/\1'\"$VERSION\"'/' snap/snapcraft.yaml
 
-            # update the CEF binary based on the CMakePresets.json of the
+            # update the CEF binary URLs based on the CMakePresets.json of the
             # selected obs-studio release
             CEF_JSON="$(curl -fsSL "https://raw.githubusercontent.com/obsproject/obs-studio/${VERSION}/CMakePresets.json" \
               | jq -r '.configurePresets[] | select(.name=="dependencies") | .vendor["obsproject.com/obs-studio"].dependencies.cef')"
             CEF_BASEURL="$(echo "$CEF_JSON" | jq -r '.baseUrl')"
             CEF_VERSION="$(echo "$CEF_JSON" | jq -r '.version')"
-            CEF_HASH="$(echo "$CEF_JSON" | jq -r '.hashes["ubuntu-x86_64"]')"
-            CEF_REVISION="$(echo "$CEF_JSON" | jq -r '.revision["ubuntu-x86_64"]')"
-            CEF_URL="${CEF_BASEURL}/cef_binary_${CEF_VERSION}_linux_x86_64_v${CEF_REVISION}.tar.xz"
 
-            sed -i "s|^\(    source: \).*cef_binary_.*\$|\1${CEF_URL}|" snap/snapcraft.yaml
-            sed -i "s|^\(    source-checksum: sha256/\).*\$|\1${CEF_HASH}|" snap/snapcraft.yaml
+            CEF_REVISION_AMD64="$(echo "$CEF_JSON" | jq -r '.revision["ubuntu-x86_64"] // empty')"
+            CEF_URL_AMD64="${CEF_BASEURL}/cef_binary_${CEF_VERSION}_linux_x86_64_v${CEF_REVISION_AMD64}.tar.xz"
+
+            CEF_REVISION_ARM64="$(echo "$CEF_JSON" | jq -r '.revision["ubuntu-aarch64"] // empty')"
+            CEF_URL_ARM64="${CEF_BASEURL}/cef_binary_${CEF_VERSION}_linux_aarch64_v${CEF_REVISION_ARM64}.tar.xz"
+
+            sed -i "s|^\(      - on amd64: \).*cef_binary_.*\$|\1${CEF_URL_AMD64}|" snap/snapcraft.yaml
+            sed -i "s|^\(      - on arm64: \).*cef_binary_.*\$|\1${CEF_URL_ARM64}|" snap/snapcraft.yaml

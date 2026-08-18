@@ -44,18 +44,14 @@ parts:
 
   cef:
     plugin: nil
-    source: https://cdn-fastly.obsproject.com/downloads/cef_binary_6533_linux_x86_64_v6.tar.xz
     source-type: tar
-    source-checksum: sha256/7963335519a19ccdc5233f7334c5ab023026e2f3e9a0cc417007c09d86608146
+    source:
+      - on amd64: https://cdn-fastly.obsproject.com/downloads/cef_binary_6533_linux_x86_64_v6.tar.xz
+      - on arm64: https://cdn-fastly.obsproject.com/downloads/cef_binary_6533_linux_aarch64_v6.tar.xz
     override-build: |
       set -eu
-      src="$CRAFT_PART_SRC"
-      entries=$(find "$src" -mindepth 1 -maxdepth 1)
-      if [ "$(printf '%s\n' "$entries" | wc -l)" -eq 1 ] && [ -d "$entries" ]; then
-        src="$entries"
-      fi
       mkdir -p "$CRAFT_PART_INSTALL/cef"
-      cp -a "$src"/. "$CRAFT_PART_INSTALL/cef/"
+      cp -a "$CRAFT_PART_SRC"/cef_binary_*/. "$CRAFT_PART_INSTALL/cef/"
     prime:
       - -*
 

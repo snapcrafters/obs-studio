@@ -2,7 +2,7 @@ name: obs-studio
 summary: Live streaming and video recording software
 description: Free and open source software for video capturing, recording, and live
   streaming.
-version: &obs-version "32.2.0"
+version: "32.2.0"
 base: core24
 grade: stable
 confinement: strict
@@ -64,7 +64,7 @@ parts:
     after: [cef]
     source: https://github.com/obsproject/obs-studio.git
     source-type: git
-    source-tag: *obs-version
+    source-tag: ${SNAPCRAFT_PROJECT_VERSION}
     source-depth: 1
     source-submodules:
       - plugins/obs-browser

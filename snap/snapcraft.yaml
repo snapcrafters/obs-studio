@@ -66,31 +66,27 @@ parts:
     source-type: git
     source-tag: *obs-version
     source-depth: 1
+    source-submodules:
+      - plugins/obs-browser
+      - plugins/obs-websocket
     cmake-generator: Ninja
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_INSTALL_LIBDIR=lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
-      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DCMAKE_BUILD_TYPE=Release
       - -DENABLE_AJA=OFF
       - -DENABLE_VLC=ON
       - -DENABLE_WAYLAND=ON
       - -DENABLE_WEBRTC=OFF
       - -DENABLE_BROWSER=ON
+      - -DENABLE_UNIT_TESTS=OFF
       - -DCEF_ROOT_DIR=$CRAFT_STAGE/cef
       - -DCMAKE_PREFIX_PATH="/usr;$CRAFT_STAGE/usr"
     build-environment:
       - PKG_CONFIG_PATH: /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:$CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig:$CRAFT_STAGE/usr/lib/pkgconfig:$CRAFT_STAGE/usr/share/pkgconfig
     build-packages:
-      - ccache
-      - cmake
-      - git
-      - ninja-build
-      - pkg-config
-      - build-essential
-      - libglib2.0-dev
       - extra-cmake-modules
       - lsb-release
-      - dh-cmake
       - libcurl4-openssl-dev
       - libavcodec-dev
       - libavdevice-dev
@@ -121,7 +117,6 @@ parts:
       - libxcb1-dev
       - libxcb-xfixes0-dev
       - swig
-      - libcmocka-dev
       - libxss-dev
       - libglvnd-dev
       - libxkbcommon-dev
@@ -183,6 +178,7 @@ parts:
       - libv4l-0t64
       - libv4lconvert0t64
       - libv4l2rds0t64
+      - libxcb-composite0
       - libva-drm2
       - libva-glx2
       - libva-wayland2
